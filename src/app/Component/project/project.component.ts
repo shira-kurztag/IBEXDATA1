@@ -99,17 +99,18 @@ export class ProjectComponent implements OnInit {
   banks: BankNamesDTO[] = [];
   bank!: BankNamesDTO;
   filteredBanks: BankNamesDTO[] = []
-
   allContractors: Contractor[] = [];
   lendingContractorName: string = '';
   contractors: Contractor[] = [];
   contractorId: number | null = null; // אתחול לא null
   filteredContractors: Contractor[] = [];
-
   isNumberValid: boolean = true;
   projId: number = 2251
   degelUp :boolean=false;
   projId1: number = 2278;
+  IsGetFirst: boolean = true
+  IsGetSecond: boolean = false
+
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -186,6 +187,7 @@ export class ProjectComponent implements OnInit {
       })
     ).subscribe();
 }
+
 getIdContractor() {
     console.log('Fetching contractors...');
     this.projectService.GetAll().pipe(
@@ -210,17 +212,18 @@ getIdContractor() {
 }
 
 
-  getProject() {
-    this.projectService.getProjectByName(this.projectName).subscribe(data => {
-      this.project = data;
-      // this.IsGetSecond = true
-      // this.IsGetFirst = false
-      // console.log("id",  this.IsGetSecond);
-     
-    }, error => {
-      console.error('Error fetching project', error);
-    });
-  }
+getProject() {
+  this.projectService.getProjectByName(this.projectName).subscribe(data => {
+    this.project = data;
+    this.IsGetSecond = true
+    this.IsGetFirst = false
+    console.log("id",  this.IsGetSecond);
+    
+  }, error => {
+    console.error('Error fetching project', error);
+  });
+}
+
   getCompanyName() {
     this.projectService.GetCompanyById(this.companyId).pipe(
       catchError(error => {
