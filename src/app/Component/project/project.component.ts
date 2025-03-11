@@ -78,6 +78,7 @@ interface ExportColumn {
   ],
   styleUrls: ['./project.component.css']
 })
+
 export class ProjectComponent implements OnInit {
   productDialog: boolean = false;
   submitted: boolean = false;
@@ -110,6 +111,8 @@ export class ProjectComponent implements OnInit {
   projId1: number = 2278;
   IsGetFirst: boolean = true
   IsGetSecond: boolean = false
+  showAdditionalFields: boolean = false;
+  nameBank: string=""
 
   constructor(
     private messageService: MessageService,
@@ -122,7 +125,19 @@ export class ProjectComponent implements OnInit {
     this.companyId = 1119
     this.getCompanyName()
     this.getBanks();
+    this.getIdBank();
   }
+
+  toggleAdditionalFields() {
+    this.showAdditionalFields = !this.showAdditionalFields;
+  }
+
+  save(){
+  
+  }
+
+  // שליפת שם הבנק לפי הID
+  // נרוץ על רשימת בהנקים ואם הID שווה לAID אז מציג את השם
 
   getBanks() {
     console.log('Fetching  names of banks...');
@@ -160,6 +175,16 @@ export class ProjectComponent implements OnInit {
         return of([]);
       })
     ).subscribe();
+  }
+
+  getNameBank(){
+    console.log("getNameBank");
+    
+    for (let i = 0; i < this.allBanks.length; i++) {
+      if (this.allBanks[i].bankId == this.project.lendingBank)
+        this.nameBank = this.allBanks[i].bankText
+        console.log("name",this.nameBank); 
+    }
   }
 
   GetContractor(contractorName: string) {
@@ -211,14 +236,18 @@ getIdContractor() {
     ).subscribe();
 }
 
-
-getProject() {
-  this.projectService.getProjectByName(this.projectName).subscribe(data => {
+  getProject() {
+    this.projectService.getProjectByName(this.projectName).subscribe(data => {
     this.project = data;
+    console.log("go to getNameBank");
+    
+     this.getNameBank()
     this.IsGetSecond = true
     this.IsGetFirst = false
     console.log("id",  this.IsGetSecond);
-    
+    console.log("p",this.project);
+    console.log("trytr",this.project.dateWinningTender);
+
   }, error => {
     console.error('Error fetching project', error);
   });
@@ -271,10 +300,11 @@ getProject() {
   
 
   //update(id: number){
-delete(){
+  
+  delete(){
   this.degelUp=true;
   this.update();
-}
+  }
   update(){
     if (this.degelUp==true){  //רוצה למחוק את הפרויקט
       console.log("degelUp",this.degelUp);
@@ -328,28 +358,6 @@ delete(){
     });
   }
 
-  private formatDate(date: any): string {
-    if (!date) return ''; // בדיקה אם התאריך אינו תקף
-    if (typeof date === 'string') {
-      const [day, month, year] = date.split('-');
-      date = new Date(`${year}-${month}-${day}`);
-    }
-    if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
-    return date.toISOString().split('T')[0];
-  }
-
-  private updateProjectDates() {
-    this.project.dateWinningTender = this.formatDate(this.project.dateWinningTender);
-    this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDate);
-    this.project.collectionExpensesFrom1 = this.formatDate(this.project.collectionExpensesFrom1);
-    this.project.collectionExpensesFrom2 = this.formatDate(this.project.collectionExpensesFrom2);
-    this.project.collectionExpensesFrom3 = this.formatDate(this.project.collectionExpensesFrom3);
-    this.project.insertDate = this.formatDate(new Date());
-    this.project.updateDate = this.formatDate(new Date());
-    this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDate);
-  }
-
-
   async addProject() {
     try {
       await this.updateProjectDates(); 
@@ -383,6 +391,54 @@ delete(){
     }
   }
 
+  private formatDate(date: any): string {
+    if (!date) return ''; // בדיקה אם התאריך אינו תקף
+    if (typeof date === 'string') {
+      const [day, month, year] = date.split('-');
+      date = new Date(`${year}-${month}-${day}`);
+    }
+    if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
+    return date.toISOString().split('T')[0];
+  }
+
+  private updateProjectDates() {
+    this.project.dateWinningTender = this.formatDate(this.project.dateWinningTender);
+    this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDate);
+    this.project.collectionExpensesFrom1 = this.formatDate(this.project.collectionExpensesFrom1);
+    this.project.collectionExpensesFrom2 = this.formatDate(this.project.collectionExpensesFrom2);
+    this.project.collectionExpensesFrom3 = this.formatDate(this.project.collectionExpensesFrom3);
+    this.project.insertDate = this.formatDate(new Date());
+    this.project.updateDate = this.formatDate(new Date());
+    this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDate);
+  }
+
+  addBuilding(){
+
+  }
+
+  getBuildings(){
+
+  }
+
+  getDeleteBuildings(){
+    
+  }
+
+  moveManger(){
+
+  }
+
+  moveMangerBulding(){
+
+  }
+
+  lookingFor(){
+
+  }
+
+  lookingForBuilding(){
+
+  }
 
   exportCSV() {
     this.dt.exportCSV();

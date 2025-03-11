@@ -43,13 +43,5 @@ export class ProjectService {
   }
 
 
-  // Update(id: number, projectDto: Project): Observable<Project> {
-  //   const url = `${this.BASE_URL}/${id}`;
-  //   return this.https.put<Project>(url, projectDto, {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json'
-  //     })
-  //   });
-  // }
     
 }
