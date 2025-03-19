@@ -1,8 +1,11 @@
-export class Bank{
-    bankId! : number
-    bankText : string =""
-    insertDate! :Date
-    updateDate :Date= new Date()
-    bankStatus : number =0
-    lastNameBank : string =""
+import { BillsMortgageForTabu } from "./BillsMortgageForTabu.model";
+
+export class Bank {
+  bankId: number = 0;
+  bankText?: string = "";
+  insertDate!: Date;
+  updateDate?: Date;
+  bankStatus?: number;
+  lastNameBank?: string;
+  billsMortgageForTabus: BillsMortgageForTabu[] = [];
 }

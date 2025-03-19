@@ -1,0 +1,25 @@
+export class ApartmentDetails {
+    apartmentId:number=0;
+    buildingId?:number;
+    apartmentStatus!:number;
+    apartmentNumberByContract!:number;
+    apartmentSurfaceByContract?:number;
+    apartmentNumberByAddress?:number;
+    isDetachedApartment?:boolean;
+    isCompanyHasCompletedCommitments!:boolean;
+    isGivenPossessionOfTheApartment!:boolean;
+    isProducedLease!:boolean;
+    note?:string;
+    purchasDate?:Date;
+    insertDate!:Date;
+    updateDate?:Date;
+    floor?:number;
+    apartmentOrShop?:number;
+    numberOfLease?:number;
+    addressByContract?:string;
+    noteEdit?:string;
+    noteEditStatus?:boolean;
+    floorString?:string;
+    hakiraFileName?:string;
+    numberOfLeaseString?:string;
+ }

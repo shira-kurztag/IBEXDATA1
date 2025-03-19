@@ -1,7 +1,7 @@
 <div>
-   <!-- הוספה -->
   <!-- הוספה -->
-    <!-- הוספה -->
+  <!-- הוספה -->
+  <!-- הוספה -->
   <div class="main-container">
 
     <div class="section-right" *ngIf="IsGetFirst">
@@ -38,7 +38,9 @@
 
         <div>
           <label for="city" class="block font-bold">עיר: </label>
-          <input type="text" pInputText id="city" [(ngModel)]="project.city" class="w-full" />
+          <!-- <input type="text" pInputText id="city" [(ngModel)]="project.city" class="w-full" /> -->
+          <input type="text" pInputText id="city" [(ngModel)]="project.city" class="p-inputtext" />
+
         </div>
 
 
@@ -272,7 +274,7 @@
               (ngModelChange)="onModelChange('principalAmount', $event)" (keypress)="onlyAllowNumbers($event)"
               (input)="validateNumber($event)" class="w-full" />
           </div>
-       
+
           <div class="col-span-2">
             <label for="collectionExpensesFrom1" class="block font-bold mb-2">הוצאות גבייה מיום</label>
             <p-calendar id="collectionExpensesFrom1" [(ngModel)]="project.collectionExpensesFrom1" dateFormat="dd/mm/yy"
@@ -309,84 +311,106 @@
               (keypress)="onlyAllowNumbers($event)" (input)="validateNumber($event)" class="w-full" />
           </div>
         </div>
-      
 
-            <div class="col-span-2">
-              <label for="landOwnershipId" class="block font-bold mb-2">על שם מי רשומה בעלות בקרקע?</label>
-              <input type="number" pInputText id="landOwnershipId" [(ngModel)]="project.landOwnershipId"
-                class="w-full" />
-            </div>
 
-            <div class="col-span-2">
-              <label for="mechozReshutMass" class="block font-bold mb-2">מחוז רשות המס המטפלת בפרויקט</label>
-              <input type="text" pInputText id="mechozReshutMass" [(ngModel)]="project.mechozReshutMass"
-                class="w-full" />
-            </div>
+        <div class="col-span-2">
+          <label for="landOwnershipId" class="block font-bold mb-2">על שם מי רשומה בעלות בקרקע?</label>
+          <input type="number" pInputText id="landOwnershipId" [(ngModel)]="project.landOwnershipId" class="w-full" />
+        </div>
 
-            <div class="col-span-2">
-              <label for="mechozReshutMassAddress" class="block font-bold mb-2">כתובת</label>
-              <input type="text" pInputText id="mechozReshutMassAddress" [(ngModel)]="project.mechozReshutMassAddress"
-                class="w-full" />
-            </div>
+        <div class="col-span-2">
+          <label for="mechozReshutMass" class="block font-bold mb-2">מחוז רשות המס המטפלת בפרויקט</label>
+          <input type="text" pInputText id="mechozReshutMass" [(ngModel)]="project.mechozReshutMass" class="w-full" />
+        </div>
 
-            <div class="col-span-2">
-              <label for="mechozMenaelMekarkaey" class="block font-bold mb-2">מחוז מנהל מקרקעי ישראל המטפל
-                בפרויקט</label>
-              <input type="text" pInputText id="mechozMenaelMekarkaey" [(ngModel)]="project.mechozMenaelMekarkaey"
-                class="w-full" />
-            </div>
+        <div class="col-span-2">
+          <label for="mechozReshutMassAddress" class="block font-bold mb-2">כתובת</label>
+          <input type="text" pInputText id="mechozReshutMassAddress" [(ngModel)]="project.mechozReshutMassAddress"
+            class="w-full" />
+        </div>
 
-            <div class="col-span-2">
-              <label for="mechozMenaelMekarkaeyAddress" class="block font-bold mb-2">כתובת </label>
-              <input type="text" pInputText id="mechozMenaelMekarkaeyAddress"
-                [(ngModel)]="project.mechozMenaelMekarkaeyAddress" class="w-full" />
-            </div>
+        <div class="col-span-2">
+          <label for="mechozMenaelMekarkaey" class="block font-bold mb-2">מחוז מנהל מקרקעי ישראל המטפל
+            בפרויקט</label>
+          <input type="text" pInputText id="mechozMenaelMekarkaey" [(ngModel)]="project.mechozMenaelMekarkaey"
+            class="w-full" />
+        </div>
 
-            <div class="col-span-2">
-              <label for="mechozTabu" class="block font-bold mb-2">מחוז טאבו המטפל בפרויקט</label>
-              <input type="text" pInputText id="mechozTabu" [(ngModel)]="project.mechozTabu" class="w-full" />
-            </div>
+        <div class="col-span-2">
+          <label for="mechozMenaelMekarkaeyAddress" class="block font-bold mb-2">כתובת </label>
+          <input type="text" pInputText id="mechozMenaelMekarkaeyAddress"
+            [(ngModel)]="project.mechozMenaelMekarkaeyAddress" class="w-full" />
+        </div>
 
-            <div class="col-span-2">
-              <label for="mechozTabuAddress" class="block font-bold mb-2">כתובת </label>
-              <input type="text" pInputText id="mechozTabuAddress" [(ngModel)]="project.mechozTabuAddress"
-                class="w-full" />
-            </div>
+        <div class="col-span-2">
+          <label for="mechozTabu" class="block font-bold mb-2">מחוז טאבו המטפל בפרויקט</label>
+          <input type="text" pInputText id="mechozTabu" [(ngModel)]="project.mechozTabu" class="w-full" />
+        </div>
 
-            <div class="col-span-2">
-              <label for="projectDrawingFile" class="block font-bold mb-2"> תשריט העמדה על הפרויקט</label>
-              <input type="file" pInputText id="projectDrawingFile" [(ngModel)]="project.projectDrawingFile"
-                class="w-full" />
-            </div>
+        <div class="col-span-2">
+          <label for="mechozTabuAddress" class="block font-bold mb-2">כתובת </label>
+          <input type="text" pInputText id="mechozTabuAddress" [(ngModel)]="project.mechozTabuAddress" class="w-full" />
+        </div>
 
-            <div class="col-span-2">
-              <label for="note" class="block font-bold mb-2">הוסף הערה</label>
-              <textarea id="note" pTextarea [(ngModel)]="project.note" rows="3" class="w-full"></textarea>
-            </div>
+        <div class="col-span-2">
+          <label for="projectDrawingFile" class="block font-bold mb-2"> תשריט העמדה על הפרויקט</label>
+          <input type="file" pInputText id="projectDrawingFile" [(ngModel)]="project.projectDrawingFile"
+            class="w-full" />
+        </div>
 
-            <!-- <div class="col-span-2">
+        <div class="col-span-2">
+          <label for="note" class="block font-bold mb-2">הוסף הערה</label>
+          <textarea id="note" pTextarea [(ngModel)]="project.note" rows="3" class="w-full"></textarea>
+        </div>
+
+        <!-- <div class="col-span-2">
              <button pButton type="submit" label="שמור" class="p-button-primary w-full"></button>
               </div> -->
-          </div>
-    </div>
-    
-         <!-- שייך לעמוד קבלנים -->
-        <!-- <div class="button-container">
-        <button class="toggle-button" (click)="save()">ערוך קבלן 🖊</button>
-        <button class="toggle-button" (click)="save()">הוסף פרויקט + </button> נשלח לקומפוננטה של הוספת פרויקט
-        <button class="toggle-button" (click)="save()">רשימת פרויקטים V</button> נשלח לפונקציית GET של פרויקטים לפי ID בתנאי שסטטוס חיובי
-        <button class="toggle-button" (click)="save()">פרויקטים שנמחקו V</button> כנל רק אם הסטטוס שלילי
-         </div> -->
-
-    <div class="section-left" *ngIf="IsGetFirst">
-      <div class="button-container">
-        <button class="toggle-button" (click)="lookingFor()"> חיפוש </button>
-        <button type="submit" class="toggle-button" (click)="addProject()"> שמירה </button>
-        <button class="toggle-button" (click)="delete()"> מחיקה </button>
-        <button class="toggle-button" (click)="moveManger()"> העברה למנהל </button>
       </div>
     </div>
 
+
+    <div class="section-left" *ngIf="IsGetFirst">
+      <div class="button-container">
+        <div class="contractor-box-container">
+          <!-- <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-search"></i>
+          </div>
+          <p-autocomplete class="contractor-search" (onSelect)="onSelectProject($event)" [suggestions]="filteredProjects" (completeMethod)="filterProject($event)" optionLabel="name" forceSelection="true" field="projectName" placeholder="חפש פרויקט"/>
+        </div> -->
+
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-pencil"></i>
+            </div>
+            <button class="contractor-button" (click)="lookingFor()"> חיפוש </button>
+          </div>
+
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-plus"></i>
+            </div>
+            <button type="submit" class="contractor-button" (click)="addProject()"> שמירה </button>
+          </div>
+
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-align-justify"></i>
+            </div>
+            <button class="contractor-button" (click)="delete()"> מחיקה </button>
+          </div>
+
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-align-justify"></i>
+            </div>
+            <button class="contractor-button" (click)="moveManger()"> העברה למנהל </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- טופס הצגת פרויקט -->

@@ -30,6 +30,7 @@ import { Contractor } from '../../Models/Contractor.model';
 import { Bank } from '../../Models/Bank.model';
 import { BankService } from '../../service/bank.service';
 import { BankNamesDTO } from '../../Models/BankNamesDTO.model';
+import { ActivatedRoute } from '@angular/router';
 
 interface Column {
   field: string;
@@ -90,7 +91,7 @@ export class ProjectComponent implements OnInit {
   exportColumns!: ExportColumn[];
   companyId: number=0
   comNames: Contractor = new Contractor()
-  comNamesString : string=""
+  comNamesString : string | undefined
   bankService: BankService = inject(BankService);
   lendingBankName : string =""
   bankId : number=0
@@ -103,7 +104,7 @@ export class ProjectComponent implements OnInit {
   allContractors: Contractor[] = [];
   lendingContractorName: string = '';
   contractors: Contractor[] = [];
-  contractorId: number | null = null; // אתחול לא null
+  contractorId: number | undefined; // אתחול לא null
   filteredContractors: Contractor[] = [];
   isNumberValid: boolean = true;
   projId: number = 2251
@@ -112,9 +113,10 @@ export class ProjectComponent implements OnInit {
   IsGetFirst: boolean = true
   IsGetSecond: boolean = false
   showAdditionalFields: boolean = false;
-  nameBank: string=""
+  nameBank: string | undefined
 
   constructor(
+    private route: ActivatedRoute,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private cd: ChangeDetectorRef, 
@@ -122,7 +124,9 @@ export class ProjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.companyId = 1119
+   // this.companyId = 1119
+   this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+
     this.getCompanyName()
     this.getBanks();
     this.getIdBank();
@@ -201,7 +205,7 @@ export class ProjectComponent implements OnInit {
             console.log('Contractor ID:', this.contractorId);
         } else {
             console.log('Contractor not found');
-            this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
+           // this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
         }
 
         this.cd.detectChanges();

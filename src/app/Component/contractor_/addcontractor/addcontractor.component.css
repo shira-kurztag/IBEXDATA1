@@ -1,0 +1,56 @@
+body {
+    background-color: #F8F7EB;
+  }
+  
+  
+  .transparent-card {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .contractor-detail-edit {
+    background: #ffffff;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border: 1px solid #0aa3a1; */
+    background: #e8f6f6;
+    direction: rtl;
+    margin-left: 20%;
+    margin-right: 15%;
+  }
+  
+  .edit-input {
+    border: 1px solid #0aa3a1;
+    padding: 5px;
+    border-radius: 5px;
+    width: 70%;
+    box-sizing: border-box;
+  }
+  
+  .detail-title {
+    font-weight: bold;
+    color: #0aa3a1;
+    margin-right: 5px;
+    width: 30%;
+    text-align: right;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+    text-align: right;
+    width: 100%;
+  }
+  
+  .header-title {
+    color: #0aa3a1;
+    font-weight: bold;
+    text-align: right;
+    width: 100%;
+    display: block;
+    font-size: 27px;
+  }

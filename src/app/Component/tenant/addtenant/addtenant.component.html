@@ -1,0 +1,103 @@
+<div dir="rtl">
+    <button (click)="addTenantForm()">הוסף דייר</button>
+    <div *ngFor="let form of tenantForms; let i = index" dir="rtl">
+        <form [formGroup]="form" dir="rtl">
+            <div class="p-fluid" dir="rtl">
+                <div class="p-col-12 p-md-6 contractor-detail TenantStatus1" dir="rtl">סטטוס: פעיל
+                    <button pButton type="button" icon="pi pi-trash" class="p-button-danger" (click)="deleteTenantForm(i)"></button>
+                </div>
+                <div class="p-col-12 p-md-6 contractor-detail">
+                    <label for="FirstName">שם פרטי</label>
+                    <input id="FirstName" pInputText formControlName="FirstName" type="text" />
+                    <label for="LastName">שם משפחה</label>
+                    <input id="LastName" pInputText formControlName="LastName" type="text" />
+                    <label for="IdentityType" class="detail-title">סוג זהות:</label>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center" *ngFor="let type of identityTypes">
+                            <p-radioButton name="IdentityType" [value]="type.value" formControlName="IdentityType" [inputId]="type.value"></p-radioButton>
+                            <label [for]="type.value" class="ml-2">{{ type.label }}</label>
+                        </div>
+                    </div>
+                    <div *ngIf="form.get('IdentityType')?.invalid && form.get('IdentityType')?.touched">
+                        <small class="p-error">נא לבחור סוג זהות</small>
+                    </div>
+                </div>
+                <div *ngIf="form.get('IdentityType')?.value === 2" class="p-col-12 p-md-6 contractor-detail">
+                    <label for="USName">שם באנגלית</label>
+                    <input id="USName" pInputText formControlName="USName" type="text" />
+                    <label for="IdentityFromCountry"> מדינה:</label>
+                    <input id="IdentityFromCountry" pInputText formControlName="IdentityFromCountry" type="text" />
+                </div>
+                <div class="p-col-12 p-md-6 contractor-detail">
+                    <label for="TenantIdentity">מספר ת.ז/דרכון/מ.ר.</label>
+                    <input id="TenantIdentity" pInputText formControlName="TenantIdentity" type="text" />
+                    <label for="IdFileName">קובץ</label>
+                    <input id="IdFileName" pInputText formControlName="IdFileName" type="text" />
+
+                    <label for="PartAsset">חלק בנכס:</label>
+                    <input id="PartAsset" pInputText formControlName="PartAsset" type="number" />
+                </div>
+                <div class="p-col-12 p-md-6 contractor-detail">
+                    <label for="previousTenantId">זהוי קודם:</label>
+                    <div class="card flex justify-center">
+                        <p-toggleswitch formControlName="previousTenantId"></p-toggleswitch>
+                    </div>
+                </div>
+                <div *ngIf="form.get('previousTenantId')?.value" class="p-col-12 p-md-6 contractor-detail">
+                    <label for="IdentityType_previous">סוג התעודה :</label>
+                    <p-dropdown [options]="IdentityType_previous" formControlName="IdentityType_previous" optionLabel="label" placeholder="בחר סוג זהות" class="w-full md:w-56"></p-dropdown>
+                    <div class="p-col-12 p-md-6 contractor-detail">
+                        <label for="TenantIdentity_previous">מספר ת.ז/דרכון/מ.ר.</label>
+                        <input id="TenantIdentity_previous" pInputText formControlName="TenantIdentity_previous" type="text" />
+                    </div>
+                    <div *ngIf="form.get('IdentityType_previous')?.value.value===4">
+                        <label for="other_previous"> :אחר</label>
+                        <input id="other_previous" pInputText formControlName="other_previous" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 contractor-detail">
+                <label for="IsSignatureByPowerOfAttorney">האם חתם באמצעות ייפוי כוח?</label>
+                <div class="card flex justify-center">
+                    <p-toggleswitch formControlName="IsSignatureByPowerOfAttorney"></p-toggleswitch>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-6 contractor-detail" *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
+                <label for="IsSignatureByPowerOfAttorney"> פרטי המיופה הכוח/הנהנה</label>
+            </div>
+            <div class="p-col-12 p-md-6 contractor-detail" *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
+                <label for="FirstName_Power"> שם:</label>
+                <input id="FirstName_Power" pInputText formControlName="FirstName_Power" type="text" />
+                <label for="LastName_Power"> משפחה:</label>
+                <input id="LastName_Power" pInputText formControlName="LastName_Power" type="text" />
+                <label for="PowerOfAttorneyId"> מספר ת.ז/דרכון</label>
+                <input id="PowerOfAttorneyId" pInputText formControlName="PowerOfAttorneyId" type="text" />
+            </div>
+            <div class="p-col-12 p-md-6 contractor-detail" *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
+                <label for="PowerOfAttorneyType" class="detail-title">עפ"י ייפוי כוח:</label>
+                <div class="flex items-center" *ngFor="let type of PowerOfAttorneyType">
+                    <p-radioButton name="PowerOfAttorneyType" [value]="type.value" formControlName="PowerOfAttorneyType" [inputId]="type.value"></p-radioButton>
+                    <label [for]="type.value" class="ml-2">{{ type.label }}</label>
+                </div>
+                <label for="FromDate">  מיום: </label>
+                <input id="FromDate" pInputText formControlName="FromDate" type="date" />
+                <label for="FileName"> קובץ </label>
+                <input id="FileName" pInputText formControlName="FileName" pltype="text"  />
+            </div>
+            <div class="p-col-12 p-md-6 contractor-detail" *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
+                <label for="Address"> כתובת:</label>
+                <input id="Address" pInputText formControlName="Address" type="text" />
+                <label for="NumberPhone">טלפון: </label>
+                <input id="NumberPhone" pInputText formControlName="NumberPhone" type="text" />
+                <label for="NumberPhone2">טלפון נוסף: </label>
+                <input id="NumberPhone2" pInputText formControlName="NumberPhone2" type="text" />
+            </div>
+        </form>
+    </div>
+    <div class="button-group">
+        <button pButton type="button" label="שמירה" icon="pi pi-check" class="p-mr-2" (click)="onSubmit()"></button>
+        <button pButton type="button" label="ביטול" icon="pi pi-times" class="p-mr-2" (click)="cancel()"></button>
+    </div>
+    <div *ngIf="errorMessage" class="p-error">{{ errorMessage }}</div>
+</div>
+

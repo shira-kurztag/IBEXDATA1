@@ -1,0 +1,21 @@
+<header>
+  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top" dir="rtl">
+    <div class="container-fluid">
+      <ul class="header-menubar">
+        <ng-container *ngFor="let c of items; trackBy: trackByFn">
+          <li *ngIf="!c.items">
+            <p-button [routerLink]="c.routerLink" routerLinkActive="active-link" type="button" [label]="c.label" class="p-button-link"></p-button>
+          </li>
+          <li *ngIf="c.items">
+            <p-menubar [model]="[c]"></p-menubar>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </nav>
+</header>
+<main>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</main>
