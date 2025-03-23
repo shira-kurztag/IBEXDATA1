@@ -17,7 +17,7 @@ export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'bank', component: BankComponent },
     { path: 'apartmentDetails', component: ApartmentComponent },
-    { path: 'project/:id', component: ProjectComponent },
+    { path: 'project/:id/:name/:flag', component: ProjectComponent },
     { path: 'fare', component: FareComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'addtenant', component: AddTenantComponent },
