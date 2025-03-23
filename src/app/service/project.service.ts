@@ -42,6 +42,11 @@ export class ProjectService {
     return this.https.put<Project>(url, project);
   }
 
+  GetProjecctByContractor(id: number): Observable<Project[]> {
+    console.log(`${this.BASE_URL}/GetProjecctByContractor?id=${id}`)
+    return this.https.get<Project[]>(`${this.BASE_URL}/GetProjecctByContractor?id=${id}`)
+  }
 
+  
     
 }

@@ -30,6 +30,7 @@ import { Contractor } from '../../Models/Contractor.model';
 import { Bank } from '../../Models/Bank.model';
 import { BankService } from '../../service/bank.service';
 import { BankNamesDTO } from '../../Models/BankNamesDTO.model';
+import { ActivatedRoute } from '@angular/router';
 
 interface Column {
   field: string;
@@ -90,7 +91,7 @@ export class ProjectComponent implements OnInit {
   exportColumns!: ExportColumn[];
   companyId: number=0
   comNames: Contractor = new Contractor()
-  comNamesString : string=""
+  comNamesString : string | undefined
   bankService: BankService = inject(BankService);
   lendingBankName : string =""
   bankId : number=0
@@ -103,7 +104,7 @@ export class ProjectComponent implements OnInit {
   allContractors: Contractor[] = [];
   lendingContractorName: string = '';
   contractors: Contractor[] = [];
-  contractorId: number | null = null; // אתחול לא null
+  contractorId: number | undefined; // אתחול לא null
   filteredContractors: Contractor[] = [];
   isNumberValid: boolean = true;
   projId: number = 2251
@@ -112,20 +113,75 @@ export class ProjectComponent implements OnInit {
   IsGetFirst: boolean = true
   IsGetSecond: boolean = false
   showAdditionalFields: boolean = false;
-  nameBank: string=""
+  nameBank: string | undefined
+  flagProject!: boolean 
 
   constructor(
+    private route: ActivatedRoute,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private cd: ChangeDetectorRef, 
     private projectService: ProjectService
   ) { }
 
+
+  //   this.route.paramMap.subscribe(params => {
+  //     console.log( "flag after send", Boolean(params.get('flag')));
+  //     this.flagProject = Boolean(params.get('flag'));
+  //   });
+
+  //   console.log("flagProject in project componnent",this.flagProject);
+
+  //   if(this.flagProject){
+  //   this.route.paramMap.subscribe(params => {
+  //     this.companyId = Number(params.get('id'));
+  //   });
+  //   this.IsGetFirst = true 
+  //   this.IsGetSecond = false;
+  //   console.log("companyId",this.companyId);
+  // }
+  //   else{
+  //     this.route.paramMap.subscribe(params => {
+  //       this.projectName = String(params.get('name'))
+  //     });  
+  //     this.IsGetSecond = true
+  //     this.IsGetFirst = false;
+  //     console.log("projectName",this.projectName);
+  //     this.getProject()
+  //   }
+
+  // this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+
   ngOnInit() {
-    this.companyId = 1119
+    this.route.paramMap.subscribe(params => {
+      const flagString = params.get('flag');
+      this.flagProject = flagString === 'true';
+      console.log("flag after send", this.flagProject);
+    });
+  
+    console.log("flagProject in project component", this.flagProject);
+  
+    if (this.flagProject) {
+      this.route.paramMap.subscribe(params => {
+        this.companyId = Number(params.get('id'));
+      });
+      this.IsGetFirst = true;
+      this.IsGetSecond = false;
+      console.log("companyId", this.companyId);
+    } else {
+      this.route.paramMap.subscribe(params => {
+        this.projectName = String(params.get('name'));
+      });
+      this.IsGetSecond = true;
+      this.IsGetFirst = false;
+      console.log("projectName", this.projectName);
+      this.getProject();
+    }
+  
     this.getCompanyName()
     this.getBanks();
     this.getIdBank();
+ 
   }
 
   toggleAdditionalFields() {
@@ -201,7 +257,7 @@ export class ProjectComponent implements OnInit {
             console.log('Contractor ID:', this.contractorId);
         } else {
             console.log('Contractor not found');
-            this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
+           // this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
         }
 
         this.cd.detectChanges();
@@ -271,46 +327,23 @@ getIdContractor() {
     this.project = new Project() 
   }
 
-  // delete(number : id) {
-  //   this.project.projectStatus = 0;
-
-  //   // קריאה לשירות לעדכון הפרויקט עם ה-ID
-  //   this.projectService.Update(this.projId, this.project).subscribe({
-  //     next: data => {
-  //       console.log("Project status updated:", data);
-  //       this.messageService.add({
-  //         severity: 'success',
-  //         summary: 'הפרויקט עודכן בהצלחה!',
-  //         detail: 'סטטוס הפרויקט שונה למחקה.',
-  //         life: 3000
-  //       });
-  //     },
-  //     error: err => {
-  //       console.error("Error occurred:", err);
-  //       this.messageService.add({
-  //         severity: 'error',
-  //         summary: 'שגיאה',
-  //         detail: 'התרחשה שגיאה בעת עדכון הסטטוס של הפרויקט.',
-  //         life: 3000
-  //       });
-  //     }
-  //   });
-  // }
-
-  
-
-  //update(id: number){
-  
-  delete(){
+  delete(iddelete: number){
   this.degelUp=true;
-  this.update();
+  this.update(iddelete);
   }
-  update(){
+
+  update1(idupdate: number){
+    this.IsGetFirst = true;
+    this.IsGetSecond = false;
+  }
+
+  update(idupdate: number){
     if (this.degelUp==true){  //רוצה למחוק את הפרויקט
       console.log("degelUp",this.degelUp);
       this.project.projectStatus = 0;
       console.log("סטטוס",this.project.projectStatus);  
-      this.projectService.Update(this.projId1,this.project).subscribe({
+
+      this.projectService.Update(idupdate,this.project).subscribe({
         next: data => {
           console.log("Data received:", data);
           this.messageService.add({
@@ -484,15 +517,36 @@ getIdContractor() {
     this.project.isPrepareWarningComment = false;
   }
 
-  // showWarningDialog() {
-  //   if (this.isIf) {
-  //     this.isWarningDialogVisible = true;
-  //   }
+   // delete(number : id) {
+  //   this.project.projectStatus = 0;
+
+  //   // קריאה לשירות לעדכון הפרויקט עם ה-ID
+  //   this.projectService.Update(this.projId, this.project).subscribe({
+  //     next: data => {
+  //       console.log("Project status updated:", data);
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'הפרויקט עודכן בהצלחה!',
+  //         detail: 'סטטוס הפרויקט שונה למחקה.',
+  //         life: 3000
+  //       });
+  //     },
+  //     error: err => {
+  //       console.error("Error occurred:", err);
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'שגיאה',
+  //         detail: 'התרחשה שגיאה בעת עדכון הסטטוס של הפרויקט.',
+  //         life: 3000
+  //       });
+  //     }
+  //   });
   // }
 
-  // closeWarningDialog() {
-  //   this.isWarningDialogVisible = false;
-  // }
+  
+
+  //update(id: number){
+  
 }
 
 // import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
@@ -1136,5 +1190,13 @@ getIdContractor() {
 //   }
 
 // }
+// showWarningDialog() {
+  //   if (this.isIf) {
+  //     this.isWarningDialogVisible = true;
+  //   }
+  // }
 
+  // closeWarningDialog() {
+  //   this.isWarningDialogVisible = false;
+  // }
 

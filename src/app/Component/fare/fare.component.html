@@ -1,0 +1,49 @@
+<div class="aaa">
+    <div class="card" dir="rtl">
+      <p-breadcrumb [model]="breadcrumbItems" [style]="{'background-color': 'transparent', 'border': 'none'}">
+        <ng-template let-item pTemplate="item">
+          <a [href]="item.url" style="color: #0db1ae; font-size: x-large;">{{ item.label }}</a>
+        </ng-template>
+      </p-breadcrumb>
+      <h3 style="color: #0db1ae; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">מאגר נתונים - רשימת תעריפים</h3>
+      <button class="toggle-button" (click)="toggleEditMode()">
+        {{ editMode ? 'שמירה' : 'עריכה' }}
+      </button>
+      <button class="xxx">🖊</button>
+      <input type="text" [(ngModel)]="searchText" placeholder="         חפש " class="toggle-button1">
+      <button class="vvv" (click)="searchFares()">🔍</button>
+      <div *ngIf="editMode">
+        <button class="yyy" (click)="toggleAddMode()">הוסף אגירה</button>
+        <button class="ooo">➕</button>
+      </div>
+      <div *ngIf="editMode && addMode" class="new-bank-input">
+        <div class="sss">
+          <input type="text" [(ngModel)]="newFare.fareName" style="max-width: 200px; border-color: #c0e4e4; color: #000; resize: none; border-radius: 4px; height: 40px; vertical-align: middle; border-style: solid; border-width: 1px;">
+          <div class="www">
+            <button style="background-color: #0db1ae; border: 0; border-radius: 9px; height: 37px; width: 6%; text-align: center; display: block; position: absolute; top: 220px; left:777px;" (click)="addFare()">הוסף תעריף</button>
+          </div>
+        </div>
+      </div>
+      <div class="bank-list">
+        <div *ngFor="let fare of filteredFares" class="bank-item">
+          <ng-container *ngIf="editMode; else viewMode">
+            <div>
+              <span style="color: #0db1ae; font-family: Arial, Helvetica, sans-serif; border-color: #0db1ae; font-weight: bold;">שם האגרה: </span>
+              <span style="color:#0db1ae">{{ fare.fareName }}</span>
+            </div>
+            <div>
+              <span style="color: #0db1ae; font-family: Arial, Helvetica, sans-serif;">סכום: </span>
+              <input type="number" [(ngModel)]="fare.fareAmount" step="0.1" placeholder="סכום" required>
+              <div *ngIf="fare.fareAmount === null && formSubmitted" class="error">סכום הוא שדה חובה</div>
+            </div>
+          </ng-container>
+          <ng-template #viewMode>
+            <span style="display: flex; align-items: center;">
+              <span style="color: #0db1ae; font-family: Arial, Helvetica, sans-serif; border-color: #0db1ae; font-weight: bold;">{{ fare.fareName }}: </span>
+              <span style="margin-left: 5px;">{{ fare.fareAmount }}</span>
+            </span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>

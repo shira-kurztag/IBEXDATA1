@@ -1,0 +1,133 @@
+<div class="contractors-container">
+    <div class="p-grid" *ngIf="!savedMortagege">
+  
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">:נא בחר/י את סוג המשכנתא שברצונך להוסיף</span>
+        <div class="dropdown-container">
+          <p-select class="MortagegesType-select" [options]="mortagegesTypes" [(ngModel)]="selectedMortagegesType"
+            optionLabel="mortagegesTypeText" (onChange)="onSelectMortagegesType($event)">
+            <ng-template let-selectedMortagegesType pTemplate="selectedItem">
+              <div class="contractor-item">
+                {{selectedMortagegesType?.mortagegesTypeText}}
+              </div>
+            </ng-template>
+            <ng-template let-mortagegesType pTemplate="item">
+              <div class="contractor-item">
+                {{mortagegesType.mortagegesTypeText}}
+              </div>
+            </ng-template>
+          </p-select>
+          <span *ngIf="!selectedMortagegesType && showErrors" class="error-message">יש לבחור סוג משכנתא</span>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">?לטובת איזה בנק תינתן ההתחייבות</span>
+        <input type="number" [(ngModel)]="bankName" class="bank-input" />
+        <span *ngIf="!bankName && showErrors" class="error-message">יש להזין את שם הבנק</span>
+      </div>
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <button pButton type="button" label="שמור" class="p-button" (click)="save()">שמור </button>
+        <button pButton type="button" label="ביטול" class="p-button" (click)="cancel()">ביטול </button>
+      </div>
+    </div>
+  
+    <div  *ngIf="savedMortagege">
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">:סטטוס</span> {{ savedMortagege.mortagegeStatus }}
+      </div>
+      
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">?לטובת איזה בנק תינתן ההתחייבות</span> {{ savedMortagege.toTheBank }}
+      </div>
+  
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">מי נוטל המשכנתא?</span>
+        <p-select [options]="borrowerOptions" [(ngModel)]="selectedBorrower" optionLabel="label"></p-select>
+      </div>
+  
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">סכום ההתחייבות:</span>
+        <p-select class="unlimitedAmount-select" [options]="unlimitedAmountOptions" [(ngModel)]="selectedunlimitedAmount"
+          optionLabel="label" (onChange)="onSelectUnlimitedAmount($event)">
+          <ng-template let-selectedunlimitedAmount pTemplate="selectedItem">
+            <div class="contractor-item">
+              {{selectedunlimitedAmount?.label}}
+            </div>
+          </ng-template>
+          <ng-template let-option pTemplate="item">
+            <div class="contractor-item">
+              {{option.label}}
+            </div>
+          </ng-template>
+        </p-select>
+        <div *ngIf="selectedunlimitedAmount?.value === 'Amount'">
+          <span class="detail-title">סוג המטבע:</span>
+          <p-select class="currencyType-select" [options]="listCurrencyType" [(ngModel)]="selectedCurrencyType"
+            optionLabel="currencyTypeText" (onChange)="onSelectCurrencyType($event)">
+            <ng-template let-selectedCurrencyType pTemplate="selectedItem">
+              <div class="contractor-item">
+                {{selectedCurrencyType.currencyTypeText}}
+              </div>
+            </ng-template>
+            <ng-template let-currencyType pTemplate="item">
+              <div class="contractor-item">
+                {{currencyType.currencyTypeText}}
+              </div>
+            </ng-template>
+          </p-select>
+        <span class="detail-title">סכום:</span>
+        <input type="number" [(ngModel)]="commitmentAmount" class="commitment-input" />
+      </div>
+     </div>
+   
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">?האם יש הערות/התניות למשכנתא</span>
+        <textarea [(ngModel)]="NoteOrConditioning" class="notes-input"></textarea>
+      </div>
+  
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">מאיזו דרגה?</span>
+        <p-select [options]="listMortagegeLevels" [(ngModel)]="selectedRank" optionLabel="label" (onChange)="onSelectRank($event)">
+          <ng-template let-selectedRank pTemplate="selectedItem">
+            <div class="contractor-item">
+              {{selectedRank?.mortagegeLevelText}}
+            </div>
+          </ng-template>
+          <ng-template let-rankOption pTemplate="item">
+            <div class="contractor-item">
+              {{rankOption.mortagegeLevelText}}
+            </div>
+          </ng-template>
+        </p-select>
+        <span *ngIf="!selectedRank && showErrors" class="error-message">יש לבחור דרגה</span>
+      </div>
+  
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">האם נחתמו הוראות בלתי חוזרות?</span>
+        <p-checkbox [(ngModel)]="irrevocableInstructions" binary="true" label="כן"></p-checkbox>
+      </div>
+  
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">אישור החברה:</span>
+        
+        <p-toggleswitch [(ngModel)]="companyApproval">
+          <ng-template pTemplate="off">
+            לא
+          </ng-template>
+          <ng-template pTemplate="on">
+            כן
+          </ng-template>
+        </p-toggleswitch>
+      </div>
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">הוסף הערה:</span>
+        <textarea [(ngModel)]="additionalNote" class="additional-note-input"></textarea>
+        <div class="p-col-12 p-md-6 contractor-detail">
+          <p-checkbox [(ngModel)]="rightsApproval" binary="true" label="לאישור זכויות"></p-checkbox>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6 contractor-detail">
+        <button pButton type="button" label="שמור" class="p-button" (click)="saveAll()">שמור </button>
+  
+      </div>
+  </div>

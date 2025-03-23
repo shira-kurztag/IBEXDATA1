@@ -1,0 +1,39 @@
+<p-breadcrumb [model]="breadcrumbItems"></p-breadcrumb>
+<div class="p-4 border border-gray-300 rounded-lg shadow-md w-[600px]" dir="rtl">
+  <form [formGroup]="apartmentForm" (ngSubmit)="onSubmit()">
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col gap-6">
+        <label for="apartmentStatus" class="block font-bold">סטטוס דירה</label>
+        <input type="number" pInputText id="apartmentStatus" formControlName="apartmentStatus" class="w-full" />
+      </div>
+      <div>
+        <label for="apartmentNumberByContract" class="block font-bold">מספר דירה בחוזה</label>
+        <input type="number" pInputText id="apartmentNumberByContract" formControlName="apartmentNumberByContract" class="w-full" />
+      </div>
+      <div class="col-span-2">
+        <label for="note" class="block font-bold">הערה</label>
+        <input type="text" pInputText id="note" formControlName="note" class="w-full" />
+      </div>
+      <div>
+        <label for="isDetachedApartment" class="block font-bold">האם דירה מנותקת</label>
+        <p-checkbox id="isDetachedApartment" formControlName="isDetachedApartment"></p-checkbox>
+      </div>
+      <div>
+        <label for="isCompanyHasCompletedCommitments" class="block font-bold">האם החברה השלימה את ההתחייבויות</label>
+        <p-checkbox id="isCompanyHasCompletedCommitments" formControlName="isCompanyHasCompletedCommitments"></p-checkbox>
+      </div>
+      <div>
+        <label for="isGivenPossessionOfTheApartment" class="block font-bold">האם נמסרה הדירה</label>
+        <p-checkbox id="isGivenPossessionOfTheApartment" formControlName="isGivenPossessionOfTheApartment"></p-checkbox>
+      </div>
+      <div>
+        <label for="isProducedLease" class="block font-bold">האם הופק חוזה</label>
+        <p-checkbox id="isProducedLease" formControlName="isProducedLease"></p-checkbox>
+      </div>
+      <div class="col-span-2">
+        <button pButton type="submit" label="שמור" class="p-button-primary w-full"></button>
+      </div>
+    </div>
+  </form>
+</div>
+<h1>fdfdfdf</h1>
