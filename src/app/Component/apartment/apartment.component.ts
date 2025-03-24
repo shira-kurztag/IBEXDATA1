@@ -60,5 +60,3 @@ export class ApartmentComponent {
     console.log(this.newApartment);
   }
 }
-//sfdsgfdgsdgfsgfgfsdgfffffffffffffff
-//fdfdsgfsdgdsg
