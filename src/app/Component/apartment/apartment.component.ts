@@ -60,4 +60,4 @@ export class ApartmentComponent {
     console.log(this.newApartment);
   }
 }
-//ffgggghh
+//ffgggghhsss
