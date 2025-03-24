@@ -1,39 +1,98 @@
-<p-breadcrumb [model]="breadcrumbItems"></p-breadcrumb>
-<div class="p-4 border border-gray-300 rounded-lg shadow-md w-[600px]" dir="rtl">
-  <form [formGroup]="apartmentForm" (ngSubmit)="onSubmit()">
-    <div class="grid grid-cols-2 gap-4">
-      <div class="flex flex-col gap-6">
-        <label for="apartmentStatus" class="block font-bold">סטטוס דירה</label>
-        <input type="number" pInputText id="apartmentStatus" formControlName="apartmentStatus" class="w-full" />
-      </div>
-      <div>
-        <label for="apartmentNumberByContract" class="block font-bold">מספר דירה בחוזה</label>
-        <input type="number" pInputText id="apartmentNumberByContract" formControlName="apartmentNumberByContract" class="w-full" />
-      </div>
-      <div class="col-span-2">
-        <label for="note" class="block font-bold">הערה</label>
-        <input type="text" pInputText id="note" formControlName="note" class="w-full" />
-      </div>
-      <div>
-        <label for="isDetachedApartment" class="block font-bold">האם דירה מנותקת</label>
-        <p-checkbox id="isDetachedApartment" formControlName="isDetachedApartment"></p-checkbox>
-      </div>
-      <div>
-        <label for="isCompanyHasCompletedCommitments" class="block font-bold">האם החברה השלימה את ההתחייבויות</label>
-        <p-checkbox id="isCompanyHasCompletedCommitments" formControlName="isCompanyHasCompletedCommitments"></p-checkbox>
-      </div>
-      <div>
-        <label for="isGivenPossessionOfTheApartment" class="block font-bold">האם נמסרה הדירה</label>
-        <p-checkbox id="isGivenPossessionOfTheApartment" formControlName="isGivenPossessionOfTheApartment"></p-checkbox>
-      </div>
-      <div>
-        <label for="isProducedLease" class="block font-bold">האם הופק חוזה</label>
-        <p-checkbox id="isProducedLease" formControlName="isProducedLease"></p-checkbox>
-      </div>
-      <div class="col-span-2">
-        <button pButton type="submit" label="שמור" class="p-button-primary w-full"></button>
-      </div>
+
+<div class="container">
+  <h2>Add New Apartment</h2>
+  <form (ngSubmit)="onSubmit()">
+    <!-- <div class="form-group">
+      <label for="buildingId">ApartmentId</label>
+      <input type="number" class="form-control" id="buildingId" [(ngModel)]="newApartment.ApartmentId" name="ApartmentId">
+    </div> -->
+    <div class="form-group">
+      <label for="apartmentStatus">סטטוס</label>
+      <input type="number" class="form-control" id="apartmentStatus" [(ngModel)]="newApartment.apartmentStatus" name="apartmentStatus" required>
     </div>
+    <div class="form-group">
+      <label for="apartmentNumberByContract">מספר דירה לפי חוזה</label>
+      <input type="number" class="form-control" id="apartmentNumberByContract" [(ngModel)]="newApartment.apartmentNumberByContract" name="apartmentNumberByContract" required>
+    </div>
+    <div class="form-group">
+      <label for="floor">קומה</label>
+      <input type="number" class="form-control" id="floor" [(ngModel)]="newApartment.floor" name="floor">
+    </div>
+    <div class="form-group">
+      <label for="apartmentSurfaceByContract">שטח דירה לפי חוזה</label>
+      <input type="number" class="form-control" id="apartmentSurfaceByContract" [(ngModel)]="newApartment.apartmentSurfaceByContract" name="apartmentSurfaceByContract">
+    </div>
+    <div class="form-group">
+      <label for="apartmentNumberByAddress">כתובת עירונית</label>
+      <input type="text" class="form-control" id="apartmentNumberByAddress" [(ngModel)]="newApartment.apartmentNumberByAddress" name="apartmentNumberByAddress">
+    </div>
+    <div class="form-group">
+      <label for="isDetachedApartment">האם דירה צמודה לקרקע</label>
+      <input type="checkbox" class="form-control" id="isDetachedApartment" [(ngModel)]="newApartment.isDetachedApartment" name="isDetachedApartment" required>
+    </div>
+    <div class="form-group">
+      <label for="isCompanyHasCompletedCommitments">האם השלים התחיבויות לחברה</label>
+      <input type="checkbox" class="form-control" id="isCompanyHasCompletedCommitments" [(ngModel)]="newApartment.isCompanyHasCompletedCommitments" name="isCompanyHasCompletedCommitments" required>
+    </div>
+    <div class="form-group">
+      <label for="isGivenPossessionOfTheApartment">נמסרה החזרה בדירה</label>
+      <input type="checkbox" class="form-control" id="isGivenPossessionOfTheApartment" [(ngModel)]="newApartment.isGivenPossessionOfTheApartment" name="isGivenPossessionOfTheApartment" required>
+    </div>
+    <!-- <div class="form-group">
+      <label for="note">Note</label>
+      <textarea class="form-control" id="note" [(ngModel)]="newApartment.note" name="note"></textarea>
+    </div> -->
+    <div class="form-group">
+      <label for="isProducedLease">הופק חוזה חכירה</label>
+      <input type="text" class="form-control" id="isProducedLease" [(ngModel)]="newApartment.isProducedLease" name="isProducedLease">
+    </div>
+    <!-- <div class="form-group">
+      <label for="insertDate">Insert Date</label>
+      <input type="date" class="form-control" id="insertDate" [(ngModel)]="newApartment.insertDate" name="insertDate" required>
+    </div>
+    <div class="form-group">
+      <label for="updateDate">Update Date</label>
+      <input type="date" class="form-control" id="updateDate" [(ngModel)]="newApartment.updateDate" name="updateDate">
+    </div>
+    <div class="form-group">
+      <label for="floor">Floor</label>
+      <input type="number" class="form-control" id="floor" [(ngModel)]="newApartment.floor" name="floor">
+    </div>
+    <div class="form-group">
+      <label for="apartmentOrShop">Apartment Or Shop</label>
+      <input type="number" class="form-control" id="apartmentOrShop" [(ngModel)]="newApartment.apartmentOrShop" name="apartmentOrShop">
+    </div>
+    <div class="form-group">
+      <label for="numberOfLease">Number Of Lease</label>
+      <input type="number" class="form-control" id="numberOfLease" [(ngModel)]="newApartment.numberOfLease" name="numberOfLease">
+    </div>
+    <div class="form-group">
+      <label for="addressByContract">Address By Contract</label>
+      <input type="text" class="form-control" id="addressByContract" [(ngModel)]="newApartment.addressByContract" name="addressByContract">
+    </div>
+    <div class="form-group">
+      <label for="noteEdit">Note Edit</label>
+      <textarea class="form-control" id="noteEdit" [(ngModel)]="newApartment.noteEdit" name="noteEdit"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="noteEditStatus">Note Edit Status</label>
+      <input type="checkbox" class="form-control" id="noteEditStatus" [(ngModel)]="newApartment.noteEditStatus" name="noteEditStatus">
+    </div>
+    <div class="form-group">
+      <label for="floorString">Floor String</label>
+      <input type="text" class="form-control" id="floorString" [(ngModel)]="newApartment.floorString" name="floorString">
+    </div>
+    <div class="form-group">
+      <label for="hakiraFileName">Hakira File Name</label>
+      <input type="text" class="form-control" id="hakiraFileName" [(ngModel)]="newApartment.hakiraFileName" name="hakiraFileName">
+    </div>
+    <div class="form-group">
+      <label for="numberOfLeaseString">Number Of Lease String</label>
+      <input type="text" class="form-control" id="numberOfLeaseString" [(ngModel)]="newApartment.numberOfLeaseString" name="numberOfLeaseString">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
-</div>
-<h1>fdfdfdf</h1>
+</div> -->
+
+
+
