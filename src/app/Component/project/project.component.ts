@@ -114,6 +114,7 @@ export class ProjectComponent implements OnInit {
   IsGetSecond: boolean = false
   showAdditionalFields: boolean = false;
   nameBank: string | undefined
+  flagAddGet!: string
 
   constructor(
     private route: ActivatedRoute,
@@ -124,9 +125,20 @@ export class ProjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-   // this.companyId = 1119
-   this.companyId = Number(this.route.snapshot.paramMap.get('id'));
 
+      // this.companyId = 1119
+      this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
+      
+      if (this.flagAddGet === 'true') {
+        this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+        this.IsGetFirst = true;
+        this.IsGetSecond = false;
+      } else {
+        this.project.projectName = String(this.route.snapshot.paramMap.get('name'));
+        this.IsGetFirst = false;
+        this.IsGetSecond = true;
+      }
+    
     this.getCompanyName()
     this.getBanks();
     this.getIdBank();
