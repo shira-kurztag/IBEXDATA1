@@ -39,6 +39,8 @@ export class MaincontractorComponent implements OnInit {
   Projects: Project[] = [];
   ProjectsDelete: Project[] = [];
   ProjectsActive: Project[] = [];
+  flagProject! : boolean
+  projectName: string =""
 
   filterProject(event: AutoCompleteCompleteEvent) {
     const query = event.query.toLowerCase();
@@ -119,7 +121,8 @@ export class MaincontractorComponent implements OnInit {
   }
 
   addProject(){
-    this.router.navigate(['/project', this.contractor.contractorId]);
+    this.flagProject = true;
+    this.router.navigate(['/project', this.contractor.contractorId,this.projectName,String(this.flagProject)]);
   }
 
   getAllProjects(){
@@ -157,6 +160,16 @@ export class MaincontractorComponent implements OnInit {
     });
   }
 
+  onProjectSelect(event: Event) {
+    const selectedProjectName = (event.target as HTMLSelectElement).value;
+    this.getProject(selectedProjectName);
+  }
+
+  getProject(projectname: string) {
+    this.projectName = projectname;
+    this.flagProject = false;
+    this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagProject)]);
+  }
   projectList(){
     this.flagList = !this.flagList
   }
