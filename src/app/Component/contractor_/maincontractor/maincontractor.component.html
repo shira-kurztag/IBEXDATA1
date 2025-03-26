@@ -1,0 +1,146 @@
+<div *ngIf="contractor" class="contractors-container">
+    <ng-template pTemplate="header">
+      <span class="header-title">{{ contractor.contractorName }} קבלן</span>
+    </ng-template>
+    <div *ngIf="!editMode">
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6 contractor-detail">
+          <span class="detail-content">{{ contractor.contractorName }}</span>
+          <span class="detail-title">:שם הקבלן</span>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail" *ngIf="contractor.contractorIdentity">
+          <span class="detail-content">{{ contractor.contractorIdentity }}</span>
+          <span class="detail-title">:מספר ח.פ</span>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail">
+          <span class="detail-content">{{ contractor.managementName }}</span>
+          <span class="detail-title">:שם מלא של המנהל</span>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail" *ngIf="contractor.managementId">
+          <span class="detail-content">{{ contractor.managementId }}</span>
+          <span class="detail-title">:ת.ז</span>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail" *ngIf="contractor.address">
+          <span class="detail-content">{{ contractor.address }}</span>
+          <span class="detail-title">:כתובת</span>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail" *ngIf="contractor.certificateConsortium">
+          <span class="detail-content">{{ contractor.certificateConsortium }}</span>
+          <span class="detail-title">:ת. האגד</span>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail" *ngIf="contractor._50form">
+          <span class="detail-content">{{ contractor._50form }}</span>
+          <span class="detail-title">:טופס 50</span>
+        </div>
+      </div>
+  
+      <div class="contractor-box-container">
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-search"></i>
+          </div>
+          <p-autocomplete class="contractor-search" (onSelect)="onSelectProject($event)" [suggestions]="filteredProjects" (completeMethod)="filterProject($event)" optionLabel="name" forceSelection="true" field="projectName" placeholder="חפש פרויקט"/>
+        </div>
+        
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-pencil"></i>
+          </div>
+          <button class="contractor-button" (click)="toggleEditMode()">ערוך קבלן</button>
+        </div>
+
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-plus"></i>
+          </div>
+          <button class="contractor-button" (click)="addProject()"> הוסף פרויקט</button>
+        </div>
+
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-align-justify"></i>
+          </div>
+          <button class="contractor-button" (click)="projectList()"> רשימת פרויקטים</button>
+          <div *ngIf="flagList">
+            <option *ngFor="let p of ProjectsActive" [value]="p.projectName">{{ p.projectName }}</option>
+          </div>
+        </div>
+
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-align-justify"></i>
+          </div>
+          <button class="contractor-button" (click)="projectDelete()"> פרויקטים שנמחקו</button>
+          <div *ngIf="flagListDelete">
+            <option *ngFor="let p of  ProjectsDelete" [value]="p.projectName">{{ p.projectName }}</option>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div *ngIf="editMode" class="edit-mode">
+      <form [formGroup]="contractorForm" (ngSubmit)="onSave()">
+        <div class="p-grid">
+          <div class="p-col-12 p-md-6 contractor-detail-edit">
+            <input id="contractorName" type="text" pInputText formControlName="contractorName" />
+            <label for="contractorName" class="detail-title"> :שם הקבלן</label>
+            
+            <div *ngIf="contractorForm.get('contractorName')?.invalid && contractorForm.get('contractorName')?.touched">
+              <small class="p-error">נא להזין שם קבלן תקין</small>
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6 contractor-detail-edit">
+            
+            <input id="contractorIdentity" type="text" pInputText formControlName="contractorIdentity" />
+            <label for="contractorIdentity" class="detail-title">:מספר ח.פ </label>
+            <div *ngIf="contractorForm.get('contractorIdentity')?.invalid && contractorForm.get('contractorIdentity')?.touched">
+              <small class="p-error">נא להזין מספר ח.פ תקין</small>
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6 contractor-detail-edit">
+           
+            <input id="managementName" type="text" pInputText formControlName="managementName" />
+            <label for="managementName" class="detail-title">: שם מלא של המנהל</label>
+            <div *ngIf="contractorForm.get('managementName')?.invalid && contractorForm.get('managementName')?.touched">
+              <small class="p-error">נא להזין שם מלא של המנהל תקין</small>
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6 contractor-detail-edit">
+            
+            <input id="managementId" type="text" pInputText formControlName="managementId" />
+            <label for="managementId" class="detail-title">:ת.ז</label>
+            <div *ngIf="contractorForm.get('managementId')?.invalid && contractorForm.get('managementId')?.touched">
+              <small class="p-error">נא להזין ת.ז תקין</small>
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6 contractor-detail-edit">
+            
+            <input id="address" type="text" pInputText formControlName="address" />
+            <label for="address" class="detail-title">:כתובת</label>
+            <div *ngIf="contractorForm.get('address')?.invalid && contractorForm.get('address')?.touched">
+              <small class="p-error">נא להזין כתובת תקינה</small>
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6 contractor-detail-edit">
+            
+            <input id="certificateConsortium" type="text" pInputText formControlName="certificateConsortium" />
+            <label for="certificateConsortium" class="detail-title">:ת. האגד</label>
+            <div *ngIf="contractorForm.get('certificateConsortium')?.invalid && contractorForm.get('certificateConsortium')?.touched">
+              <small class="p-error">נא להזין ת. האגד תקינה</small>
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6 contractor-detail-edit">
+            
+            <input id="form50" type="text" pInputText formControlName="_50form" />
+            <label for="form50" class="detail-title">:טופס 50</label>
+            <div *ngIf="contractorForm.get('_50form')?.invalid && contractorForm.get('_50form')?.touched">
+              <small class="p-error">נא להזין טופס 50 תקין</small>
+            </div>
+          </div>
+        </div>
+        <button pButton type="submit" label="שמור" [disabled]="contractorForm.invalid"></button>
+        <button pButton type="button" label="ביטול" (click)="toggleEditMode()"></button>
+      </form>
+    </div>
+  </div>

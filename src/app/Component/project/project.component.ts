@@ -30,6 +30,7 @@ import { Contractor } from '../../Models/Contractor.model';
 import { Bank } from '../../Models/Bank.model';
 import { BankService } from '../../service/bank.service';
 import { BankNamesDTO } from '../../Models/BankNamesDTO.model';
+import { ActivatedRoute } from '@angular/router';
 
 interface Column {
   field: string;
@@ -78,6 +79,7 @@ interface ExportColumn {
   ],
   styleUrls: ['./project.component.css']
 })
+
 export class ProjectComponent implements OnInit {
   productDialog: boolean = false;
   submitted: boolean = false;
@@ -89,7 +91,7 @@ export class ProjectComponent implements OnInit {
   exportColumns!: ExportColumn[];
   companyId: number=0
   comNames: Contractor = new Contractor()
-  comNamesString : string=""
+  comNamesString : string | undefined
   bankService: BankService = inject(BankService);
   lendingBankName : string =""
   bankId : number=0
@@ -99,18 +101,22 @@ export class ProjectComponent implements OnInit {
   banks: BankNamesDTO[] = [];
   bank!: BankNamesDTO;
   filteredBanks: BankNamesDTO[] = []
-
   allContractors: Contractor[] = [];
   lendingContractorName: string = '';
   contractors: Contractor[] = [];
-  contractorId: number | null = null; // אתחול לא null
+  contractorId: number | undefined; // אתחול לא null
   filteredContractors: Contractor[] = [];
-
   isNumberValid: boolean = true;
   projId: number = 2251
   degelUp :boolean=false;
   projId1: number = 2278;
+  IsGetFirst: boolean = true
+  IsGetSecond: boolean = false
+  showAdditionalFields: boolean = false;
+  nameBank: string | undefined
+
   constructor(
+    private route: ActivatedRoute,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private cd: ChangeDetectorRef, 
@@ -118,10 +124,24 @@ export class ProjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.companyId = 1119
+   // this.companyId = 1119
+   this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+
     this.getCompanyName()
     this.getBanks();
+    this.getIdBank();
   }
+
+  toggleAdditionalFields() {
+    this.showAdditionalFields = !this.showAdditionalFields;
+  }
+
+  save(){
+  
+  }
+
+  // שליפת שם הבנק לפי הID
+  // נרוץ על רשימת בהנקים ואם הID שווה לAID אז מציג את השם
 
   getBanks() {
     console.log('Fetching  names of banks...');
@@ -161,6 +181,16 @@ export class ProjectComponent implements OnInit {
     ).subscribe();
   }
 
+  getNameBank(){
+    console.log("getNameBank");
+    
+    for (let i = 0; i < this.allBanks.length; i++) {
+      if (this.allBanks[i].bankId == this.project.lendingBank)
+        this.nameBank = this.allBanks[i].bankText
+        console.log("name",this.nameBank); 
+    }
+  }
+
   GetContractor(contractorName: string) {
     console.log('Fetching contractors...');
     this.projectService.GetAll().pipe(
@@ -175,7 +205,7 @@ export class ProjectComponent implements OnInit {
             console.log('Contractor ID:', this.contractorId);
         } else {
             console.log('Contractor not found');
-            this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
+           // this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
         }
 
         this.cd.detectChanges();
@@ -186,6 +216,7 @@ export class ProjectComponent implements OnInit {
       })
     ).subscribe();
 }
+
 getIdContractor() {
     console.log('Fetching contractors...');
     this.projectService.GetAll().pipe(
@@ -209,18 +240,23 @@ getIdContractor() {
     ).subscribe();
 }
 
-
   getProject() {
     this.projectService.getProjectByName(this.projectName).subscribe(data => {
-      this.project = data;
-      // this.IsGetSecond = true
-      // this.IsGetFirst = false
-      // console.log("id",  this.IsGetSecond);
-     
-    }, error => {
-      console.error('Error fetching project', error);
-    });
-  }
+    this.project = data;
+    console.log("go to getNameBank");
+    
+     this.getNameBank()
+    this.IsGetSecond = true
+    this.IsGetFirst = false
+    console.log("id",  this.IsGetSecond);
+    console.log("p",this.project);
+    console.log("trytr",this.project.dateWinningTender);
+
+  }, error => {
+    console.error('Error fetching project', error);
+  });
+}
+
   getCompanyName() {
     this.projectService.GetCompanyById(this.companyId).pipe(
       catchError(error => {
@@ -268,10 +304,11 @@ getIdContractor() {
   
 
   //update(id: number){
-delete(){
+  
+  delete(){
   this.degelUp=true;
   this.update();
-}
+  }
   update(){
     if (this.degelUp==true){  //רוצה למחוק את הפרויקט
       console.log("degelUp",this.degelUp);
@@ -325,28 +362,6 @@ delete(){
     });
   }
 
-  private formatDate(date: any): string {
-    if (!date) return ''; // בדיקה אם התאריך אינו תקף
-    if (typeof date === 'string') {
-      const [day, month, year] = date.split('-');
-      date = new Date(`${year}-${month}-${day}`);
-    }
-    if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
-    return date.toISOString().split('T')[0];
-  }
-
-  private updateProjectDates() {
-    this.project.dateWinningTender = this.formatDate(this.project.dateWinningTender);
-    this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDate);
-    this.project.collectionExpensesFrom1 = this.formatDate(this.project.collectionExpensesFrom1);
-    this.project.collectionExpensesFrom2 = this.formatDate(this.project.collectionExpensesFrom2);
-    this.project.collectionExpensesFrom3 = this.formatDate(this.project.collectionExpensesFrom3);
-    this.project.insertDate = this.formatDate(new Date());
-    this.project.updateDate = this.formatDate(new Date());
-    this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDate);
-  }
-
-
   async addProject() {
     try {
       await this.updateProjectDates(); 
@@ -380,6 +395,54 @@ delete(){
     }
   }
 
+  private formatDate(date: any): string {
+    if (!date) return ''; // בדיקה אם התאריך אינו תקף
+    if (typeof date === 'string') {
+      const [day, month, year] = date.split('-');
+      date = new Date(`${year}-${month}-${day}`);
+    }
+    if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
+    return date.toISOString().split('T')[0];
+  }
+
+  private updateProjectDates() {
+    this.project.dateWinningTender = this.formatDate(this.project.dateWinningTender);
+    this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDate);
+    this.project.collectionExpensesFrom1 = this.formatDate(this.project.collectionExpensesFrom1);
+    this.project.collectionExpensesFrom2 = this.formatDate(this.project.collectionExpensesFrom2);
+    this.project.collectionExpensesFrom3 = this.formatDate(this.project.collectionExpensesFrom3);
+    this.project.insertDate = this.formatDate(new Date());
+    this.project.updateDate = this.formatDate(new Date());
+    this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDate);
+  }
+
+  addBuilding(){
+
+  }
+
+  getBuildings(){
+
+  }
+
+  getDeleteBuildings(){
+    
+  }
+
+  moveManger(){
+
+  }
+
+  moveMangerBulding(){
+
+  }
+
+  lookingFor(){
+
+  }
+
+  lookingForBuilding(){
+
+  }
 
   exportCSV() {
     this.dt.exportCSV();

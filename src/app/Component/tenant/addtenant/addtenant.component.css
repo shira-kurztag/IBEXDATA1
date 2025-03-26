@@ -1,0 +1,5 @@
+.TenantStatus {
+    background-color: #0aa3a1;
+    border-radius: var(--p-button-border-radius);
+    color: white;
+}

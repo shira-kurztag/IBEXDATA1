@@ -1,0 +1,56 @@
+body {
+    background-color: #F8F7EB;
+    direction: rtl; /* Set the direction to right-to-left */
+}
+
+.contractor-detail {
+    background: #e8f6f6;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row-reverse; /* Ensure the text starts from the right */
+    align-items: center;
+    justify-content: flex-start; /* Ensure the text starts from the right */
+    margin-left: 20%; /* Adjust margin to align properly */
+    margin-right: 25%; /* Adjust margin to align properly */
+    text-align: right; /* Ensure text starts from the right */
+}
+
+.detail-title {
+    line-height: 53px;
+    font-weight: bold;
+    color: #0aa3a1;
+    margin-left: 5px; /* Ensure proper spacing for RTL */
+}
+
+.detail-content {
+    color: #000;
+    line-height: 53px;
+    display: inline-block;
+    margin-left: 5px; /* Ensure proper spacing for RTL */
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.bank-input, .borrower-input, .commitment-input, .rank-input, .notes-input, .additional-note-input {
+    width: 50%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.currency-select, .p-checkbox {
+    margin-top: 5px;
+}
+
+.mortgage-details {
+    margin: 20px;
+    padding: 20px;
+    background: #e8f6f6;
+    border-radius: 5px;
+}

@@ -4,11 +4,274 @@
     display: block;
 } */
 .flex-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* רווח בין האלמנטים */
-  }
-  
-  .mr-4 {
-    margin-right: 16px; /* רווח בין התווית ל-checkbox */
-  }
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* רווח בין האלמנטים */
+}
+
+.mr-4 {
+  margin-right: 16px;
+  /* רווח בין התווית ל-checkbox */
+}
+
+.flex-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  /* רווח קטן בין השדות */
+  margin-bottom: 10px;
+  /* מרווח תחתון בין השורות */
+}
+
+.flex-item {
+  flex: 1;
+  /* כל שדה יתפוס את אותו הרוחב */
+}
+
+/* .toggle-button, .toggle-button1 {
+    display: block;
+    position: absolute;
+    height: 6%;
+    width: 162px;
+    left: 184px;
+    background-color: #0aa3a1;
+    background-position: center;
+    font-family: "sosa-regular-webfont";
+    color: #6e6a6a;
+    font-size: 25px;
+    z-index: 149;
+    transition: 0.3s ease left;
+    border: 0;
+  } */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  /* פריסה בטור */
+  align-items: flex-start;
+  /* יישור לשמאל */
+  gap: 10px;
+  /* רווח בין הכפתורים */
+}
+
+.toggle-button,
+.toggle-button1 {
+  display: block;
+  height: 6%;
+  width: 162px;
+  background-color: #0aa3a1;
+  background-position: center;
+  font-family: "sosa-regular-webfont";
+  color: #6e6a6a;
+  font-size: 25px;
+  z-index: 149;
+  transition: 0.3s ease left;
+  border: 0;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  direction: rtl;
+}
+
+.section-right {
+  width: 60%;
+}
+
+.section-left {
+  width: 35%;
+}
+.contractor-box {
+  display: flex;
+  align-items: center;
+  background-color: #0aa3a1;
+  padding: 0;
+  border-radius: 5px;
+  width: 15%;
+  height: 50px;
+}
+
+.icon-box {
+  width: 50px;
+  height: 100%;
+  background-color: #1f4b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 0 0 5px;
+}
+
+.icon-box i {
+  color: white;
+  font-size: 1.5em;
+}
+
+.contractor-button, .contractor-search {
+  border: none;
+  background: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1em;
+}
+.contractor-search {
+  width: 50%; /* Set width to 50% */
+}
+
+body {
+  background-color: #F8F7EB;
+}
+
+.contractor-detail {
+  background: #e8f6f6;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 25%;
+  margin-right: 20%;
+}
+
+.contractor-detail-edit {
+  background:#e8f6f6; 
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 25%;
+  margin-right: 20%;
+}
+
+.edit-input {
+  border: 1px solid #0aa3a1;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%; /* Set input width to 100% to match the container */
+  box-sizing: border-box; /* Ensure padding is included in the total width */
+}
+
+.detail-title {
+  line-height: 53px;
+  font-weight: bold;
+  color: #0aa3a1;
+  margin-left: 5px;
+}
+
+.detail-content {
+  color: #000;
+  line-height: 53px;
+  display: inline-block;
+}
+
+h3 {
+  color: #0aa3a1;
+  font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
+  font-size: 27px;
+}
+
+.header-title {
+  color: #0aa3a1;
+  font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
+ text-align: right;
+  width: 100%;
+  display: block;
+  font-size: 27px;
+}
+
+.contractor-box-container {
+  position: absolute;
+  left: -32%;
+  top: 12%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 70%;
+}
+
+.contractor-box {
+  display: flex;
+  align-items: center;
+  background-color: #0aa3a1;
+  padding: 0;
+  border-radius: 5px;
+  width: 15%;
+  height: 50px;
+}
+
+.icon-box {
+  width: 50px;
+  height: 100%;
+  background-color: #1f4b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 0 0 5px;
+}
+
+.icon-box i {
+  color: white;
+  font-size: 1.5em;
+}
+
+.contractor-button, .contractor-search {
+  border: none;
+  background: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1em;
+}
+.contractor-search {
+  width: 50%; /* Set width to 50% */
+}
+.contractor-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.p-panel {
+  margin-top: 20px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dropdown-container {
+  width: 50%; /* Set width to 50% of the screen */
+  display: flex;
+  justify-content: center;
+}
+
+.p-select {
+  width: 100%;
+}
+
+.p-inputtext {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-size: 1rem;
+  color: var(--p-inputtext-color);
+  background: white;
+  padding-block: var(--p-inputtext-padding-y);
+  padding-inline: var(--p-inputtext-padding-x);
+  border: 1px solid var(--p-inputtext-border-color);
+  transition: background var(--p-inputtext-transition-duration), color var(--p-inputtext-transition-duration), border-color var(--p-inputtext-transition-duration), outline-color var(--p-inputtext-transition-duration), box-shadow var(--p-inputtext-transition-duration);
+  appearance: none;
+  border-radius: var(--p-inputtext-border-radius);
+  outline-color: transparent;
+  box-shadow: var(--p-inputtext-shadow);
+}
+

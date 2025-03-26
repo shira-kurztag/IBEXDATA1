@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ProjectComponent } from './Component/project/project.component';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { NavComponent } from './Component/nav/nav.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [ProjectComponent],
-  templateUrl: './app.component.html',
+  // standalone: true,
+  imports: [RouterModule, NavComponent],
+  template: `
+    <app-nav></app-nav>
+    <router-outlet></router-outlet>
+  `,
   styleUrl: './app.component.css'
 })
 export class AppComponent {

@@ -1,0 +1,52 @@
+<div styleClass="transparent-card">
+    <ng-template pTemplate="header">
+      <span class="header-title">הוספת קבלן חדש</span>
+    </ng-template>
+    <form [formGroup]="contractorForm" (ngSubmit)="onSubmit()">
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6 contractor-detail-edit">
+          <span class="detail-title">שם הקבלן:</span>
+          <input id="contractorName" pInputText formControlName="contractorName" type="text" class="edit-input"/>
+          <div *ngIf="contractorForm.get('contractorName')?.hasError('required')" class="error-message">שם הקבלן נדרש</div>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail-edit">
+          <span class="detail-title">מספר ח.פ:</span>
+          <input id="contractorIdentity" pInputText formControlName="contractorIdentity" type="text" class="edit-input"/>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail-edit">
+          <span class="detail-title">שם מלא של המנהל:</span>
+          <input id="managementName" pInputText formControlName="managementName" type="text" class="edit-input"/>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail-edit">
+          <span class="detail-title">ת.ז:</span>
+          <input id="managementId" pInputText formControlName="managementId" type="number" class="edit-input"/>
+          <div *ngIf="contractorForm.get('managementId')?.hasError('invalidId')" class="error-message">
+            ת.ז אינו תקין
+          </div>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail-edit">
+          <span class="detail-title">כתובת:</span>
+          <input id="address" pInputText formControlName="address" type="text" class="edit-input"/>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail-edit">
+          <span class="detail-title">ת.האגד:</span>
+          <input id="certificateConsortium" pInputText formControlName="certificateConsortium" type="text" class="edit-input"/>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail-edit">
+          <span class="detail-title">טופס 50:</span>
+          <input id="form50" pInputText formControlName="form50" type="text" class="edit-input"/>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <button pButton type="submit" label="שמירה" icon="pi pi-check" class="p-mr-2" [disabled]="contractorForm.invalid"></button>
+        </div>
+        <div class="p-col-12 p-md-6">
+          <button pButton type="button" label="ביטול" icon="pi pi-times" class="p-mr-2" (click)="cancel()"></button>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>

@@ -1,0 +1,31 @@
+<div class="contractors-container">
+    <h3>רשימת קבלנים</h3>
+    <div class="dropdown-container">
+      <p-select class="contractor-select" [options]="contractors" [(ngModel)]="selectedContractor" optionLabel="contractorName" placeholder="בחר קבלן" (onChange)="onSelectContractor($event)">
+        <ng-template let-contractor pTemplate="selectedItem">
+          <div class="contractor-item">
+            {{ contractor.contractorName }}
+          </div>
+        </ng-template>
+        <ng-template let-contractor pTemplate="item">
+          <div class="contractor-item">
+            {{ contractor.contractorName }}
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
+  </div>
+  <div class="contractor-box-container">
+    <div class="contractor-box">
+      <div class="icon-box">
+        <i class="pi pi-search"></i>
+      </div>
+      <p-autocomplete class="contractor-search" (onSelect)="onSelectContractor($event)" [suggestions]="filteredContractor" (completeMethod)="filterContractor($event)" optionLabel="name" forceSelection="true" field="contractorName" placeholder="חפש קבלן" />
+    </div>
+    <div class="contractor-box">
+      <div class="icon-box">
+        <i class="pi pi-user-plus"></i>
+      </div>
+      <button class="contractor-button" (click)="toggleAddContractorComponent()">הוספת קבלן</button>
+    </div> 
+  </div>
