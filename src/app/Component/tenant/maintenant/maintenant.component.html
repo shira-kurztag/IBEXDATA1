@@ -1,4 +1,12 @@
 <div *ngIf="tenant" class="contractors-container">
+
+
+    <div  class="contractor-box">
+        <div class="icon-box">
+            <i class="pi pi-pencil"></i>
+        </div>
+        <button pButton type="button" label="עריכה " class="contractor-search" (click)="edit()">עריכה</button>
+    </div>  
     <ng-template pTemplate="header">
       <!-- <span class="header-title">{{ contractor.contractorName }} פרויקט<{{ contractor.contractorName }} בנין<{{ contractor.contractorName }} דירה</span> -->
     </ng-template>
@@ -24,6 +32,7 @@
             <span class="detail-content">{{ partAsset }}</span>
         </div>
     </div>
+    <div *ngIf="Message">הזכויות בדיירים לא מגיעים ל100%.</div>
 </div>
 
 

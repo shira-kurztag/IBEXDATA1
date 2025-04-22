@@ -9,7 +9,7 @@ export class TenantDTO {
     IdFileName?: string;
     IdentityFromCountry?: string;
     USName?: string;
-    previousTenantId?: number;
+    PreviousTenantId?: number;
     IdentityTypePrevious?: number;
     TenantIdentityPrevious?: string;
     OtherPrevious?: string;

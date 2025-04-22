@@ -17,6 +17,8 @@ import { getTenantStatusString, TenantStatus } from '../../../Models/TenantStatu
 export class MainTenantComponent {
   tenant!: any;
   partAsset: number = 0;
+  Message: boolean =false;
+
   @Input() tenantId!: number;
   constructor(private route: ActivatedRoute, private router: Router) { }
   srvTenant: TenantService = inject(TenantService);
@@ -27,8 +29,14 @@ export class MainTenantComponent {
     console.log(this.tenantId);
     this.loadContractor();
     this.GetPartAssetByOwnerTenants()
-  }
+    this.MessagePartAsset()
 
+  }
+  MessagePartAsset(){
+  if(this.partAsset<100){
+   this.Message=true
+  }
+  }
   loadContractor() {
     this.srvTenant.getTenantById(this.tenantId).subscribe((tenant: any) => {
       if (tenant) {
@@ -56,6 +64,10 @@ export class MainTenantComponent {
     this.srvTenant.GetPartAssetByOwnerTenants(this.tenantId).subscribe((PartAsset: any) => {
       this.partAsset = PartAsset;
     })
+  }
+
+  edit(){
+
   }
 }
 
