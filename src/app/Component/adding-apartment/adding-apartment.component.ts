@@ -37,14 +37,14 @@ export class AddingApartmentComponent {
 
   onSubmit() {
     console.log('Sending apartment data:', this.newApartment);
+    this.newApartment.buildingId=2305
     this.apartmentService.addApartment(this.newApartment).subscribe(
       (response) => {
         console.log('Apartment added successfully:', response);
-        // ניתן להוסיף כאן פעולות נוספות כמו רענון הרשימה או הצגת הודעה למשתמש
       },
       (error) => {
         console.error('Error adding apartment:', error);
-        // ניתן להוסיף כאן טיפול בשגיאות והצגת הודעה למשתמש
+        
       }
     );
   }

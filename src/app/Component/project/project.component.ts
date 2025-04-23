@@ -134,6 +134,7 @@ export class ProjectComponent implements OnInit {
         this.IsGetFirst = true;
         this.IsGetSecond = false;
       } else {
+        debugger;
         this.project.projectName = String(this.route.snapshot.paramMap.get('name'));
         this.IsGetFirst = false;
         this.IsGetSecond = true;
@@ -142,6 +143,13 @@ export class ProjectComponent implements OnInit {
     this.getCompanyName()
     this.getBanks();
     this.getIdBank();
+  }
+
+  getAllBuildings(){
+
+   // צריך לפנות לפונקציה שמקבל PROJECTID 
+   //מתוך האוביקט project.projectID
+   //מציג את כל רשימת הבנינים
   }
 
   toggleAdditionalFields() {
