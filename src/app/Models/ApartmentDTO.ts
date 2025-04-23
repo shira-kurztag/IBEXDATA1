@@ -2,16 +2,16 @@ import { LinkagesApartmentDTO } from "./LinkagesApartmentDTO";
 
 export class ApartmentDTO{
     
-    ApartmentId:number=0;
-    BuildingId:number=0;
-    ApartmentNumberByContract:number=0;
-    ApartmentStatus:number=0;
-    Floor:number=0;
-    ApartmentSurfaceByContract:number=0;
-    ApartmentNumberByAddress:number=0;
-    IsCompanyHasCompletedCommitments:boolean=false;
-    IsGivenPossessionOfTheApartment:boolean=false;
-    IsProducedLease:boolean=false;
-    IsDetachedApartment:boolean=false;
-    LinkagesApartments: LinkagesApartmentDTO[]=[];
+    apartmentId:number=0;
+   buildingId:number=0;
+    apartmentNumberByContract:number=0;
+   apartmentStatus:number=0;
+   floor:number=0;
+    apartmentSurfaceByContract:number=0;
+    apartmentNumberByAddress:number=0;
+    isCompanyHasCompletedCommitments:boolean=false;
+    isGivenPossessionOfTheApartment:boolean=false;
+    isProducedLease:boolean=false;
+    isDetachedApartment:boolean=false;
+    linkagesApartments: LinkagesApartmentDTO[]=[];
 }

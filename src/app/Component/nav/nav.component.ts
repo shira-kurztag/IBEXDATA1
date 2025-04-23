@@ -7,12 +7,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Menubar } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
+import { AddingApartmentComponent } from '../adding-apartment/adding-apartment.component';
 
 
 @Component({
   standalone: true,
   selector: 'app-nav',
-  imports: [MenubarModule, RouterModule, HttpClientModule, CommonModule, Menubar, ButtonModule],
+  imports: [MenubarModule, RouterModule, HttpClientModule, CommonModule, Menubar, ButtonModule,AddingApartmentComponent],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
@@ -26,7 +27,7 @@ export class NavComponent implements OnInit {
       { label: 'דף הבית', routerLink: ['/home'] },
       { label: 'הפקת אישור זכויות', routerLink: ['/home'] },
       { label: 'הפקת דו"חות', routerLink: ['/home'] },
-      { label: 'מסמכים', routerLink: ['/apartmentDetails'] },
+      { label: 'מסמכים', routerLink: ['/AddingApartmentComponent'] },
       { label: 'ממתינים לטיפול', routerLink: ['/home'] },
       {
         label: 'מאגר מידע',
