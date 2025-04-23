@@ -1,0 +1,26 @@
+.p-fluid {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+  }
+  
+  .p-field {
+    margin-bottom: 1.5rem;
+  }
+  
+  .p-field-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .p-field-checkbox label {
+    margin-left: 0.5rem;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
