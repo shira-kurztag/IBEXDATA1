@@ -1,0 +1,57 @@
+.owner-details-button {
+    background-color: #0aa3a1 !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 15px !important;
+    border-radius: 5px !important;
+    margin-left: 10px !important; /* Ensure proper spacing for RTL */
+    cursor: pointer !important;
+    height: 35px !important; /* Ensure consistent height */
+    font-size: 14px !important; /* Ensure consistent font size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+
+   
+}
+/* סגנון לכפתור הפעיל */
+button.owner-details-button.active-button {
+    background-color: #1f4b4b !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 15px !important;
+    border-radius: 5px !important;
+    margin-left: 10px !important; /* Ensure proper spacing for RTL */
+    cursor: pointer !important;
+    height: 35px !important; /* Ensure consistent height */
+    font-size: 14px !important; /* Ensure consistent font size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+
+}
+/* שינוי צבע כאשר העכבר עובר */
+button.owner-details-button:hover {
+    background-color: #1f4b4b !important; /* הצבע שאת ביקשת */
+}
+.contractor{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 5%;
+    margin: 5%;
+}
+.contractor-content{
+    margin: 5%;
+    padding: 5%;
+    width: 200%;
+}
+.contractor-button{
+    display: flex;
+    flex-direction: row;
+
+}

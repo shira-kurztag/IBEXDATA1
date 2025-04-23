@@ -1,0 +1,74 @@
+<!-- <div class="contractor">
+
+    <div class="contractor-button">
+        <button pButton type="button" (click)="setActiveComponent('rightsConfirmation')" label="אישור זכויות" class="p-button owner-details-button" >אישור זכויות</button>
+        <button pButton type="button"(click)="setActiveComponent('rightsConfirmation')"label="פרטי הדירה" class="p-button owner-details-button" >פרטי דירה </button>
+        <button pButton type="button"(click)="setActiveComponent('maintenant')"label="רשימת דיירים" class="p-button owner-details-button" >רשימת דיירים</button>
+        <button pButton type="button"(click)="setActiveComponent('apartmentHomePage')"label="דף הבית" class="p-button owner-details-button" >דף הבית </button>
+        
+    </div>
+
+    <div class="contractor-content"> 
+        <app-rights-confirmation *ngIf="activeComponent === 'rightsConfirmation'"></app-rights-confirmation>
+        <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
+        <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant>
+        <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant>
+
+    </div>
+
+</div> -->
+
+<div class="contractor">
+
+    <div class="contractor-button">
+        <!-- הוספת תנאי [ngClass] כדי להוסיף מחלקה לכפתור שנלחץ -->
+        <button 
+            pButton 
+            type="button" 
+            (click)="setActiveComponent('rightsConfirmation')" 
+            [ngClass]="{'active-button': activeComponent === 'rightsConfirmation'}" 
+            label="אישור זכויות" 
+            class="p-button owner-details-button">
+            אישור זכויות
+        </button>
+
+        <button 
+            pButton 
+            type="button" 
+            (click)="setActiveComponent('apartmentDetailsByTenant')" 
+            [ngClass]="{'active-button': activeComponent === 'apartmentDetailsByTenant'}" 
+            label="פרטי הדירה" 
+            class="p-button owner-details-button">
+            פרטי דירה
+        </button>
+
+        <button 
+            pButton 
+            type="button" 
+            (click)="setActiveComponent('maintenant')" 
+            [ngClass]="{'active-button': activeComponent === 'maintenant'}" 
+            label="רשימת דיירים" 
+            class="p-button owner-details-button">
+            רשימת דיירים
+        </button>
+
+        <button 
+            pButton 
+            type="button" 
+            (click)="setActiveComponent('apartmentHomePage')" 
+            [ngClass]="{'active-button': activeComponent === 'apartmentHomePage'}" 
+            label="דף הבית" 
+            class="p-button owner-details-button">
+            דף הבית
+        </button>
+    </div>
+
+    <div class="contractor-content"> 
+        <!-- הצגת קומפוננטות הילדים -->
+        <app-rights-confirmation *ngIf="activeComponent === 'rightsConfirmation'"></app-rights-confirmation>
+        <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
+        <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant>
+        <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant>
+    </div>
+
+</div>
