@@ -62,9 +62,9 @@
           <div class="icon-box">
             <i class="pi pi-align-justify"></i>
           </div>
-          <button class="contractor-button" (click)="projectList()"> רשימת פרויקטים</button>
+          <button class="contractor-button" (click)="projectList()">רשימת פרויקטים</button>
           <div *ngIf="flagList">
-            <select [(ngModel)]="chosedProject" (change)="onProjectChange()" class="w-full">
+            <select (change)="onProjectSelect($event)">
               <option *ngFor="let p of ProjectsActive" [value]="p.projectName">{{ p.projectName }}</option>
             </select>
           </div>

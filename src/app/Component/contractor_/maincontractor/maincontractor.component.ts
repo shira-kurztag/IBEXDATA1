@@ -40,8 +40,8 @@ export class MaincontractorComponent implements OnInit {
   Projects: Project[] = [];
   ProjectsDelete: Project[] = [];
   ProjectsActive: Project[] = [];
-  chosedProject: string =" "
-  flagProject: boolean = false
+  flagProject! : boolean
+  projectName: string =""
 
   filterProject(event: AutoCompleteCompleteEvent) {
     const query = event.query.toLowerCase();
@@ -121,7 +121,12 @@ export class MaincontractorComponent implements OnInit {
     }
   }
 
-  getAllProjects() {
+  addProject(){
+    this.flagProject = true;
+    this.router.navigate(['/project', this.contractor.contractorId,this.projectName,String(this.flagProject)]);
+  }
+
+  getAllProjects(){
     this.srvProject.GetProjecctByContractor(this.contractorId).pipe(
       catchError(error => {
         console.error('Error fetching Projects:', error);  // הדפס את השגיאה
@@ -156,7 +161,17 @@ export class MaincontractorComponent implements OnInit {
     });
   }
 
-  projectList() {
+  onProjectSelect(event: Event) {
+    const selectedProjectName = (event.target as HTMLSelectElement).value;
+    this.getProject(selectedProjectName);
+  }
+
+  getProject(projectname: string) {
+    this.projectName = projectname;
+    this.flagProject = false;
+    this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagProject)]);
+  }
+  projectList(){
     this.flagList = !this.flagList
   }
 
