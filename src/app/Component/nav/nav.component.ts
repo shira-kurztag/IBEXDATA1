@@ -26,7 +26,7 @@ export class NavComponent implements OnInit {
       { label: 'דף הבית', routerLink: ['/home'] },
       { label: 'הפקת אישור זכויות', routerLink: ['/home'] },
       { label: 'הפקת דו"חות', routerLink: ['/home'] },
-      { label: 'מסמכים', routerLink: ['/apartmentDetails'] },
+      { label: 'מסמכים', routerLink: ['/AddingApartmentComponent'] },
       { label: 'ממתינים לטיפול', routerLink: ['/home'] },
       {
         label: 'מאגר מידע',
