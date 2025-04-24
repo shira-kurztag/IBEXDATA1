@@ -10,6 +10,10 @@ import { AddContractorComponent } from "./Component/contractor_/addcontractor/ad
 import { MortagegeComponent } from "./Component/mortagege/mortagege.component";
 import { AddTenantComponent } from "./Component/tenant/addtenant/addtenant.component";
 import { MainTenantComponent } from "./Component/tenant/maintenant/maintenant.component";
+import { DetailsApartmentComponent } from "./Component/detailsApartment/details-apartment/details-apartment.component";
+import { RightsConfirmationComponent } from "./Component/detailsApartment/rights-confirmation/rights-confirmation.component";
+import { ApartmentHomePageComponent } from "./Component/detailsApartment/apartment-home-page/apartment-home-page.component";
+import { ApartmentDetailsByTenantComponent } from "./Component/detailsApartment/apartment-details-by-tenant/apartment-details-by-tenant.component";
 
 
 
@@ -25,9 +29,12 @@ export const routes: Routes = [
     { path:'listcontractor', component:ListContractorsComponent},
     { path:'contractor/:id', component:MaincontractorComponent},
     { path:'AddContractors', component:AddContractorComponent},
-    { path: 'mortagege', component: MortagegeComponent }
-    
- 
+    { path: 'mortagege', component: MortagegeComponent },
+    { path: 'detailsApartment', component: DetailsApartmentComponent },
+    // { path: 'rightsConfirmation', component: RightsConfirmationComponent },
+    // { path: 'apartmentHomePage', component: ApartmentHomePageComponent },
+    // { path: 'apartmentDetailsByTenant', component: ApartmentDetailsByTenantComponent },
+
     // { path: 'contractor', component: ContractorComponent, children:[
     //    // {path:'', redirectTo: 'list', pathMatch:'full'},
     //     {path:'listcontractor', component:ListContractorsComponent},

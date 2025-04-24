@@ -1,6 +1,8 @@
 body {
     background-color: #F8F7EB;
     direction: rtl; /* Set the direction to right-to-left */
+    font-family: Arial;
+
 }
 
 .contractor-detail {
@@ -190,13 +192,13 @@ p-select {
   .contractor-box {
     position: absolute;
     left: 15%;
-    top: 12%;
+    top: 20%;
     display: flex;
     align-items: center;
     background-color: #0aa3a1;
     padding: 0;
     border-radius: 5px;
-    width: 15%;
+    width: 10%;
     height: 50px;
   }
   
