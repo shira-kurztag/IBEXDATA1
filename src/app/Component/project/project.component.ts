@@ -35,7 +35,8 @@ import { CommentService } from '../../service/comment.service';
 import { Comment } from '../../Models/Comment.model';
 import { LandOwnerShip } from '../../Models/LandOwnerShip.model';
 import { FilesComponent } from '../files/files.component';
-
+import { FilesService } from '../../service/files.service';
+import { CommentComponent } from '../comment/comment.component'; 
 // interface Column {
 //   field: string;
 //   header: string;
@@ -72,7 +73,8 @@ import { FilesComponent } from '../files/files.component';
     CalendarModule,
     CheckboxModule,
     HttpClientModule,
-    FilesComponent
+    FilesComponent,
+    CommentComponent
   ],
   providers: [MessageService, ConfirmationService],
   styles: [
@@ -92,89 +94,90 @@ export class ProjectComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
   isWarningDialogVisible: boolean = false;
   isIf: boolean = true; // או false בהתאם ללוגיקה שלך
-  // cols!: Column[];
-  // exportColumns!: ExportColumn[];
-  companyId: number=0
-  comNames: Contractor = new Contractor()
-  comNamesString : string | undefined
-  lendingBankName : string =""
-  bankId : number=0
+  companyId: number = 0;
+  comNames: Contractor = new Contractor();
+  comNamesString: string | undefined;
+  lendingBankName: string = '';
+  bankId: number = 0;
   allBanks: Bank[] = [];
   project: Project = new Project();
-  projectName: string ="";
+  projectName: string = '';
   banks: BankNamesDTO[] = [];
   bank!: BankNamesDTO;
-  filteredBanks: BankNamesDTO[] = []
+  filteredBanks: BankNamesDTO[] = [];
   allContractors: Contractor[] = [];
   lendingContractorName: string = '';
   contractors: Contractor[] = [];
-  contractorId: number | undefined; // אתחול לא null
+  contractorId: number | undefined;
   filteredContractors: Contractor[] = [];
   isNumberValid: boolean = true;
-  degelUp :boolean=false;
-  IsGetFirst: boolean = true// הוספה
-  flagUpdate: boolean = false
-  IsGetSecond: boolean = false// הצגה
+  degelUp: boolean = false;
+  IsGetFirst: boolean = true;
+  flagUpdate: boolean = false;
+  IsGetSecond: boolean = false;
   showAdditionalFields: boolean = false;
-  nameBank: string | undefined
-  flagAddGet!: string
-  degelUpdate: boolean= false;
+  nameBank: string | undefined;
+  flagAddGet!: string;
+  degelUpdate: boolean = false;
   isEdit: boolean = false;
-  comment: Comment = new Comment()
-  commentsArr: Comment[]=[]
-  commentPrev: Comment= new Comment()
-  commentsPrev: Comment[]=[]
-  commentFlag: boolean = false
-  idAfter: number=0
-  commentsList: Comment[] =[]
-  filteredcomment: Comment[]=[]
-  comment$: Comment[]=[]
-  landOwnerShips : LandOwnerShip[] = []
-  landOwnerShipName: string =""
-  namelandOwnerShip : string | undefined
-  LandOwnerShipId: number =0
+  comment: Comment = new Comment();
+  commentsArr: Comment[] = [];
+  commentPrev: Comment = new Comment();
+  commentsPrev: Comment[] = [];
+  commentFlag: boolean = false;
+  idAfter: number = 0;
+  commentsList: Comment[] = [];
+  filteredcomment: Comment[] = [];
+  comment$: Comment[] = [];
+  landOwnerShips: LandOwnerShip[] = [];
+  landOwnerShipName: string = '';
+  namelandOwnerShip: string | undefined;
+  LandOwnerShipId: number = 0;
   selectedFileNames: string[] = []; // רשימת שמות הקבצים שנבחרו
+  selectedFiles: FileList = new DataTransfer().files; // רשימת הקבצים בפועל
   contractDevelopmentFileUniqId: string = ''; // UniqId לשדה קובץ חוזה בפיתוח
-  @Output() filesSelected = new EventEmitter<string[]>(); // Output להעברת שמות הקבצים לקומפוננטה אחרת
-  @Output() contractorCode = this.project.contractingCompanyId
-  @Output() projectCode = this.project.projectId
- 
+  documentName: string =""
+  @Output() filesSelected = new EventEmitter<FileList>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
+  @Output() contractorCodeChanged = new EventEmitter<number>(); // Output להעברת contractorCode
+  @Output() nameDoc = new EventEmitter<string>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
+  @ViewChild(CommentComponent) commentComponent!: CommentComponent; // קישור לקומפוננטת הבן
+  public labelText: string = 'קובץ חוזה בפיתוח';
+
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private cd: ChangeDetectorRef, 
+    private cd: ChangeDetectorRef,
     private projectService: ProjectService,
     private commentService: CommentService,
-    private bankService: BankService
-  ) { }
+    private bankService: BankService,
+    private fileService: FilesService
+  ) {}
 
   ngOnInit() {
-    this.getAllBanks()
+    this.getAllBanks();
     this.getBanks();
-    this.getLandOwnerShip()
+    this.getLandOwnerShip();
     this.getIdBank();
-    this.getIdLandOwnerShip()
-    
-      this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
-      
-      if (this.flagAddGet === 'false') {
-        this.projectName = String(this.route.snapshot.paramMap.get('name'));
-        this.IsGetFirst = false;
-        this.IsGetSecond = true;
-        this.getProject()
-      }
-      this.companyId = Number(this.route.snapshot.paramMap.get('id'));
-      console.log("companyId",this.companyId);
+    this.getIdLandOwnerShip();
+
+    this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
+
+    if (this.flagAddGet === 'false') {
+      this.projectName = String(this.route.snapshot.paramMap.get('name'));
+      this.IsGetFirst = false;
+      this.IsGetSecond = true;
+      this.getProject();
+    } else {
       this.IsGetFirst = true;
       this.IsGetSecond = false;
-    
-    this.getAllBanks()
-    this.getCompanyName()
-    this.getBanks();
-    this.getLandOwnerShip()
-    this.getIdBank();
-    this.getIdLandOwnerShip()
+    }
+
+    this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('companyId', this.companyId);
+
+    this.getCompanyName();
+   // this.GetContractor(this.comNamesString ?? '');
 
     if (this.isEdit) {
       this.updateProjectDatesForDisplay();
@@ -190,13 +193,39 @@ export class ProjectComponent implements OnInit {
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      const selectedFileNames = Array.from(input.files).map(file => file.name);
-      this.selectedFileNames = [...selectedFileNames];
+      // שמירת רשימת הקבצים בפועל
+      this.selectedFiles = input.files;
+
+      // שמירת שמות הקבצים
+      this.selectedFileNames = Array.from(input.files).map(file => file.name);
+
       console.log('Selected files in parent:', this.selectedFileNames);
-     // this.contractorCode = this.contractorId
-      this.filesSelected.emit(this.selectedFileNames);
+
+      console.log("contractor id",this.contractorId);
+      
+      // שידור קוד הקבלן
+      this.contractorCodeChanged.emit(this.contractorId);
+      this.nameDoc.emit(this.documentName);
+      // שידור רשימת הקבצים לקומפוננטת הבת
+      // this.filesSelected.emit(this.selectedFiles);
     }
   }
+
+  getLabelText(labelForId: string): string {
+    const labelElement = document.querySelector(`label[for='${labelForId}']`);
+    return labelElement ? labelElement.textContent?.replace(':', '').trim() || '' : '';
+  }
+  // onFilesSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files) {
+  //     const selectedFileNames = Array.from(input.files).map(file => file.name);
+  //     this.selectedFileNames = [...selectedFileNames];
+  //     console.log('Selected files in parent:', this.selectedFileNames);
+  //   //  this.contractorCode = this.contractorId ?? 0; // השתמש ב-0 כברירת מחדל אם contractorId הוא undefined
+  //     this.contractorCodeChanged.emit(this.contractorId); // שידור contractorCode
+  //     this.filesSelected.emit(this.selectedFileNames);
+  //   }
+  // }
 
   toggleAdditionalFields() {
     this.showAdditionalFields = !this.showAdditionalFields;
@@ -413,6 +442,7 @@ export class ProjectComponent implements OnInit {
       this.comNames = comNames;
       console.log('Company name:', comNames);
       this.comNamesString = this.comNames.contractorName;
+      this.contractorId = this.comNames.contractorId
       console.log('comNamesString name:', this.comNames.contractorName);
     });
   }
@@ -472,6 +502,7 @@ async update1() {
       next: data => {
         console.log("Data received:", data);
         this.cleanFile();
+        
       },
       error: err => {
         console.error("Error occurred:", err);
@@ -495,7 +526,7 @@ async update1() {
       this.projectService.Update(this.project.projectId, this.project).subscribe({
         next: data => {
           console.log("Data received:", data);
-         // this.cleanFile();
+        ///  this.commentComponent.updateComment(data.projectId)
           this.IsGetFirst = false;
           this.IsGetSecond = true;
           this.getProject()
@@ -528,7 +559,11 @@ async update1() {
       next: data => {
         console.log("Data received:", data);
        // this.cleanFile();
-        this.updateComment(data.projectId);
+       debugger;
+       this.commentComponent.updateComment(data.projectId)
+        // this.updateComment(data.projectId);
+        
+
         this.IsGetFirst = false;
         this.IsGetSecond = true;
         this.getProject()
@@ -584,29 +619,30 @@ async update1() {
   }
   }
 
-  async updateComment(idOfProj: number){
-    for (let i = 0; i < this.commentsList.length; i++) {
-      if(this.comment.commentText !=""){
-      this.commentsList[i].objectId = idOfProj
+  // async updateComment(idOfProj: number){
+    
+  //   for (let i = 0; i < this.commentsList.length; i++) {
+  //     if(this.comment.commentText !=""){
+  //     this.commentsList[i].objectId = idOfProj
 
-      const id = this.commentsList[i].id ?? '0'; 
-      const idComment = BigInt(id);
-      console.log("idComment",idComment);
-      console.log("this.commentsList[i]",this.commentsList[i]);
+  //     const id = this.commentsList[i].id ?? '0'; 
+  //     const idComment = BigInt(id);
+  //     console.log("idComment",idComment);
+  //     console.log("this.commentsList[i]",this.commentsList[i]);
       
       
-      // השתמשי ב-UpdateComment עם idComment
-      this.commentService.UpdateComment(idComment, this.commentsList[i]).subscribe(
-        data => {
-          console.log('Comment updated:', data);
-        },
-        error => {
-          console.error('Error updating comment', error);
-        }
-      );
-    }
-  }
-  }
+  //     // השתמשי ב-UpdateComment עם idComment
+  //     this.commentService.UpdateComment(idComment, this.commentsList[i]).subscribe(
+  //       data => {
+  //         console.log('Comment updated:', data);
+  //       },
+  //       error => {
+  //         console.error('Error updating comment', error);
+  //       }
+  //     );
+  //   }
+  // }
+  // }
 
   deleteCommentFromList(idComment: bigint) {
     for (let i = 0; i < this.commentsList.length; i++) {
