@@ -1,7 +1,9 @@
 <div *ngIf="contractor" class="contractors-container">
+  
     <ng-template pTemplate="header">
       <span class="header-title">{{ contractor.contractorName }} קבלן</span>
     </ng-template>
+
     <div *ngIf="!editMode">
       <div class="p-grid">
         <div class="p-col-12 p-md-6 contractor-detail">
@@ -60,9 +62,11 @@
           <div class="icon-box">
             <i class="pi pi-align-justify"></i>
           </div>
-          <button class="contractor-button" (click)="projectList()"> רשימת פרויקטים</button>
+          <button class="contractor-button" (click)="projectList()">רשימת פרויקטים</button>
           <div *ngIf="flagList">
-            <option *ngFor="let p of ProjectsActive" [value]="p.projectName">{{ p.projectName }}</option>
+            <select (change)="onProjectSelect($event)">
+              <option *ngFor="let p of ProjectsActive" [value]="p.projectName">{{ p.projectName }}</option>
+            </select>
           </div>
         </div>
 
@@ -71,8 +75,10 @@
             <i class="pi pi-align-justify"></i>
           </div>
           <button class="contractor-button" (click)="projectDelete()"> פרויקטים שנמחקו</button>
-          <div *ngIf="flagListDelete">
-            <option *ngFor="let p of  ProjectsDelete" [value]="p.projectName">{{ p.projectName }}</option>
+          <div *ngIf="flagListDelete"> 
+            <select [(ngModel)]="chosedProject" (change)="onProjectChange()" class="w-full">
+              <option *ngFor="let p of  ProjectsDelete" [value]="p.projectName">{{ p.projectName }}</option>
+            </select>
           </div>
         </div>
 
