@@ -1,39 +1,40 @@
-<div *ngIf="tenant" class="contractors-container">
-    <div  class="contractor-box">
-        <div class="icon-box">
-            <i class="pi pi-pencil"></i>
-        </div>
-        <button pButton type="button" label="עריכת דיירים " class="contractor-search" (click)="edit()">עריכת דיירים</button>
-    </div>  
-    <ng-template pTemplate="header">
-      <!-- <span class="header-title">{{ contractor.contractorName }} פרויקט<{{ contractor.contractorName }} בנין<{{ contractor.contractorName }} דירה</span> -->
-    </ng-template>
-    <!-- <div *ngIf="!editMode"> -->
-    <div class="p-grid"> 
+<div *ngIf="tenant && tenant.length > 0" class="contractors-container">
+    <div *ngFor="let t of tenant; trackBy: trackByTenantId" class="contractor-box">
+      <!-- <div class="icon-box">
+        <i class="pi pi-pencil"></i>
+      </div> -->
+  
+      <div class="p-grid">
         <div class="p-col-12 p-md-6 contractor-detail">
-            <span class="detail-title">:סטטוס</span>
-            <span class="status-box">
-                {{ getTenantStatusString(tenant.tenantStatus) }}
-            </span>
-            <button pButton type="button" label="פרטי בעלים" class="p-button owner-details-button" (click)="showOwnerDetails()">פרטי בעלים</button>
+          <span class="detail-title">:סטטוס</span>
+          <span class="status-box">
+            {{ getTenantStatusString(t.tenantStatus) }}
+          </span>
         </div>
-        <div class="p-col-12 p-md-6 contractor-detail" *ngIf="Message" style="color: red;">הזכויות אינן שוות ל100%</div>
+        <div class="p-col-12 p-md-6 contractor-detail" *ngIf="Message" style="color: red;">הזכויות אינן שוות ל-100%</div>
+  
+        <div class="p-col-12 p-md-6 contractor-detail">
+          <span class="detail-title">שם:</span>
+          <span class="detail-content">{{ t.firstName }}</span>
+          <span class="detail-title">משפחה:</span>
+          <span class="detail-content">{{ t.lastName }}</span>
+        </div>
+        <div class="p-col-12 p-md-6 contractor-detail">
 
-        <div class="p-col-12 p-md-6 contractor-detail">
-            <span class="detail-title">שם:</span> 
-            <span class="detail-content">{{ tenant.firstName }}</span>
-            <span class="detail-title">משפחה:</span> 
-            <span class="detail-content">{{ tenant.lastName }}</span>
-            <span class="detail-title">סוג תעודה:</span>
-            <span class="detail-content">{{ getIdentityTypeString(tenant.identityType) }}</span>
-            <span class="detail-title">מספר ת.ז./דרכון/מ.ר.:</span>
-            <span class="detail-content">{{ tenant.tenantIdentity }}</span>
+          <span class="detail-title">סוג תעודה:</span>
+          <span class="detail-content">{{ getIdentityTypeString(t.identityType) }}</span>
+          <span class="detail-title">מספר ת.ז./דרכון/מ.ר.:</span>
+          <span class="detail-content">{{ t.tenantIdentity }}</span>
         </div>
         <div class="p-col-12 p-md-6 contractor-detail">
-            <span class="detail-title">חלק בנכס:</span>
-            <span class="detail-content">{{ partAsset }}</span>
+          <span class="detail-title">חלק בנכס:</span>
+          <span class="detail-content">{{ t.partAsset }}</span>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
-
+  <div *ngIf="(!tenant || tenant.length === 0)" class="no-tenants">
+    אין דיירים להצגה עבור דירה זו.
+  </div>
+  

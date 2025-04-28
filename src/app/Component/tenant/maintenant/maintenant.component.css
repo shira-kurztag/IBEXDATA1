@@ -1,215 +1,45 @@
 body {
-    background-color: #F8F7EB;
-    direction: rtl; /* Set the direction to right-to-left */
-    font-family: Arial;
-
-}
-
-.contractor-detail {
-    background: #e8f6f6;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row-reverse; /* Ensure the text starts from the right */
-    align-items: center;
-    justify-content: flex-start; /* Ensure the text starts from the right */
-    margin-left: 20%; /* Adjust margin to align properly */
-    margin-right: 25%; /* Adjust margin to align properly */
-    text-align: right; /* Ensure text starts from the right */
-}
-
-.contractor-detail-edit {
-    background:#e8f6f6; 
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: row-reverse; /* Ensure the text starts from the right */
-    align-items: center;
-    justify-content: flex-start; /* Ensure the text starts from the right */
-    margin-left: 20%; /* Adjust margin to align properly */
-    margin-right: 25%; /* Adjust margin to align properly */
-    text-align: right; /* Ensure text starts from the right */
-}
-
-.edit-input {
-    border: 1px solid #0aa3a1;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100%; /* Set input width to 100% to match the container */
-    box-sizing: border-box; /* Ensure padding is included in the total width */
-}
-
-.detail-title {
-    line-height: 53px;
-    font-weight: bold;
-    color: #0aa3a1;
-    margin-left: 5px; /* Ensure proper spacing for RTL */
-}
-
-.detail-content {
-    color: #000;
-    line-height: 53px;
-    display: inline-block;
-    margin-left: 5px; /* Ensure proper spacing for RTL */
-}
-
-.status-box {
-    background-color: #5cb85c;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-left: 10px; /* Ensure proper spacing for RTL */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px; /* Ensure consistent height */
-    font-size: 14px; /* Ensure consistent font size */
-}
-
-.owner-details-button {
-    background-color: #0aa3a1 !important;
-    color: white !important;
-    border: none !important;
-    padding: 10px 15px !important;
-    border-radius: 5px !important;
-    margin-left: 10px !important; /* Ensure proper spacing for RTL */
-    cursor: pointer !important;
-    height: 40px !important; /* Ensure consistent height */
-    font-size: 14px !important; /* Ensure consistent font size */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.owner-details-button:hover {
-    background-color: #086f73 !important;
-}
-
-h3 {
-    color: #0aa3a1;
-    font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
-    font-size: 27px;
-}
-
-.header-title {
-    color: #0aa3a1;
-    font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
-    text-align: right;
-    width: 100%;
-    display: block;
-    font-size: 27px;
-}
-
-.contractor-box-container {
-    position: absolute;
-    right: 5%; /* Adjust the right margin to start a few centimeters from the right */
-    top: 10%; /* Adjust the top margin to raise the box by a few centimeters */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 70%; /* Adjust the width if needed */
-}
-
-.contractor-box {
-    display: flex;
-    align-items: center;
-    background-color: #0aa3a1;
-    padding: 0;
-    border-radius: 5px;
-    width: 15%;
-    height: 50px;
-}
-
-.icon-box {
-    width: 50px;
-    height: 100%;
-    background-color: #1f4b4b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px 0 0 5px;
-}
-
-.icon-box i {
-    color: white;
-    font-size: 1.5em;
-}
-
-.contractor-button, .contractor-search {
-    border: none;
-    background: none;
-    color: white;
-    padding: 10px;
-    text-align: left;
-    cursor: pointer;
-    font-size: 1em;
-}
-.contractor-search {
-    width: 50%; /* Set width to 50% */
-}
-.contractor-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-p-panel {
-    margin-top: 20px;
-}
-
-.flex {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.dropdown-container {
-    width: 50%; /* Set width to 50% of the screen */
-    display: flex;
-    justify-content: center;
-}
-
-p-select {
-    width: 100%;
-}
-.contractors-container{
-    display: flex;
-    flex-direction: column;
-
-}
-.contractor-box {
-    
-    background-color: #0aa3a1;
-    padding: 0;
-    border-radius: 5px;
-   
-   
+    background-color: #f8f7eb;
+    direction: rtl;
+    font-family: Arial, sans-serif;
   }
-
-
-
-  .contractor-box {
-    position: absolute;
-    left: 15%;
-    top: 20%;
+  
+  .content-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    background-color: #0aa3a1;
-    padding: 0;
-    border-radius: 5px;
-    width: 10%;
-    height: 50px;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .contractors-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px; /* רוחב מקסימלי */
+  }
+  
+  .contractor-box {
+    display: flex;
+    flex-direction: column;
+    background-color: #e8f6f6;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .icon-box {
     width: 50px;
-    height: 100%;
+    height: 50px;
     background-color: #1f4b4b;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px 0 0 5px;
+    border-radius: 50%;
+    margin-bottom: 10px;
   }
   
   .icon-box i {
@@ -217,3 +47,51 @@ p-select {
     font-size: 1.5em;
   }
   
+  .contractor-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .contractor-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+  }
+  
+  .detail-title {
+    font-weight: bold;
+    color: #0aa3a1;
+  }
+  
+  .detail-content {
+    color: #333;
+  }
+  
+  .owner-details-button {
+    margin-top: 10px;
+    background-color: #0aa3a1;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .owner-details-button:hover {
+    background-color: #086f73;
+  }
+  
+  .no-tenants {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    font-size: 16px;
+  }
