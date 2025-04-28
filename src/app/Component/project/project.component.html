@@ -773,70 +773,30 @@
 
 
   </div>
+  <div *ngIf="buildings && buildings.length > 0">
+    <ul>
+      <li *ngFor="let building of buildings">
+        <!-- {{ building.buildingId }}  -->
+      </li>
+    </ul>
+  </div>
 
+  <!-- הודעה כאשר הרשימה ריקה -->
+  <div *ngIf="buildings && buildings.length === 0">
+    אין בניינים להצגה.
+  </div>
+</div>
   <div *ngIf="IsGetFirst">
     <h1>Get Project by Name</h1>
     <input [(ngModel)]="projectName" placeholder="Enter project name">
     <button (click)="getProject()">Get Project</button>
   </div>
-
-</div>
-
+<!-- </div> -->
 
 
-
-<!-- <div></div>
-    <h1>Get Project by Name</h1>
-    <input [(ngModel)]="projectName" placeholder="Enter project name">
-    <button (click)="getProject()">Get Project</button> -->
-
-<!-- <div *ngIf="project">
-    <h2>Project Details:</h2>
-    <p>Name: {{ project.projectName }}</p>
-    <p>ID: {{ project.projectId }}</p>
-  </div> -->
-
-
-<!-- <div class="flex-container">
-  <div class="flex-item">
-    <label for="collectionExpensesFrom1" class="block font-bold mb-2">הוצאות גבייה מיום: {{project.collectionExpensesFrom1}}</label>
-  </div>
-  <div class="flex-item">
-    <label for="collectionAmount1" class="block font-bold mb-2">בסכום: {{project.collectionAmount1}}</label>
-  </div>
-</div>
-
-<div class="flex-container">
-  <div class="flex-item">
-    <label for="collectionExpensesFrom2" class="block font-bold mb-2">הוצאות גבייה מיום: {{project.collectionExpensesFrom2}}</label>
-  </div>
-  <div class="flex-item">
-    <label for="collectionAmount2" class="block font-bold mb-2">בסכום: {{project.collectionAmount2}}</label>
-  </div>
-</div>
-
-<div class="flex-container">
-  <div class="flex-item">
-    <label for="collectionExpensesFrom3" class="block font-bold mb-2">הוצאות גבייה מיום: {{project.collectionExpensesFrom3}}</label>
-  </div>
-  <div class="flex-item">
-    <label for="collectionAmount3" class="block font-bold mb-2">בסכום: {{project.collectionAmount3}}</label>
-  </div>
-</div> -->
-
-<!-- <div class="col-span-2">
-  <label for="bloc" class="block font-bold mb-2">גוש: {{project.bloc}}</label>
-</div>
-
-<div class="col-span-2">
-  <label for="smooth" class="block font-bold mb-2">:חלקה {{project.smooth}}</label>
-</div>
-
-<div class="col-span-2">
-  <label for="smothArea" class="block font-bold mb-2">שטח החלקה: {{project.smothArea}}</label>
-</div>
-</div> -->
-
-<!-- <select id="lendingBank" [(ngModel)]="lendingBankName" class="w-full">
-      <option *ngFor="let bank of filteredBanks" [value]="bank.lastNameBank">{{ bank.lastNameBank }}</option>
-    </select> -->
+<!-- <button class="contractor-button" (click)="buildingList()">רשימת בניינים</button>
+          <div *ngIf="flagList">
+            <select (change)="onBuildingSelect($event)">
+              <option *ngFor="let b of BuildingsActive" [value]="b.BuildingId">{{ b.BuildingId}}</option>
+            </select>
+          </div> -->

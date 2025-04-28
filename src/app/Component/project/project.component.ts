@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
@@ -31,6 +31,8 @@ import { Bank } from '../../Models/Bank.model';
 import { BankService } from '../../service/bank.service';
 import { BankNamesDTO } from '../../Models/BankNamesDTO.model';
 import { ActivatedRoute } from '@angular/router';
+import { building } from '../../Models/building';
+import { BuildingService } from '../../service/building.service';
 
 interface Column {
   field: string;
@@ -115,7 +117,12 @@ export class ProjectComponent implements OnInit {
   showAdditionalFields: boolean = false;
   nameBank: string | undefined
   flagAddGet!: string
-
+  srvBuilding: BuildingService = inject(BuildingService);
+  Building: building[] = [];
+  BuildingActive: building[] = [];
+  contractorId2: number=0
+  flagList : boolean= false
+  buildings: building[] = [];
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageService,
@@ -189,7 +196,7 @@ export class ProjectComponent implements OnInit {
          if( this.allBanks[i].bankText == this.lendingBankName)
           this.bankId = this.allBanks[i].bankId 
         console.log("jjh",this.allBanks[i].bankId );
-         console.log("bankid",this.bankId);
+        console.log("bankid",this.bankId);
         
        }
        // this.cd.detectChanges();
@@ -294,36 +301,6 @@ getIdContractor() {
   cleanFile(){
     this.project = new Project() 
   }
-
-  // delete(number : id) {
-  //   this.project.projectStatus = 0;
-
-  //   // קריאה לשירות לעדכון הפרויקט עם ה-ID
-  //   this.projectService.Update(this.projId, this.project).subscribe({
-  //     next: data => {
-  //       console.log("Project status updated:", data);
-  //       this.messageService.add({
-  //         severity: 'success',
-  //         summary: 'הפרויקט עודכן בהצלחה!',
-  //         detail: 'סטטוס הפרויקט שונה למחקה.',
-  //         life: 3000
-  //       });
-  //     },
-  //     error: err => {
-  //       console.error("Error occurred:", err);
-  //       this.messageService.add({
-  //         severity: 'error',
-  //         summary: 'שגיאה',
-  //         detail: 'התרחשה שגיאה בעת עדכון הסטטוס של הפרויקט.',
-  //         life: 3000
-  //       });
-  //     }
-  //   });
-  // }
-
-  
-
-  //update(id: number){
   
   delete(){
   this.degelUp=true;
@@ -440,7 +417,17 @@ getIdContractor() {
 
   }
 
-  getBuildings(){
+  getBuildings():void{
+    
+      this.srvBuilding.GetAll().subscribe({
+        next: (data: building[]) => {
+          this.buildings = data;
+          console.log('Buildings:', this.buildings); // Optional: Log to console
+        },
+        error: (err: any) => {
+          console.error('Error fetching buildings:', err);
+        }
+      });
 
   }
 
@@ -508,657 +495,36 @@ getIdContractor() {
     this.project.isPrepareWarningComment = false;
   }
 
-  // showWarningDialog() {
-  //   if (this.isIf) {
-  //     this.isWarningDialogVisible = true;
-  //   }
-  // }
-
-  // closeWarningDialog() {
-  //   this.isWarningDialogVisible = false;
+  getAllBuilding(){
+    this.srvBuilding.GetBuildingByProject(this.contractorId2).pipe(
+        catchError(error => {
+            console.error('Error fetching Projects:', error);  // הדפס את השגיאה
+            return of([]);  // החזר מערך ריק במקרה של שגיאה
+        })
+    ).subscribe((buildings: building[]) => {
+        console.log('Projects', buildings);
+        this.Building = buildings;
+        for (let i = 0; i < this.Building.length; i++) {
+        if(this.Building[i].BuildingStatus == 1)
+          this.BuildingActive.push(this.Building[i])
+      }
+      console.log('ProjectsActive', this.BuildingActive);
+    });
+  }
+  BuildingList(){
+    this.flagList = !this.flagList
+  }
+  onBuildingSelect(event: Event) {
+    const selectedBuildingName = (event.target as HTMLSelectElement).value;
+    this.getBuildings();
+  }
+  
+  // getBuilding(buildingname: string) {
+  //   this.buildingname = buildingname;
+  //   this.flagBuilding = false;
+  //   this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagProject)]);
   // }
 }
 
-// import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-// import { ConfirmationService, MessageService } from 'primeng/api';
-// import { TableModule } from 'primeng/table';
-// import { DialogModule } from 'primeng/dialog';
-// import { RippleModule } from 'primeng/ripple';
-// import { ButtonModule } from 'primeng/button';
-// import { ToastModule } from 'primeng/toast';
-// import { ToolbarModule } from 'primeng/toolbar';
-// import { ConfirmDialogModule } from 'primeng/confirmdialog';
-// import { InputTextModule } from 'primeng/inputtext';
-// import { TextareaModule } from 'primeng/textarea';
-// import { CommonModule } from '@angular/common';
-// import { FileUploadModule } from 'primeng/fileupload';
-// import { SelectButtonModule } from 'primeng/selectbutton';
-// import { TagModule } from 'primeng/tag';
-// import { RadioButtonModule } from 'primeng/radiobutton';
-// import { RatingModule } from 'primeng/rating';
-// import { FormsModule } from '@angular/forms';
-// import { InputNumberModule } from 'primeng/inputnumber';
-// import { CalendarModule } from 'primeng/calendar';
-// import { CheckboxModule } from 'primeng/checkbox';
-// import { Table } from 'primeng/table';
-// import { Project } from '../../Models/Project.model';
-// import { ProjectService } from '../../service/project.service';
-// import { ProjectDTO } from '../../Models/ProjectDTO.model';
-// import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-// import { ProjectCreateDTO } from '../../Models/ProjectCreateDTO.model';
-
-// interface Column {
-//   field: string;
-//   header: string;
-//   customExportHeader?: string;
-// }
-
-// interface ExportColumn {
-//   title: string;
-//   dataKey: string;
-// }
-
-// @Component({
-//   selector: 'app-project-component',
-//   templateUrl: './project.component.html',
-//   standalone: true,
-//   imports: [
-//     CommonModule,
-//     FormsModule,
-//     DialogModule,
-//     RippleModule,
-//     ButtonModule,
-//     ToastModule,
-//     ToolbarModule,
-//     ConfirmDialogModule,
-//     InputTextModule,
-//     TextareaModule,
-//     FileUploadModule,
-//     SelectButtonModule,
-//     TagModule,
-//     RadioButtonModule,
-//     RatingModule,
-//     InputNumberModule,
-//     TableModule,
-//     CalendarModule,
-//     CheckboxModule,
-//     HttpClientModule
-//   ],
-//   providers: [MessageService, ConfirmationService],
-//   styles: [
-//     `:host ::ng-deep .p-dialog .product-image {
-//       width: 150px;
-//       margin: 0 auto 2rem auto;
-//       display: block;
-//     }`
-//   ],
-//   styleUrls: ['./project.component.css']
-// })
-// export class ProjectComponent implements OnInit {
-//   productDialog: boolean = false;
-//   submitted: boolean = false;
-//   statuses!: any[];
-//   @ViewChild('dt') dt!: Table;
-//   isWarningDialogVisible: boolean = false;
-//   isIf: boolean = true; // או false בהתאם ללוגיקה שלך
-
-//   cols!: Column[];
-//   exportColumns!: ExportColumn[];
-
-//   // project: ProjectCreateDTO = new ProjectCreateDTO();
-//   project: Project = new Project();
-
-//   constructor(
-//     private messageService: MessageService,
-//     private confirmationService: ConfirmationService,
-//     private cd: ChangeDetectorRef, private projectService: ProjectService
-//   ) { }
-
-//   ngOnInit() {}
-
-//   private formatDate(date: any): string {
-//     if (!date) return ''; // בדיקה אם התאריך אינו תקף
-//     if (typeof date === 'string') {
-//       date = new Date(date.split('-').reverse().join('-'));
-//     }
-//     if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
-//     return date.toISOString().split('T')[0];
-//   }
-
-//   private updateProjectDates() {
-//     this.project.dateWinningTender = this.formatDate(this.project.dateWinningTender);
-//     this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDate);
-//     this.project.collectionExpensesFrom1 = this.formatDate(this.project.collectionExpensesFrom1);
-//     this.project.collectionExpensesFrom2 = this.formatDate(this.project.collectionExpensesFrom2);
-//     this.project.collectionExpensesFrom3 = this.formatDate(this.project.collectionExpensesFrom3);
-//     this.project.insertDate = this.formatDate(new Date());
-//     this.project.updateDate = this.formatDate(new Date());
-//     this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDate);
-//   }
-
-//   addProject() {
-//     this.updateProjectDates();
-//     console.log(this.project);
-
-//     this.projectService.add(this.project).subscribe({
-//       next: data => {
-//         console.log("Data received:", data);
-//         this.messageService.add({
-//           severity: 'success',
-//           summary: 'הפרויקט נשמר בהצלחה!',
-//           detail: 'הפרויקט נוסף למערכת.',
-//           life: 3000
-//         });
-//       },
-//       error: err => {
-//         console.error("Error occurred:", err);
-//         this.messageService.add({
-//           severity: 'error',
-//           summary: 'שגיאה',
-//           detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
-//           life: 3000
-//         });
-//       }
-//     });
-//   }
-
-//   exportCSV() {
-//     this.dt.exportCSV();
-//   }
-
-//   // openNew() {
-//   //   this.project = new ProjectDTO();
-//   //   this.addProject();
-//   //   this.submitted = false;
-//   //   this.productDialog = true;
-//   // }
-
-//   hideDialog() {
-//     this.productDialog = true;
-//     this.submitted = true;
-//   }
-
-//   saveProduct() {
-//     this.submitted = true;
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Updated',
-//       life: 3000
-//     });
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Created',
-//       life: 3000
-//     });
-//   }
-
-//   showWarningDialog() {
-//     if (this.isIf) {
-//       this.isWarningDialogVisible = true;
-//     }
-//   }
-
-//   closeWarningDialog() {
-//     this.isWarningDialogVisible = false;
-//   }
-// }
-
-// import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-// import { ConfirmationService, MessageService } from 'primeng/api';
-// import { TableModule } from 'primeng/table';
-// import { DialogModule } from 'primeng/dialog';
-// import { RippleModule } from 'primeng/ripple';
-// import { ButtonModule } from 'primeng/button';
-// import { ToastModule } from 'primeng/toast';
-// import { ToolbarModule } from 'primeng/toolbar';
-// import { ConfirmDialogModule } from 'primeng/confirmdialog';
-// import { InputTextModule } from 'primeng/inputtext';
-// import { TextareaModule } from 'primeng/textarea';
-// import { CommonModule } from '@angular/common';
-// import { FileUploadModule } from 'primeng/fileupload';
-// import { SelectButtonModule } from 'primeng/selectbutton';
-// import { TagModule } from 'primeng/tag';
-// import { RadioButtonModule } from 'primeng/radiobutton';
-// import { RatingModule } from 'primeng/rating';
-// import { FormsModule } from '@angular/forms';
-// import { InputNumberModule } from 'primeng/inputnumber';
-// import { CalendarModule } from 'primeng/calendar';
-// import { CheckboxModule } from 'primeng/checkbox';
-// import { Table } from 'primeng/table';
-// import { Project } from '../../Models/Project.model';
-// import { ProjectService } from '../../service/project.service';
-// import { ProjectDTO } from '../../Models/ProjectDTO.model';
-// import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-// import { ProjectCreateDTO } from '../../Models/ProjectCreateDTO.model';
-
-
-// interface Column {
-//   field: string;
-//   header: string;
-//   customExportHeader?: string;
-// }
-
-// interface ExportColumn {
-//   title: string;
-//   dataKey: string;
-// }
-
-
-// @Component({
-//   selector: 'app-project-component',
-//   templateUrl: './project.component.html',
-//   standalone: true,
-//   imports: [
-//     CommonModule,
-//     FormsModule,
-//     DialogModule,
-//     RippleModule,
-//     ButtonModule,
-//     ToastModule,
-//     ToolbarModule,
-//     ConfirmDialogModule,
-//     InputTextModule,
-//     TextareaModule,
-//     FileUploadModule,
-//     SelectButtonModule,
-//     TagModule,
-//     RadioButtonModule,
-//     RatingModule,
-//     InputNumberModule,
-//     TableModule,
-//     CalendarModule,
-//     CheckboxModule,
-//     HttpClientModule
-//   ],
-//   providers: [MessageService, ConfirmationService],
-//   styles: [
-//     `:host ::ng-deep .p-dialog .product-image {
-//       width: 150px;
-//       margin: 0 auto 2rem auto;
-//       display: block;
-//     }`
-//   ],
-//   styleUrls: ['./project.component.css']
-// })
-// export class ProjectComponent implements OnInit {
-//   productDialog: boolean = false;
-//   submitted: boolean = false;
-//   statuses!: any[];
-//   @ViewChild('dt') dt!: Table;
-//   isWarningDialogVisible: boolean = false;
-//   isIf: boolean = true; // או false בהתאם ללוגיקה שלך
-
-//   cols!: Column[];
-//   exportColumns!: ExportColumn[];
-
-//   // project: ProjectCreateDTO = new ProjectCreateDTO();
-//   project: Project = new Project();
-
-//   constructor(
-//     private messageService: MessageService,
-//     private confirmationService: ConfirmationService,
-//     private cd: ChangeDetectorRef, private projectService: ProjectService
-//   ) { }
-
-//   ngOnInit() {
-   
-//   }
-  
-//   private formatDate(date: Date): string {
-//     return date.toISOString().split('T')[0];
-//   }
-
-//   private updateProjectDates() {
-//     this.project.dateWinningTender = this.formatDate(new Date(this.project.dateWinningTender));
-//     this.project.developmentPeriodEndDate = this.formatDate(new Date(this.project.developmentPeriodEndDate));
-//     this.project.collectionExpensesFrom1 = this.formatDate(new Date(this.project.collectionExpensesFrom1));
-//     this.project.collectionExpensesFrom2 = this.formatDate(new Date(this.project.collectionExpensesFrom2));
-//     this.project.collectionExpensesFrom3 = this.formatDate(new Date(this.project.collectionExpensesFrom3));
-//     this.project.insertDate = this.formatDate(new Date());
-//     this.project.updateDate = this.formatDate(new Date());
-//     this.project.hachiraContractEndDate = this.formatDate(new Date(this.project.hachiraContractEndDate));
-//   }
-
-//   addProject() {
-//     this.updateProjectDates();
-//     console.log(this.project);
-
-//     this.projectService.add(this.project).subscribe({
-//       next: data => {
-//         console.log("Data received:", data);
-//         this.messageService.add({
-//           severity: 'success',
-//           summary: 'הפרויקט נשמר בהצלחה!',
-//           detail: 'הפרויקט נוסף למערכת.',
-//           life: 3000
-//         });
-//       },
-//       error: err => {
-//         console.error("Error occurred:", err);
-//         this.messageService.add({
-//           severity: 'error',
-//           summary: 'שגיאה',
-//           detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
-//           life: 3000
-//         });
-//       }
-//     });
-//   }
-
-//   // addProject() {
-//   //   this.project.insertDate = new Date();
-//   //   console.log(this.project);
-    
-
-//   //   this.projectService.add(this.project).subscribe({
-//   //     next: data => {
-//   //       console.log("Data received:", data);
-//   //       this.messageService.add({
-//   //         severity: 'success',
-//   //         summary: 'הפרויקט נשמר בהצלחה!',
-//   //         detail: 'הפרויקט נוסף למערכת.',
-//   //         life: 3000
-//   //       });
-//   //     },
-//   //     error: err => {
-//   //       console.error("Error occurred:", err);
-//   //       this.messageService.add({
-//   //         severity: 'error',
-//   //         summary: 'שגיאה',
-//   //         detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
-//   //         life: 3000
-//   //       });
-//   //     }
-//   //   });
-//   // }
-
-//   exportCSV() {
-//     this.dt.exportCSV();
-//   }
-
-//   // openNew() {
-//   //   this.project = new ProjectDTO();
-//   //   this.addProject();
-//   //   this.submitted = false;
-//   //   this.productDialog = true;
-//   // }
-
-//   hideDialog() {
-//     this.productDialog = true;
-//     this.submitted = true;
-//   }
-
-//   saveProduct() {
-//     this.submitted = true;
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Updated',
-//       life: 3000
-//     });
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Created',
-//       life: 3000
-//     });
-//   }
-
-
-//   showWarningDialog() {
-//     if (this.isIf) {
-//       this.isWarningDialogVisible = true;
-//     }
-//   }
-
-//   closeWarningDialog() {
-//     this.isWarningDialogVisible = false;
-//   }
-
-// }
-
-//part 2
-
-// @Component({
-//   selector: 'app-project-component',
-//   templateUrl: './project.component.html',
-//   standalone: true,
-//   providers: [MessageService, ConfirmationService],
-//   styleUrls: ['./project.component.css']
-// })
-// export class ProjectComponent implements OnInit {
-//   productDialog: boolean = false;
-//   submitted: boolean = false;
-//   statuses!: any[];
-//   @ViewChild('dt') dt!: Table;
-//   isWarningDialogVisible: boolean = false;
-//   isIf: boolean = true;
-
-//   cols!: Column[];
-//   exportColumns!: ExportColumn[];
-
-//   project: Project = new Project();
-
-//   constructor(
-//     private messageService: MessageService,
-//     private confirmationService: ConfirmationService,
-//     private projectService: ProjectService
-//   ) {}
-
-//   ngOnInit() {}
-
-//   private formatDate(date: Date): string {
-//     return date.toISOString().split('T')[0];
-//   }
-
-//   private updateProjectDates() {
-//     this.project.dateWinningTender = this.formatDate(new Date(this.project.dateWinningTender));
-//     this.project.developmentPeriodEndDate = this.formatDate(new Date(this.project.developmentPeriodEndDate));
-//     this.project.collectionExpensesFrom1 = this.formatDate(new Date(this.project.collectionExpensesFrom1));
-//     this.project.collectionExpensesFrom2 = this.formatDate(new Date(this.project.collectionExpensesFrom2));
-//     this.project.collectionExpensesFrom3 = this.formatDate(new Date(this.project.collectionExpensesFrom3));
-//     this.project.insertDate = this.formatDate(new Date());
-//     this.project.updateDate = this.formatDate(new Date());
-//     this.project.hachiraContractEndDate = this.formatDate(new Date(this.project.hachiraContractEndDate));
-//   }
-
-//   addProject() {
-//     this.updateProjectDates();
-//     console.log(this.project);
-
-//     this.projectService.add(this.project).subscribe({
-//       next: data => {
-//         console.log("Data received:", data);
-//         this.messageService.add({
-//           severity: 'success',
-//           summary: 'הפרויקט נשמר בהצלחה!',
-//           detail: 'הפרויקט נוסף למערכת.',
-//           life: 3000
-//         });
-//       },
-//       error: err => {
-//         console.error("Error occurred:", err);
-//         this.messageService.add({
-//           severity: 'error',
-//           summary: 'שגיאה',
-//           detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
-//           life: 3000
-//         });
-//       }
-//     });
-//   }
-
-//   exportCSV() {
-//     this.dt.exportCSV();
-//   }
-
-//   hideDialog() {
-//     this.productDialog = true;
-//     this.submitted = true;
-//   }
-
-//   saveProduct() {
-//     this.submitted = true;
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Updated',
-//       life: 3000
-//     });
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Created',
-//       life: 3000
-//     });
-//   }
-
-//   showWarningDialog() {
-//     if (this.isIf) {
-//       this.isWarningDialogVisible = true;
-//     }
-//   }
-
-//   closeWarningDialog() {
-//     this.isWarningDialogVisible = false;
-//   }
-// }
-
-
-// @Component({
-//   selector: 'app-project-component',
-//   templateUrl: './project.component.html',
-//   standalone: true,
-//   imports: [
-//     CommonModule,
-//     FormsModule,
-//     DialogModule,
-//     RippleModule,
-//     ButtonModule,
-//     ToastModule,
-//     ToolbarModule,
-//     ConfirmDialogModule,
-//     InputTextModule,
-//     TextareaModule,
-//     FileUploadModule,
-//     SelectButtonModule,
-//     TagModule,
-//     RadioButtonModule,
-//     RatingModule,
-//     InputNumberModule,
-//     TableModule,
-//     CalendarModule,
-//     CheckboxModule,
-//     HttpClientModule
-//   ],
-//   providers: [MessageService, ConfirmationService],
-//   styles: [
-//     `:host ::ng-deep .p-dialog .product-image {
-//       width: 150px;
-//       margin: 0 auto 2rem auto;
-//       display: block;
-//     }`
-//   ],
-//   styleUrls: ['./project.component.css']
-// })
-// export class ProjectComponent implements OnInit {
-//   productDialog: boolean = false;
-//   submitted: boolean = false;
-//   statuses!: any[];
-//   @ViewChild('dt') dt!: Table;
-//   isWarningDialogVisible: boolean = false;
-//   isIf: boolean = true; // או false בהתאם ללוגיקה שלך
-
-//   cols!: Column[];
-//   exportColumns!: ExportColumn[];
-
-//   // project: ProjectCreateDTO = new ProjectCreateDTO();
-//   project: Project = new Project();
-
-//   constructor(
-//     private messageService: MessageService,
-//     private confirmationService: ConfirmationService,
-//     private cd: ChangeDetectorRef, private projectService: ProjectService
-//   ) { }
-
-//   ngOnInit() {
-   
-//   }
-
-//   //
-
-//   addProject() {
-//     this.project.insertDate = new Date();
-//     console.log(this.project);
-    
-
-//     this.projectService.add(this.project).subscribe({
-//       next: data => {
-//         console.log("Data received:", data);
-//         this.messageService.add({
-//           severity: 'success',
-//           summary: 'הפרויקט נשמר בהצלחה!',
-//           detail: 'הפרויקט נוסף למערכת.',
-//           life: 3000
-//         });
-//       },
-//       error: err => {
-//         console.error("Error occurred:", err);
-//         this.messageService.add({
-//           severity: 'error',
-//           summary: 'שגיאה',
-//           detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
-//           life: 3000
-//         });
-//       }
-//     });
-//   }
-
-//   exportCSV() {
-//     this.dt.exportCSV();
-//   }
-
-//   // openNew() {
-//   //   this.project = new ProjectDTO();
-//   //   this.addProject();
-//   //   this.submitted = false;
-//   //   this.productDialog = true;
-//   // }
-
-//   hideDialog() {
-//     this.productDialog = true;
-//     this.submitted = true;
-//   }
-
-//   saveProduct() {
-//     this.submitted = true;
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Updated',
-//       life: 3000
-//     });
-//     this.messageService.add({
-//       severity: 'success',
-//       summary: 'Successful',
-//       detail: 'Product Created',
-//       life: 3000
-//     });
-//   }
-
-
-//   showWarningDialog() {
-//     if (this.isIf) {
-//       this.isWarningDialogVisible = true;
-//     }
-//   }
-
-//   closeWarningDialog() {
-//     this.isWarningDialogVisible = false;
-//   }
-
-// }
 
 
