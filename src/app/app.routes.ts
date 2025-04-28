@@ -10,7 +10,7 @@ import { AddContractorComponent } from "./Component/contractor_/addcontractor/ad
 import { MortagegeComponent } from "./Component/mortagege/mortagege.component";
 import { AddTenantComponent } from "./Component/tenant/addtenant/addtenant.component";
 import { MainTenantComponent } from "./Component/tenant/maintenant/maintenant.component";
-
+import { AddingApartmentComponent } from "./Component/adding-apartment/adding-apartment.component";
 
 
 export const routes: Routes = [
@@ -25,12 +25,10 @@ export const routes: Routes = [
     { path:'listcontractor', component:ListContractorsComponent},
     { path:'contractor/:id', component:MaincontractorComponent},
     { path:'AddContractors', component:AddContractorComponent},
-    { path: 'mortagege', component: MortagegeComponent }
-   
-];
-
-
- // { path: 'contractor', component: ContractorComponent, children:[
+    { path: 'mortagege', component: MortagegeComponent },
+    { path: 'AddingApartmentComponent', component: AddingApartmentComponent }
+ 
+    // { path: 'contractor', component: ContractorComponent, children:[
     //    // {path:'', redirectTo: 'list', pathMatch:'full'},
     //     {path:'listcontractor', component:ListContractorsComponent},
     //     {path:'contractor/:id', component:MaincontractorComponent},

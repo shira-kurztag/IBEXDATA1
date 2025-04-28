@@ -94,17 +94,57 @@
           <label for="dateWinningTender" class="block font-bold">תאריך זכיה במכרז: </label>
           <p-calendar id="dateWinningTender" [(ngModel)]="project.dateWinningTender" dateFormat="dd/mm/yy"></p-calendar>
         </div>
-       
+        
         <div class="col-span-2">
           <label for="isContractDevelopment" class="block font-bold">האם יש חוזה בפיתוח? </label>
           <input type="checkbox" id="isContractDevelopment" [(ngModel)]="project.isContractDevelopment" class="custom-checkbox" />
         </div>
-       
         <div class="col-span-2" *ngIf="project.isContractDevelopment">
           <label for="contractDevelopmentFile" class="block font-bold">קובץ חוזה בפיתוח: </label>
-          <input type="file" id="contractDevelopmentFile" [(ngModel)]="project.contractDevelopmentFile" class="w-full" />
+          <input type="file" id="contractDevelopmentFile" (change)="onFilesSelected($event)" class="w-full" multiple />
         </div>
-       
+        <!-- שולח את הטקסט של ה-label -->
+        <app-files
+          [fileNameShow]="selectedFileNames"
+          [contractorCode]="contractorId"
+          [fileList]="selectedFiles || undefined"
+          [labelText]="getLabelText('contractDevelopmentFile')"
+          (uniqIdGenerated)="onUniqIdReceived($event)"
+        ></app-files>
+        
+        <!-- <div class="col-span-2">
+          <label for="isContractDevelopment" class="block font-bold">האם יש חוזה בפיתוח? </label>
+          <input type="checkbox" id="isContractDevelopment" [(ngModel)]="project.isContractDevelopment"
+            class="custom-checkbox" />
+        </div>
+        <div class="col-span-2" *ngIf="project.isContractDevelopment">
+          <label for="contractDevelopmentFile" class="block font-bold">קובץ חוזה בפיתוח: </label>
+          <input type="file" id="contractDevelopmentFile" (change)="onFilesSelected($event)" class="w-full" multiple />
+        </div>
+        <app-files
+        [fileNameShow]="selectedFileNames"
+        [contractorCode]="contractorId"
+        [fileList]="selectedFiles || undefined"
+        (uniqIdGenerated)="onUniqIdReceived($event)"
+        >
+      </app-files> -->
+
+        <!-- <div class="col-span-2" *ngIf="project.isContractDevelopment">
+          <label for="contractDevelopmentFile" class="block font-bold">קובץ חוזה בפיתוח: </label>
+          <input
+            type="file"
+            id="contractDevelopmentFile"
+            (change)="onFilesSelected($event)"
+            class="w-full"
+            multiple
+          />
+        </div>
+        <app-files
+        [fileNameShow]="selectedFileNames"
+        [contractorCode]="contractorId"
+        (uniqIdGenerated)="onUniqIdReceived($event)"
+      ></app-files> -->
+
         <div class="col-span-2" *ngIf="project.isContractDevelopment">
           <label for="numberHakiraContract" class="block font-bold mb-2">מספר חוזה חכירה: </label>
           <input type="text" pInputText id="numberHakiraContract" [(ngModel)]="project.numberHakiraContract" class="w-full" />
@@ -132,7 +172,8 @@
        
         <div class="col-span-2 flex-container" *ngIf="project.isHachiraContract">
           <label for="hachiraContractFile" class="block font-bold mb-2 flex-item">קובץ חוזה חכירה: </label>
-          <input type="file" id="hachiraContractFile" [(ngModel)]="project.hachiraContractFile" class="w-full flex-item" />
+          <input type="file" id="hachiraContractFile" [(ngModel)]="project.hachiraContractFile" class="w-full flex-item"
+            multiple />
         </div>
        
         <div class="col-span-2 flex-container" *ngIf="project.isHachiraContract">
@@ -146,8 +187,10 @@
         </div>
        
         <div class="col-span-2 flex-container" *ngIf="project.isPurchaseTaxPaymentConfirmation">
-          <label for="purchaseTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס רכישה:</label>
-          <input type="file" id="purchaseTaxPaymentConfirmationFile" [(ngModel)]="project.purchaseTaxPaymentConfirmationFile" class="w-full flex-item" />
+          <label for="purchaseTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס
+            רכישה:</label>
+          <input type="file" id="purchaseTaxPaymentConfirmationFile"
+            [(ngModel)]="project.purchaseTaxPaymentConfirmationFile" class="w-full flex-item" multiple />
         </div>
  
         <!-- <div class="col-span-2">
@@ -239,8 +282,10 @@
         </div>
        
         <div class="col-span-2 flex-container" *ngIf="project.isAppreciationTaxPaymentConfirmation">
-          <label for="appreciationTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס שבח: </label>
-          <input type="file" id="appreciationTaxPaymentConfirmationFile" [(ngModel)]="project.appreciationTaxPaymentConfirmationFile" class="w-full flex-item" />
+          <label for="appreciationTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס
+            שבח: </label>
+          <input type="file" id="appreciationTaxPaymentConfirmationFile"
+            [(ngModel)]="project.appreciationTaxPaymentConfirmationFile" class="w-full flex-item" multiple />
         </div>
        
         <div class="col-span-2">
@@ -249,13 +294,17 @@
         </div>
        
         <div class="col-span-2 flex-container" *ngIf="project.isSalesTaxPaymentConfirmation">
-          <label for="salesTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס מכירה: </label>
-          <input type="file" id="salesTaxPaymentConfirmationFile" [(ngModel)]="project.salesTaxPaymentConfirmationFile" class="w-full flex-item" />
+          <label for="salesTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס מכירה:
+          </label>
+          <input type="file" id="salesTaxPaymentConfirmationFile" [(ngModel)]="project.salesTaxPaymentConfirmationFile"
+            class="w-full flex-item" multiple />
         </div>
        
         <div class="col-span-2 flex-container">
-          <label for="powerOfAttorneyToLawyerFile" class="block font-bold mb-2 flex-item">ייפוי כוח ב"ח לעורך דין מטפל: </label>
-          <input type="file" id="powerOfAttorneyToLawyerFile" [(ngModel)]="project.powerOfAttorneyToLawyerFile" class="w-full flex-item" />
+          <label for="powerOfAttorneyToLawyerFile" class="block font-bold mb-2 flex-item">ייפוי כוח ב"ח לעורך דין מטפל:
+          </label>
+          <input type="file" id="powerOfAttorneyToLawyerFile" [(ngModel)]="project.powerOfAttorneyToLawyerFile"
+            class="w-full flex-item" multiple />
         </div>
        
         <div>
@@ -369,7 +418,8 @@
         <div class="col-span-3 flex-container" *ngIf="project.isPerselasia">
           <div class="col-span-2 flex-container">
             <label for="perselasiaFile" class="block font-bold mb-2 flex-item">קובץ פרצלציה:</label>
-            <input type="file" id="perselasiaFile" [(ngModel)]="project.perselasiaFile" class="w-full flex-item" />
+            <input type="file" id="perselasiaFile" [(ngModel)]="project.perselasiaFile" class="w-full flex-item"
+              multiple />
           </div>
        
           <div class="col-span-2 flex-container">
@@ -614,13 +664,49 @@
        
         <div class="col-span-2 flex-container">
           <label for="projectDrawingFile" class="block font-bold mb-2 flex-item">תשריט העמדה על הפרויקט</label>
-          <input type="file" pInputText id="projectDrawingFile" [(ngModel)]="project.projectDrawingFile" class="w-full flex-item" />
+          <input type="file" pInputText id="projectDrawingFile" [(ngModel)]="project.projectDrawingFile"
+            class="w-full flex-item" multiple />
+        </div>
+        <app-comment [objectId]="project.projectId"></app-comment>
+
+        <!-- <div class="col-span-2 flex-container" *ngIf="commentFlag">
+          <label for="projectDrawingFile" class="block font-bold mb-2 flex-item">הערה:
+            {{commentPrev.commentText}}</label>
+          <i class="pi pi-delete"></i>
+          <div *ngIf="commentPrev.isAddedToApprovalRights">
+            <label for="isDiscounted" class="block font-bold mb-2">הוסף לאישור זכויות</label>
+            <i class="pi pi-check"></i>
+          </div>
+          <div *ngIf="!commentPrev.isAddedToApprovalRights">
+            <label for="isDiscounted" class="block font-bold mb-2">הוסף לאישור זכויות</label>
+            <i class="pi pi-times"></i>
+          </div>
+        </div> -->
+
+        <!-- <div *ngIf="commentFlag">
+          <div *ngFor="let commentPrev of commentsPrev" class="col-span-2 flex-container">
+            <label for="projectDrawingFile" class="block font-bold mb-2 flex-item">הערה:
+              {{commentPrev.commentText}}</label>
+            <button (click)="deleteComment(commentPrev)"><i class="pi pi-trash"></i></button>
+            <div *ngIf="commentPrev.isAddedToApprovalRights">
+              <label for="isDiscounted" class="block font-bold mb-2">הוסף לאישור זכויות</label>
+              <i class="pi pi-check"></i>
+            </div>
+            <div *ngIf="!commentPrev.isAddedToApprovalRights">
+              <label for="isDiscounted" class="block font-bold mb-2">הוסף לאישור זכויות</label>
+              <i class="pi pi-times"></i>
+            </div>
+          </div>
         </div>
        
         <div class="col-span-2 flex-container">
-          <label for="note" class="block font-bold mb-2 flex-item">הוסף הערה</label>
-          <textarea id="note" pTextarea [(ngModel)]="project.note" rows="3" class="w-full flex-item"></textarea>
-        </div>
+          <label for="note" class="block font-bold mb-2 flex-item" class="p-textarea">הוסף הערה</label>
+          <textarea id="note" pTextarea rows="3" class="w-full flex-item" [(ngModel)]="comment.commentText"></textarea>
+          <label for="isRishumBaitMeshutaf" class="block font-bold mb-2">הוסף לאישור זכויות</label>
+          <input type="checkbox" id="isRishumBaitMeshutaf" class="custom-checkbox"
+            [(ngModel)]="comment.isAddedToApprovalRights" />
+          <button (click)="saveComment()"><i class="pi pi-plus"></i></button>
+        </div> -->
 
         <!-- <div class="col-span-2">
              <button pButton type="submit" label="שמור" class="p-button-primary w-full"></button>

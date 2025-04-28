@@ -171,6 +171,7 @@ export class MaincontractorComponent implements OnInit {
     this.flagProject = false;
     this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagProject)]);
   }
+  
   projectList(){
     this.flagList = !this.flagList
   }
