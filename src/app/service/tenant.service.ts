@@ -36,4 +36,10 @@ export class TenantService {
   GetPartAssetApartmentID(ApartmentID:number):Observable<number>{
     return this.http.get<number>(`${this.BASE_URL}/GetPartAssetApartmentID/${ApartmentID}`)
   }
+
+
+  UpdateTenants(tenants: TenantDTO2[]): Observable<any> {
+    return this.http.put(`${this.BASE_URL}`, tenants);
+  }
+
 }

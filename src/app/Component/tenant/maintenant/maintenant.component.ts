@@ -1,64 +1,102 @@
-
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { TenantService } from '../../../service/tenant.service';
 import { getIdentityTypeString, IdentityType } from '../../../Models/IdentityType.enum';
 import { getTenantStatusString, TenantStatus } from '../../../Models/TenantStatus.enum';
 
-
 @Component({
   selector: 'app-tenant',
-  imports: [CommonModule, HttpClientModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './maintenant.component.html',
-  styleUrl: './maintenant.component.css',
-  providers: [TenantService]
+  styleUrls: ['./maintenant.component.css'],
+  providers: [TenantService],
 })
-export class MainTenantComponent {
-
-  tenant: any[] = []; // משתנה המייצג את רשימת הדיירים
+export class MainTenantComponent implements OnInit {
+  tenantForm: FormGroup; // טופס ריאקטיבי
   apartmentId!: number;
   partAsset: number = 0;
   Message: boolean = false;
+  editMode: boolean = false; // מצב עריכה - ברירת מחדל: תצוגה בלבד
 
   @Input() apartmentID!: number;
-  constructor(private route: ActivatedRoute, private router: Router) { }
+
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.tenantForm = this.fb.group({
+      tenants: this.fb.array([]),
+    });
+  }
+
   srvTenant: TenantService = inject(TenantService);
 
   ngOnInit(): void {
-    this.apartmentId = 9999;///שלחתי כאן זמנית id ספציפי יש לקבל מקומפוננטה אב
-    // this.tenantId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(this.apartmentId);
+    this.apartmentId = 10032; // מזהה דירה זמני
     this.getTenants();
-    // this.GetPartAssetByOwnerTenants()
+  }
 
+  get tenants(): FormArray {
+    return this.tenantForm.get('tenants') as FormArray;
   }
-  MessagePartAsset() {
-    for (let i = 0; i < this.tenant.length; i++) {
-      this.partAsset += this.tenant[i].PartAsset
-    }
-    if (this.partAsset < 100) {
-      this.Message = true
-    }
+
+  createTenantGroup(tenant: any): FormGroup {
+    return this.fb.group({
+      tenantStatus: [tenant.tenantStatus || '', Validators.required],
+      firstName: [tenant.firstName || '', Validators.required],
+      lastName: [tenant.lastName || '', Validators.required],
+      tenantIdentity: [tenant.tenantIdentity || '', Validators.required],
+      partAsset: [tenant.partAsset || 0, [Validators.required, Validators.min(0)]],
+      isSignatureByPowerOfAttorney: [tenant.isSignatureByPowerOfAttorney || false],
+      firstNamePower: [tenant.firstNamePower || ''],
+      lastNamePower: [tenant.lastNamePower || ''],
+      powerOfAttorneyId: [tenant.powerOfAttorneyId || ''],
+      address: [tenant.address || ''],
+      numberPhone: [tenant.numberPhone || ''],
+    });
   }
-  getTenants() {
-    this.srvTenant.GetTenantByApartment(this.apartmentId).subscribe((tenant: any) => {
+
+  getTenants(): void {
+    this.srvTenant.GetTenantByApartment(this.apartmentId).subscribe((tenant: any[]) => {
       if (tenant) {
-        this.tenant = tenant;
-        this.MessagePartAsset()
-        console.log(this.tenant);
-      } else {
-        console.error('TenantByApartment not found');
+        this.tenants.clear();
+        tenant.forEach((t) => this.tenants.push(this.createTenantGroup(t)));
+        this.MessagePartAsset();
       }
     });
   }
-  trackByTenantId(index: number, item: any): number {
-    return item.id; // או כל מזהה ייחודי אחר
-  }
-  showOwnerDetails(): void {
 
-    // Implement the logic to show owner details here
+  MessagePartAsset(): void {
+    this.partAsset = 0;
+    this.tenants.controls.forEach((control) => {
+      this.partAsset += control.get('partAsset')?.value || 0;
+    });
+    this.Message = this.partAsset < 100;
+  }
+
+  saveChanges(): void {
+    if (this.tenantForm.valid) {
+      console.log('Form Data:', this.tenantForm.value);
+      this.editMode = false; // חזרה לתצוגה בלבד אחרי שמירה
+    } else {
+      alert('נא למלא את כל השדות הנדרשים!');
+    }
+  }
+
+  toggleEdit(): void {
+    this.editMode = true; // מעבר למצב עריכה
+  }
+
+  cancelEdit(): void {
+    this.editMode = false; // חזרה למצב תצוגה בלבד
+  }
+
+  trackByTenantId(index: number, item: any): number {
+    return item.id;
   }
 
   getIdentityTypeString(type: IdentityType): string {
@@ -68,15 +106,4 @@ export class MainTenantComponent {
   getTenantStatusString(status: TenantStatus): string {
     return getTenantStatusString(status);
   }
-
-  // GetPartAssetByOwnerTenants(): void {
-  //   this.srvTenant.GetPartAssetByOwnerTenants(this.tenantId).subscribe((PartAsset: any) => {
-  //     this.partAsset = PartAsset;
-  //   })
-  // }
-
-  edit() {
-
-  }
 }
-

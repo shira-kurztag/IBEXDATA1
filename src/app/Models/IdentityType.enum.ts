@@ -8,7 +8,7 @@ export function getIdentityTypeString(type: IdentityType): string {
         case IdentityType.Passport:
             return 'דרכון';
         case IdentityType.IDCard:
-            return 'ת.ז.';
+            return 'ת.ז';
         case IdentityType.RegistrationNumber:
             return 'מ.ר.';
         default:

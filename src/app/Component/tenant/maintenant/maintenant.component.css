@@ -1,97 +1,108 @@
 body {
-    background-color: #f8f7eb;
-    direction: rtl;
-    font-family: Arial, sans-serif;
-  }
+  background-color: #f8f7eb;
+  direction: rtl;
+  font-family: Arial, sans-serif; /* שימוש בגופן Arial */
+
+}
+
+.tenant-detail {
+  background: #e8f6f6;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start; /* שינוי להצגת תוכן מימין */
+  margin-left: 25%;
+  margin-right: 20%;
+  width: 100%; /* הגדרת רוחב מלא */
+
+  direction: rtl; /* כיווניות טקסט מימין לשמאל */
+}
+
+/* .tenant-detail-edit {
+  background:#e8f6f6; 
+  padding: 10px;
+  margin-bottom: 5px;
+
   
-  .content-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    gap: 20px;
-  }
-  
-  .contractors-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 800px; /* רוחב מקסימלי */
-  }
-  
-  .contractor-box {
-    display: flex;
-    flex-direction: column;
-    background-color: #e8f6f6;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .icon-box {
-    width: 50px;
-    height: 50px;
-    background-color: #1f4b4b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-  
-  .icon-box i {
-    color: white;
-    font-size: 1.5em;
-  }
-  
-  .contractor-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .contractor-detail {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-  }
-  
-  .detail-title {
-    font-weight: bold;
-    color: #0aa3a1;
-  }
-  
-  .detail-content {
-    color: #333;
-  }
-  
-  .owner-details-button {
-    margin-top: 10px;
-    background-color: #0aa3a1;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .owner-details-button:hover {
-    background-color: #086f73;
-  }
-  
-  .no-tenants {
-    color: red;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  
-  .error-message {
-    color: red;
-    font-weight: bold;
-    font-size: 16px;
-  }
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 25%;
+  margin-right: 20%;
+} */
+
+.status-box {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-left: 10px; /* Ensure proper spacing for RTL */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px; /* Ensure consistent height */
+  font-size: 14px; /* Ensure consistent font size */
+}
+.tenant-box {
+  margin-bottom: 10%; /* רווח בין הכרטיסים */
+  margin: 50px auto; /* ליישור מרכזי */
+  margin-left: auto; /* מרכז את הכרטיס */
+  margin-right: auto; /* מרכז את הכרטיס */
+  width:100%; /* מגדיר רוחב כדי לשים את הכרטיסים במרכז */
+}
+.detail-title {
+  margin-left: 5px; /* רווח בין כותרת לתוכן */
+  margin-right: 5px; /* רווח בין המילים */
+
+}
+
+.detail-content {
+  margin-right: 5px; /* רווח בין מילים */
+  margin-left: 5px; /* רווח בין הכותרת לטקסט */
+
+}
+.tenant-button, .tenant-search {
+  border: none;
+  background: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.tenant-box1 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-color: #0aa3a1;
+  padding: 0;
+  border-radius: 5px;
+  width: 200px;
+  height: 50px;
+  left: 3%;
+  top:20%
+}
+.icon-box {
+  width: 50px;
+  height: 100%;
+  background-color: #1f4b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 0 0 5px;
+}
+
+.icon-box i {
+  color: white;
+  font-size: 1.5em;
+}
+.main{
+  display: flex;
+  flex-direction: row;
+ 
+}

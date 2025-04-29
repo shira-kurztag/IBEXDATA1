@@ -15,7 +15,7 @@
 
    
 }
-.content-content {
+/* .content-content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -25,8 +25,15 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-  }
-  
+  } */
+  .content-content {
+    margin-top: 1%; /* ריווח בין הכפתורים לתוכן */
+    display: flex; /* גמישות להצגת התוכן */
+    flex-direction: column; /* כל תוכן יופיע מתחת לשני */
+    align-items: center; /* מיקום במרכז */
+    justify-content: center; /* ריווח תוכן */
+    text-align: center; /* טקסט מיושר במרכז */
+}
 /* סגנון לכפתור הפעיל */
 button.owner-details-button.active-button {
     background-color: #1f4b4b !important;
@@ -48,7 +55,7 @@ button.owner-details-button.active-button {
 button.owner-details-button:hover {
     background-color: #1f4b4b !important; /* הצבע שאת ביקשת */
 }
-.contractor{
+/* .contractor{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,14 +63,87 @@ button.owner-details-button:hover {
     margin-top: 20px;
     padding: 5%;
     margin: 5%;
-}
-.contractor-content{
+} */
+
+/* .contractor {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+    padding: 5%;
+    margin: 5%;
+} */
+
+
+/* .contractor-content{
     margin: 5%;
     padding: 5%;
     width: 200%;
+} */
+.content-content {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* יישור לשמאל */
+    justify-content: flex-start; /* יישור לשמאל */
+    text-align: left; /* טקסט מיושר לשמאל */
+    font-family: Arial, sans-serif;
+
 }
-.contractor-button{
+
+/* .contractor-button{
     display: flex;
     flex-direction: row;
 
+} */
+
+.contractor-button {
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; /* הכפתורים יוזזו לשמאל */
+    margin-bottom: 20px;
+    
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* רקע אפור לכל המסך */
+    box-sizing: border-box; /* לוודא שמידות כוללות padding */
+    overflow-x: hidden; /* למנוע גלילה אופקית */
+}
+/* איפוס מרווחים ושוליים */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* גובה מלא */
+    width: 100vw; /* רוחב מלא */
+    box-sizing: border-box; /* לוודא שהמידות כוללות padding */
+    overflow: hidden; /* למנוע גלילה מיותרת */
+}
+
+.contractor {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* תופס את כל גובה המסך */
+    width: 100%; /* תופס את כל רוחב המסך */
+}
+
+.contractor-header {
+    flex: 1; /* 1 חלק מתוך 5 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* תופס את כל רוחב המסך */
+    box-sizing: border-box; /* מבטיח שכל ה-padding נכלל */
+}
+
+.contractor-content {
+    flex: 4; /* 4 חלקים מתוך 5 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* תופס את כל רוחב המסך */
+    box-sizing: border-box; /* מבטיח שכל ה-padding נכלל */
 }

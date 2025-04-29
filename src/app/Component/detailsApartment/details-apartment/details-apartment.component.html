@@ -1,5 +1,6 @@
 <div class="contractor">
-
+   <div class="contractor-header">
+    
     <div class="contractor-button">
         <!-- הוספת תנאי [ngClass] כדי להוסיף מחלקה לכפתור שנלחץ -->
         <button 
@@ -42,6 +43,8 @@
             דף הבית
         </button>
     </div>
+  </div>
+  <div class="contractor-content">
 
     <div class="content-content"> 
         <!-- הצגת קומפוננטות הילדים -->
@@ -50,5 +53,5 @@
         <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant>
         <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant>
     </div>
-
+</div>
 </div>
