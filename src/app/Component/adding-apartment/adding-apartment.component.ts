@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CalendarModule } from 'primeng/calendar';
 
+ 
 @Component({
   selector: 'app-adding-apartment',
   templateUrl: './adding-apartment.component.html',
@@ -33,8 +34,7 @@ import { CalendarModule } from 'primeng/calendar';
 export class AddingApartmentComponent {
   newApartment: ApartmentDTO = new ApartmentDTO();
 
-  constructor(private apartmentService: ApartmentService) {}
-
+  constructor(private apartmentService: ApartmentService) {} 
   onSubmit() {
     console.log('Sending apartment data:', this.newApartment);
     this.newApartment.buildingId=2305
@@ -45,6 +45,7 @@ export class AddingApartmentComponent {
       (error) => {
         console.error('Error adding apartment:', error);
         
+       
       }
     );
   }

@@ -27,7 +27,10 @@ import { ApartmentService } from '../../service/apartment.service';
   providers: [
     ConfirmationService, // הוספת ConfirmationService ל-providers
     MessageService,
-    ApartmentService],
+    ApartmentService
+  ],
+  
+  
   templateUrl: './apartment.component.html',
   styleUrl: './apartment.component.css'
 })

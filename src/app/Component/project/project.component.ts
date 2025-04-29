@@ -122,7 +122,7 @@ export class ProjectComponent implements OnInit {
   BuildingActive: building[] = [];
   contractorId2: number=0
   flagList : boolean= false
-  buildings: building[] = [];
+ buildings: building[] = [];
   constructor(
     private route: ActivatedRoute,
     private messageService: MessageService,
@@ -419,9 +419,9 @@ getIdContractor() {
 
   getBuildings():void{
     
-      this.srvBuilding.GetAll().subscribe({
-        next: (data: building[]) => {
-          this.buildings = data;
+      this.projectService.GetAll().subscribe({
+        next: (data: Contractor[]) => {
+          // this.buildings = data;
           console.log('Buildings:', this.buildings); // Optional: Log to console
         },
         error: (err: any) => {

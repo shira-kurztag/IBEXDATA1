@@ -773,25 +773,14 @@
 
 
   </div>
-  <div *ngIf="buildings && buildings.length > 0">
-    <ul>
-      <li *ngFor="let building of buildings">
-        <!-- {{ building.buildingId }}  -->
-      </li>
-    </ul>
-  </div>
 
-  <!-- הודעה כאשר הרשימה ריקה -->
-  <div *ngIf="buildings && buildings.length === 0">
-    אין בניינים להצגה.
-  </div>
-</div>
   <div *ngIf="IsGetFirst">
     <h1>Get Project by Name</h1>
     <input [(ngModel)]="projectName" placeholder="Enter project name">
     <button (click)="getProject()">Get Project</button>
   </div>
-<!-- </div> -->
+
+</div>
 
 
 <!-- <button class="contractor-button" (click)="buildingList()">רשימת בניינים</button>
