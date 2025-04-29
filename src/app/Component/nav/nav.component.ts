@@ -7,12 +7,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Menubar } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
+import { AddingApartmentComponent } from '../adding-apartment/adding-apartment.component';
 
 
 @Component({
   standalone: true,
   selector: 'app-nav',
-  imports: [MenubarModule, RouterModule, HttpClientModule, CommonModule, Menubar, ButtonModule],
+  imports: [MenubarModule, RouterModule, HttpClientModule, CommonModule, Menubar, ButtonModule,AddingApartmentComponent],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })

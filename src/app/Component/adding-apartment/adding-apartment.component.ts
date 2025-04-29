@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApartmentDTO } from '../../Models/ApartmentDTO.model';
+import { ApartmentDTO } from '../../Models/ApartmentDTO';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ApartmentService } from '../../service/apartment.service';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CalendarModule } from 'primeng/calendar';
+
  
 @Component({
   selector: 'app-adding-apartment',
@@ -32,9 +33,8 @@ import { CalendarModule } from 'primeng/calendar';
 })
 export class AddingApartmentComponent {
   newApartment: ApartmentDTO = new ApartmentDTO();
- 
-  constructor(private apartmentService: ApartmentService) {}
- 
+
+  constructor(private apartmentService: ApartmentService) {} 
   onSubmit() {
     console.log('Sending apartment data:', this.newApartment);
     this.newApartment.buildingId=2305
@@ -44,6 +44,7 @@ export class AddingApartmentComponent {
       },
       (error) => {
         console.error('Error adding apartment:', error);
+        
        
       }
     );
