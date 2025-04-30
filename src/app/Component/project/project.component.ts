@@ -157,68 +157,75 @@ export class ProjectComponent implements OnInit {
     private fileService: FilesService
   ) {}
 
-  ngOnInit() {
-    this.getAllBanks();
-    this.getBanks();
-    this.getLandOwnerShip();
-    this.getIdBank();
-    this.getIdLandOwnerShip();
-  
-    this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
-  
-    if (this.flagAddGet === 'false') {
-      this.projectName = String(this.route.snapshot.paramMap.get('name'));
-      this.IsGetFirst = false;
-      this.IsGetSecond = true;
-      this.getProject();
-    } else {
-      this.IsGetFirst = true;
-      this.IsGetSecond = false;
-    }
-  
-    this.companyId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('companyId', this.companyId);
-  
-    this.getCompanyName();
-  
-    if (this.isEdit) {
-      this.updateProjectDatesForDisplay();
-    }
-  
-    // אתחול נתונים עבור כל השדות
-    this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
-    this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
-    this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
+ // עדכון ל-ngOnInit()
+ngOnInit() {
+  this.getAllBanks();
+  this.getBanks();
+  this.getLandOwnerShip();
+  this.getIdBank();
+  this.getIdLandOwnerShip();
+
+  this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
+
+  if (this.flagAddGet === 'false') {
+    this.projectName = String(this.route.snapshot.paramMap.get('name'));
+    this.IsGetFirst = false;
+    this.IsGetSecond = true;
+    this.getProject();
+  } else {
+    this.IsGetFirst = true;
+    this.IsGetSecond = false;
   }
-  
-  // עדכון ל-onUniqIdReceived
-  onUniqIdReceived(uniqId: string): void {
-    if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
-      const nameDoc = this.fileData[this.currentFieldId].nameDoc;
-  
-      switch (nameDoc) {
-        case 'קובץ חוזה בפיתוח':
-          this.project.contractDevelopmentFile = uniqId;
-          console.log('Updated project.contractDevelopmentFile with uniqId:', uniqId);
-          break;
-  
-        case 'קובץ חוזה חכירה':
-          this.project.hachiraContractFile = uniqId;
-          console.log('Updated project.hachiraContractFile with uniqId:', uniqId);
-          break;
-  
-        case 'קובץ אישור תשלום מס רכישה':
-          this.project.purchaseTaxPaymentConfirmationFile = uniqId;
-          console.log('Updated project.purchaseTaxPaymentConfirmationFile with uniqId:', uniqId);
-          break;
-  
-        default:
-          console.warn('No matching field found for nameDoc:', nameDoc);
-      }
-    } else {
-      console.error('nameDoc is not defined or invalid. Unable to update project field with uniqId.');
-    }
+
+  this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+  console.log('companyId', this.companyId);
+
+  this.getCompanyName();
+
+  if (this.isEdit) {
+    this.updateProjectDatesForDisplay();
   }
+
+  // אתחול נתונים עבור כל השדות
+  this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['appreciationTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
+}
+
+// עדכון ל-onUniqIdReceived
+onUniqIdReceived(uniqId: string): void {
+  if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
+    const nameDoc = this.fileData[this.currentFieldId].nameDoc;
+
+    switch (nameDoc) {
+      case 'קובץ חוזה בפיתוח':
+        this.project.contractDevelopmentFile = uniqId;
+        console.log('Updated project.contractDevelopmentFile with uniqId:', uniqId);
+        break;
+
+      case 'קובץ חוזה חכירה':
+        this.project.hachiraContractFile = uniqId;
+        console.log('Updated project.hachiraContractFile with uniqId:', uniqId);
+        break;
+
+      case 'קובץ אישור תשלום מס רכישה':
+        this.project.purchaseTaxPaymentConfirmationFile = uniqId;
+        console.log('Updated project.purchaseTaxPaymentConfirmationFile with uniqId:', uniqId);
+        break;
+
+      case 'קובץ אישור תשלום מס שבח':
+        this.project.appreciationTaxPaymentConfirmationFile = uniqId;
+        console.log('Updated project.appreciationTaxPaymentConfirmationFile with uniqId:', uniqId);
+        break;
+
+      default:
+        console.warn('No matching field found for nameDoc:', nameDoc);
+    }
+  } else {
+    console.error('nameDoc is not defined or invalid. Unable to update project field with uniqId.');
+  }
+}
 
   onNameDocReceived(nameDoc: string): void {
     if (this.currentFieldId && this.fileData[this.currentFieldId]) {

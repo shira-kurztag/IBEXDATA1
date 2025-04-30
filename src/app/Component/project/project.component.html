@@ -293,7 +293,6 @@
           <input type="file" pInputText id="purchaseTaxPaymentConfirmationFile"
             [(ngModel)]="project.purchaseTaxPaymentConfirmationFile" class="w-full" />
         </div> -->
-
         <!-- <div class="col-span-2">
           <label for="isAppreciationTaxPaymentConfirmation" class="block font-bold mb-2">אישור תשלום מס שבח: </label>
           <p-checkbox id="isAppreciationTaxPaymentConfirmation"
@@ -347,12 +346,24 @@
             [(ngModel)]="project.isAppreciationTaxPaymentConfirmation" class="custom-checkbox" />
         </div>
 
-        <div class="col-span-2 flex-container" *ngIf="project.isAppreciationTaxPaymentConfirmation">
-          <label for="appreciationTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס
-            שבח: </label>
-          <input type="file" id="appreciationTaxPaymentConfirmationFile"
-            [(ngModel)]="project.appreciationTaxPaymentConfirmationFile" class="w-full flex-item" multiple />
+        <div class="col-span-2" *ngIf="project.isAppreciationTaxPaymentConfirmation">
+          <label for="appreciationTaxPaymentConfirmationFile" class="block font-bold">קובץ אישור תשלום מס שבח: </label>
+          <input
+            type="file"
+            id="appreciationTaxPaymentConfirmationFile"
+            (change)="onFilesSelected($event, 'appreciationTaxPaymentConfirmationFile')"
+            class="w-full"
+            multiple
+          />
         </div>
+        <app-files
+          [fileNameShow]="selectedFileNames"
+          [contractorCode]="contractorId"
+          [fileList]="selectedFiles || undefined"
+          [labelText]="getLabelText('appreciationTaxPaymentConfirmationFile')"
+          (uniqIdGenerated)="onUniqIdReceived($event)"
+          (nameDocGenerated)="onNameDocReceived($event)"
+        ></app-files>
 
         <div class="col-span-2">
           <label for="isSalesTaxPaymentConfirmation" class="block font-bold mb-2">אישור תשלום מס מכירה: </label>
