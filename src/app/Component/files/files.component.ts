@@ -10,6 +10,10 @@ import { FilesService } from '../../service/files.service';
 })
 export class FilesComponent implements OnChanges {
   DocId: number = 0;
+  DocId2: number = 0;
+  isProcessingFiles: boolean = false; // דגל לניהול עיבוד הקבצים
+  lastProcessedLabel: string | null = null; // מזהה לשינוי ב-labelText
+  debounceTimeout: any = null; // מנגנון debounce
 
   @Input() fileNameShow: string[] = []; // שמות הקבצים
   @Input() contractorCode?: number; // קוד הקבלן
@@ -22,25 +26,53 @@ export class FilesComponent implements OnChanges {
   @Input() labelText: string = ''; // קבלת הטקסט של ה-label
 
   @Output() uniqIdGenerated = new EventEmitter<string>(); // Output להעברת ה-UniqId
+  @Output() nameDocGenerated = new EventEmitter<string>(); // Output להעברת ה-nameDoc
 
   constructor(private fileService: FilesService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['fileList'] &&
-      changes['fileList'].currentValue &&
-      changes['fileList'].currentValue.length > 0
-    ) {
-      this.addFiles(changes['fileList'].currentValue);
-    }
+    console.log('ngOnChanges triggered:', changes);
 
+    // בדיקה אם labelText השתנה
     if (changes['labelText'] && changes['labelText'].currentValue) {
-      this.nameDoc = changes['labelText'].currentValue; // הכנסת הטקסט מהאבא ל-nameDoc
+      const newLabelText = changes['labelText'].currentValue;
+
+      // מניעת קריאות כפולות על אותו labelText
+      if (this.lastProcessedLabel === newLabelText) {
+        console.log('Skipping duplicate labelText processing:', newLabelText);
+        return;
+      }
+
+      // עדכון מזהה השינוי
+      this.lastProcessedLabel = newLabelText;
+
+      // מנגנון debounce למניעת קריאות מרובות
+      clearTimeout(this.debounceTimeout);
+      this.debounceTimeout = setTimeout(() => {
+        this.processLabelText(newLabelText);
+      }, 300); // עיכוב של 300ms
+    }
+  }
+
+  private processLabelText(labelText: string): void {
+    console.log('Processing labelText:', labelText);
+
+    // מניעת עיבודים מקבילים
+    if (this.isProcessingFiles) {
+      console.log('Processing is already in progress, skipping...');
+      return;
     }
 
-    if (this.nameDoc) {
-      this.getdocId(this.nameDoc);
-    }
+    this.isProcessingFiles = true;
+
+    this.getdocId(labelText)
+      .then(() => {
+        console.log('Calling addFiles after successful getdocId...');
+        this.addFiles(this.fileList);
+      })
+      .finally(() => {
+        this.isProcessingFiles = false; // איפוס הדגל לאחר סיום
+      });
   }
 
   addFiles(fileList: FileList): void {
@@ -49,55 +81,63 @@ export class FilesComponent implements OnChanges {
       return;
     }
 
+    if (!this.DocId2) {
+      console.error('DocId is not set. Cannot proceed with addFiles.');
+      return;
+    }
+
+    console.log('Starting to process files:', fileList);
+
     const uniqId = this.generateUniqueId();
+    this.nameDocGenerated.emit(this.labelText);
     this.uniqIdGenerated.emit(uniqId);
 
     const formData = new FormData();
-    Array.from(fileList).forEach(file => {
-      if (!file || file.size === 0) {
-        console.error('The file is empty or invalid:', file);
-        alert('One of the selected files is empty or invalid.');
-        return;
-      }
 
-      const magardoc = new Magardoc();
-      magardoc.uniqId = uniqId;
-      magardoc.logId = this.generateGuidLogId();
-      magardoc.fileNameShow = file.name;
-      magardoc.docId = this.DocId;
-      magardoc.contractorCode = this.contractorCode ?? 0;
-      magardoc.projectCode = this.projectCode ?? 0;
-      magardoc.date = this.formatDate(new Date());
-      magardoc.buildingCode = this.buildingCode ?? 0;
-      magardoc.apartmentCode = this.apartmentCode ?? 0;
-      magardoc.tenantCode = this.tenantCode ?? 0;
+  Array.from(fileList).forEach(file => {
+  //const uniqId = this.generateUniqueId(); // יצירת uniqId עבור כל קובץ
+  const magardoc = new Magardoc();
+  magardoc.uniqId = uniqId;
+  magardoc.logId = this.generateGuidLogId();
+  magardoc.fileNameShow = file.name;
+  magardoc.docId = this.DocId2;
+  magardoc.contractorCode = this.contractorCode ?? 0;
+  magardoc.projectCode = this.projectCode ?? 0;
+  magardoc.date = this.formatDate(new Date());
+  magardoc.buildingCode = this.buildingCode ?? 0;
+  magardoc.apartmentCode = this.apartmentCode ?? 0;
+  magardoc.tenantCode = this.tenantCode ?? 0;
 
-      formData.append('file', file); // שדה file
-      formData.append('magardocJson', JSON.stringify(magardoc)); // שדה magardocJson
-    });
+  const formData = new FormData();
+  formData.append('file', file); // שדה file
+  formData.append('magardocJson', JSON.stringify(magardoc)); // שדה magardocJson
 
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
-
-    this.fileService.AddFile(formData).subscribe({
-      next: (response) => {
-        console.log('Files uploaded successfully:', response);
-      },
-      error: (err) => {
-        console.error('Error uploading files:', err);
-      },
-    });
+  this.fileService.AddFile(formData).subscribe({
+    next: (response) => {
+      console.log('File uploaded successfully:', response);
+    },
+    error: (err) => {
+      console.error('Error uploading file:', err);
+    },
+  });
+});
   }
 
-  getdocId(name: string): void {
-    this.fileService.GetdocId(name).subscribe({
-      next: (res) => {
-        this.DocId = res;
-      },
-      error: (err) => {
-        console.error('Error fetching DocId:', err);
-      },
+  getdocId(name: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.log('Fetching DocId for:', name);
+      this.fileService.GetdocId(name).subscribe({
+        next: (res) => {
+          this.DocId = res;
+          this.DocId2 = res.code;
+          console.log('DocId fetched successfully:', res);
+          resolve(); // פתרון ה-Promise לאחר קבלת הערך
+        },
+        error: (err) => {
+          console.error('Error fetching DocId:', err);
+          reject(err); // דחיית ה-Promise במקרה של שגיאה
+        },
+      });
     });
   }
 

@@ -135,13 +135,16 @@ export class ProjectComponent implements OnInit {
   LandOwnerShipId: number = 0;
   selectedFileNames: string[] = []; // רשימת שמות הקבצים שנבחרו
   selectedFiles: FileList = new DataTransfer().files; // רשימת הקבצים בפועל
-  contractDevelopmentFileUniqId: string = ''; // UniqId לשדה קובץ חוזה בפיתוח
-  documentName: string =""
+  documentName: string = "";
+  currentFieldId: string = ''; // מזהה השדה הפעיל
+
   @Output() filesSelected = new EventEmitter<FileList>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
   @Output() contractorCodeChanged = new EventEmitter<number>(); // Output להעברת contractorCode
   @Output() nameDoc = new EventEmitter<string>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
   @ViewChild(CommentComponent) commentComponent!: CommentComponent; // קישור לקומפוננטת הבן
-  public labelText: string = 'קובץ חוזה בפיתוח';
+  
+  // נתונים לשדות חוזים
+  public fileData: { [key: string]: { uniqId: string; nameDoc: string } } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -160,9 +163,9 @@ export class ProjectComponent implements OnInit {
     this.getLandOwnerShip();
     this.getIdBank();
     this.getIdLandOwnerShip();
-
+  
     this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
-
+  
     if (this.flagAddGet === 'false') {
       this.projectName = String(this.route.snapshot.paramMap.get('name'));
       this.IsGetFirst = false;
@@ -172,49 +175,80 @@ export class ProjectComponent implements OnInit {
       this.IsGetFirst = true;
       this.IsGetSecond = false;
     }
-
+  
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
     console.log('companyId', this.companyId);
-
+  
     this.getCompanyName();
-   // this.GetContractor(this.comNamesString ?? '');
-
+  
     if (this.isEdit) {
       this.updateProjectDatesForDisplay();
     }
+  
+    // אתחול נתונים עבור כל השדות
+    this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
+    this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
+    this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
   }
-
-  // פונקציה חדשה לטיפול ב-UniqId
+  
+  // עדכון ל-onUniqIdReceived
   onUniqIdReceived(uniqId: string): void {
-    this.contractDevelopmentFileUniqId = uniqId; // שמירת ה-UniqId שנוצר
-    this.project.contractDevelopmentFile = uniqId; // עדכון השדה בפרויקט
-  }
-
-  onFilesSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      // שמירת רשימת הקבצים בפועל
-      this.selectedFiles = input.files;
-
-      // שמירת שמות הקבצים
-      this.selectedFileNames = Array.from(input.files).map(file => file.name);
-
-      console.log('Selected files in parent:', this.selectedFileNames);
-
-      console.log("contractor id",this.contractorId);
-      
-      // שידור קוד הקבלן
-      this.contractorCodeChanged.emit(this.contractorId);
-      this.nameDoc.emit(this.documentName);
-      // שידור רשימת הקבצים לקומפוננטת הבת
-      // this.filesSelected.emit(this.selectedFiles);
+    if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
+      const nameDoc = this.fileData[this.currentFieldId].nameDoc;
+  
+      switch (nameDoc) {
+        case 'קובץ חוזה בפיתוח':
+          this.project.contractDevelopmentFile = uniqId;
+          console.log('Updated project.contractDevelopmentFile with uniqId:', uniqId);
+          break;
+  
+        case 'קובץ חוזה חכירה':
+          this.project.hachiraContractFile = uniqId;
+          console.log('Updated project.hachiraContractFile with uniqId:', uniqId);
+          break;
+  
+        case 'קובץ אישור תשלום מס רכישה':
+          this.project.purchaseTaxPaymentConfirmationFile = uniqId;
+          console.log('Updated project.purchaseTaxPaymentConfirmationFile with uniqId:', uniqId);
+          break;
+  
+        default:
+          console.warn('No matching field found for nameDoc:', nameDoc);
+      }
+    } else {
+      console.error('nameDoc is not defined or invalid. Unable to update project field with uniqId.');
     }
   }
 
+  onNameDocReceived(nameDoc: string): void {
+    if (this.currentFieldId && this.fileData[this.currentFieldId]) {
+      this.fileData[this.currentFieldId].nameDoc = nameDoc;
+      console.log(`${this.currentFieldId} nameDoc:`, nameDoc);
+    }
+  }
+
+  // פונקציה לטיפול בקבצים שנבחרו
+  onFilesSelected(event: Event, fieldId: string): void {
+    this.currentFieldId = fieldId; // שמירת השדה הפעיל
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.selectedFiles = input.files;
+      this.selectedFileNames = Array.from(input.files).map(file => file.name);
+
+      console.log(`Selected files for ${fieldId}:`, this.selectedFileNames);
+    }
+  }
+
+  // פונקציה להחזרת טקסט מתוך label
   getLabelText(labelForId: string): string {
-    const labelElement = document.querySelector(`label[for='${labelForId}']`);
+    console.log("Called getLabelText with ID:", labelForId);
+    const labels = Array.from(document.querySelectorAll('label'));
+    console.log("Available labels:", labels);
+    const labelElement = labels.find(label => label.getAttribute('for') === this.currentFieldId);
+    console.log("Found label element:", labelElement);
     return labelElement ? labelElement.textContent?.replace(':', '').trim() || '' : '';
   }
+
   // onFilesSelected(event: Event): void {
   //   const input = event.target as HTMLInputElement;
   //   if (input.files) {

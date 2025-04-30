@@ -104,22 +104,34 @@
           </ng-template>
         </div>
         
-        <div class="col-span-2">
-          <label for="isContractDevelopment" class="block font-bold">האם יש חוזה בפיתוח? </label>
-          <input type="checkbox" id="isContractDevelopment" [(ngModel)]="project.isContractDevelopment" class="custom-checkbox" />
-        </div>
-        <div class="col-span-2" *ngIf="project.isContractDevelopment">
-          <label for="contractDevelopmentFile" class="block font-bold">קובץ חוזה בפיתוח: </label>
-          <input type="file" id="contractDevelopmentFile" (change)="onFilesSelected($event)" class="w-full" multiple />
-        </div>
-        <!-- שולח את הטקסט של ה-label -->
-        <app-files
-          [fileNameShow]="selectedFileNames"
-          [contractorCode]="contractorId"
-          [fileList]="selectedFiles || undefined"
-          [labelText]="getLabelText('contractDevelopmentFile')"
-          (uniqIdGenerated)="onUniqIdReceived($event)"
-        ></app-files>
+        <div>
+          <!-- צ'קבוקס לבחירה האם יש חוזה בפיתוח -->
+          <div class="col-span-2">
+            <label for="isContractDevelopment" class="block font-bold">האם יש חוזה בפיתוח? </label>
+            <input type="checkbox" id="isContractDevelopment" [(ngModel)]="project.isContractDevelopment"
+              class="custom-checkbox" />
+          </div>
+       
+
+    <!-- חוזה בפיתוח -->
+<div class="col-span-2" *ngIf="project.isContractDevelopment">
+  <label for="contractDevelopmentFile" class="block font-bold">קובץ חוזה בפיתוח: </label>
+  <input
+    type="file"
+    id="contractDevelopmentFile"
+    (change)="onFilesSelected($event, 'contractDevelopmentFile')"
+    class="w-full"
+    multiple
+  />
+</div>
+<app-files
+  [fileNameShow]="selectedFileNames"
+  [contractorCode]="contractorId"
+  [fileList]="selectedFiles || undefined"
+  [labelText]="getLabelText('contractDevelopmentFile')"
+  (uniqIdGenerated)="onUniqIdReceived($event)"
+  (nameDocGenerated)="onNameDocReceived($event)"
+></app-files>
         
         <!-- <div class="col-span-2">
           <label for="isContractDevelopment" class="block font-bold">האם יש חוזה בפיתוח? </label>
@@ -189,11 +201,25 @@
             class="custom-checkbox flex-item" />
         </div>
 
-        <div class="col-span-2 flex-container" *ngIf="project.isHachiraContract">
-          <label for="hachiraContractFile" class="block font-bold mb-2 flex-item">קובץ חוזה חכירה: </label>
-          <input type="file" id="hachiraContractFile" [(ngModel)]="project.hachiraContractFile" class="w-full flex-item"
-            multiple />
-        </div>
+      <!-- חוזה חכירה -->
+<div class="col-span-2" *ngIf="project.isHachiraContract">
+  <label for="hachiraContractFile" class="block font-bold">קובץ חוזה חכירה: </label>
+  <input
+    type="file"
+    id="hachiraContractFile"
+    (change)="onFilesSelected($event, 'hachiraContractFile')"
+    class="w-full"
+    multiple
+  />
+</div>
+<app-files
+  [fileNameShow]="selectedFileNames"
+  [contractorCode]="contractorId"
+  [fileList]="selectedFiles || undefined"
+  [labelText]="getLabelText('hachiraContractFile')"
+  (uniqIdGenerated)="onUniqIdReceived($event)"
+  (nameDocGenerated)="onNameDocReceived($event)"
+></app-files>
 
         <div class="col-span-2">
           <label for="hachiraContractEndDate" class="block font-bold">תאריך סיום החוזה חכירה:</label>
@@ -214,12 +240,24 @@
             [(ngModel)]="project.isPurchaseTaxPaymentConfirmation" class="custom-checkbox flex-item" />
         </div>
 
-        <div class="col-span-2 flex-container" *ngIf="project.isPurchaseTaxPaymentConfirmation">
-          <label for="purchaseTaxPaymentConfirmationFile" class="block font-bold mb-2 flex-item">קובץ אישור תשלום מס
-            רכישה:</label>
-          <input type="file" id="purchaseTaxPaymentConfirmationFile"
-            [(ngModel)]="project.purchaseTaxPaymentConfirmationFile" class="w-full flex-item" multiple />
+        <div class="col-span-2" *ngIf="project.isPurchaseTaxPaymentConfirmation">
+          <label for="purchaseTaxPaymentConfirmationFile" class="block font-bold">קובץ אישור תשלום מס רכישה: </label>
+          <input
+            type="file"
+            id="purchaseTaxPaymentConfirmationFile"
+            (change)="onFilesSelected($event, 'purchaseTaxPaymentConfirmationFile')"
+            class="w-full"
+            multiple
+          />
         </div>
+        <app-files
+          [fileNameShow]="selectedFileNames"
+          [contractorCode]="contractorId"
+          [fileList]="selectedFiles || undefined"
+          [labelText]="getLabelText('purchaseTaxPaymentConfirmationFile')"
+          (uniqIdGenerated)="onUniqIdReceived($event)"
+          (nameDocGenerated)="onNameDocReceived($event)"
+        ></app-files>
 
         <!-- <div class="col-span-2">
           <label for="isHachiraContract" class="block font-bold mb-2">האם יש חוזה חכירה: </label>
