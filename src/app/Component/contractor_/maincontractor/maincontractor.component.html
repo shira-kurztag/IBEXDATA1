@@ -104,8 +104,8 @@
               <small class="p-error">נא להזין מספר ח.פ תקין</small>
             </div>
           </div>
+
           <div class="p-col-12 p-md-6 contractor-detail-edit">
-           
             <input id="managementName" type="text" pInputText formControlName="managementName" />
             <label for="managementName" class="detail-title">: שם מלא של המנהל</label>
             <div *ngIf="contractorForm.get('managementName')?.invalid && contractorForm.get('managementName')?.touched">
