@@ -6,11 +6,22 @@
       </div>
       <!-- כפתור למעבר למצב עריכה -->
       <button class="tenant-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך</button>
-      <!-- כפתור לשמירת הטופס -->
-      <button class="tenant-button" *ngIf="editMode" type="submit">שמור שינויים</button>
-      <!-- כפתור לביטול עריכה -->
-      <button class="tenant-button" *ngIf="editMode" type="button" (click)="cancelEdit()">ביטול</button>
+
     </div>
+    <div class="tenant-box2" *ngIf="editMode">
+      <div class="icon-box">
+        <i class="pi pi-save"></i>
+      </div>
+      <button class="tenant-button" type="submit">שמור שינויים</button>
+    </div>
+    
+    <div class="tenant-box1" *ngIf="editMode">
+      <div class="icon-box">
+        <i class="pi pi-times"></i>
+      </div>
+      <button class="tenant-button" type="button" (click)="cancelEdit()">ביטול</button>
+    </div>
+
     <div class="t">
       <div class="p-col-12 p-md-6 tenant-detail" *ngIf="Message" style="color: red;">
         הזכויות אינן שוות ל-100%
@@ -115,11 +126,11 @@
               />
               <label class="detail-title">מספר ת.ז/דרכון:</label>
               <span class="detail-content" *ngIf="!editMode">
-                {{ tenant.get('powerOfAttorneyId')?.value }}
+                {{ tenant.get('tenantIdentity')?.value }}
               </span>
               <input
                 class="detail-content"
-                formControlName="powerOfAttorneyId"
+                formControlName="tenantIdentity"
                 *ngIf="editMode"
               />
               </div>
@@ -141,6 +152,15 @@
               <input
                 class="detail-content"
                 formControlName="numberPhone"
+                *ngIf="editMode"
+              />
+              <label class="detail-title">טלפון:</label>
+              <span class="detail-content" *ngIf="!editMode">
+                {{ tenant.get('numberPhone2')?.value }}
+              </span>
+              <input
+                class="detail-content"
+                formControlName="numberPhone2"
                 *ngIf="editMode"
               />
             </div>

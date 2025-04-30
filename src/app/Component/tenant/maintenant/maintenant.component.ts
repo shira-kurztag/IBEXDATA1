@@ -46,17 +46,33 @@ export class MainTenantComponent implements OnInit {
 
   createTenantGroup(tenant: any): FormGroup {
     return this.fb.group({
-      tenantStatus: [tenant.tenantStatus || '', Validators.required],
-      firstName: [tenant.firstName || '', Validators.required],
-      lastName: [tenant.lastName || '', Validators.required],
-      tenantIdentity: [tenant.tenantIdentity || '', Validators.required],
-      partAsset: [tenant.partAsset || 0, [Validators.required, Validators.min(0)]],
-      isSignatureByPowerOfAttorney: [tenant.isSignatureByPowerOfAttorney || false],
-      firstNamePower: [tenant.firstNamePower || ''],
-      lastNamePower: [tenant.lastNamePower || ''],
-      powerOfAttorneyId: [tenant.powerOfAttorneyId || ''],
-      address: [tenant.address || ''],
-      numberPhone: [tenant.numberPhone || ''],
+      TenantId: [tenant.tenantId || 0], // מספר
+      ApartmentId: [this.apartmentId || 0], // מספר
+      tenantStatus: [tenant.tenantStatus || 0], // מספר
+      firstName: [tenant.firstName || ''], // מחרוזת
+      lastName: [tenant.lastName || ''], // מחרוזת
+      tenantIdentity: [tenant.tenantIdentity || ''], // מחרוזת
+      IdFileName: [tenant.idFileName || ''], // מחרוזת
+      IdentityFromCountry: [tenant.identityFromCountry || ''], // מחרוזת
+      USName: [tenant.usName || ''], // מחרוזת
+      PreviousTenantId: [tenant.previousTenantId || 0], // מספר
+      IdentityTypePrevious: [tenant.identityTypePrevious || 0], // מספר
+      TenantIdentityPrevious: [tenant.tenantIdentityPrevious || ''], // מחרוזת
+      OtherPrevious: [tenant.otherPrevious || ''], // מחרוזת
+      IdentityType: [tenant.identityType || 0], // מספר
+      partAsset: [tenant.partAsset || 0, [Validators.min(0)]], // מספר עם ולידציה
+      isSignatureByPowerOfAttorney: [tenant.isSignatureByPowerOfAttorney || false], // בוליאני
+      firstNamePower: [tenant.firstNamePower || ''], // מחרוזת
+      lastNamePower: [tenant.lastNamePower || ''], // מחרוזת
+      IdFileNamePower: [tenant.idFileNamePower || ''], // מחרוזת
+      powerOfAttorneyId: [tenant.powerOfAttorneyId || ''], // מחרוזת
+      PowerOfAttorneyType: [tenant.powerOfAttorneyType || 0], // מספר
+      FileName: [tenant.fileName || ''], // מחרוזת
+      FromDate: [tenant.fromDate || null], // תאריך
+      address: [tenant.address || ''], // מחרוזת
+      numberPhone: [tenant.numberPhone || ''], // מחרוזת
+      numberPhone2: [tenant.numberPhone2 || ''], // מחרוזת
+      powerId: [tenant.powerId || 0], // מספר
     });
   }
 
@@ -66,6 +82,8 @@ export class MainTenantComponent implements OnInit {
         this.tenants.clear();
         tenant.forEach((t) => this.tenants.push(this.createTenantGroup(t)));
         this.MessagePartAsset();
+        console.log(tenant);
+        
       }
     });
   }
@@ -79,14 +97,37 @@ export class MainTenantComponent implements OnInit {
   }
 
   saveChanges(): void {
-    if (this.tenantForm.valid) {
-      console.log('Form Data:', this.tenantForm.value);
-      this.editMode = false; // חזרה לתצוגה בלבד אחרי שמירה
-    } else {
-      alert('נא למלא את כל השדות הנדרשים!');
-    }
+    const tenants = this.tenantForm.value.tenants; 
+    console.log('Form Data:', tenants);
+    // בדיקה אם חלק בנכס גדול מ-100
+    this.MessagePartAsset();
+   if( this.partAsset <= 100){
+    // חזרה למצב תצוגה בלבד
+    this.editMode = false; 
+    // שליחת הנתונים לשרת
+    this.srvTenant.UpdateTenants(tenants).subscribe(
+      (response: any) => {
+        console.log('Tenants updated:', response);
+      },
+      (error) => {
+        console.error('Error updating tenants:', error);
+        this.getTenants();
+        alert('הייתה שגיאה בעת עדכון הנתונים.');
+      }
+    );
+
+  }else{
+      alert('חלק בנכס לא יכול להיות גדול מ-100%');
+      this.Message = true; // הצגת הודעת שגיאה
+  }
   }
 
+
+  //פונקציה שבודקת את את חלק בנכס 
+  // אם הוא גדול מ-100
+
+ 
+  
   toggleEdit(): void {
     this.editMode = true; // מעבר למצב עריכה
   }
