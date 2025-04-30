@@ -33,10 +33,11 @@ import { BankNamesDTO } from '../../Models/BankNamesDTO.model';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from '../../service/comment.service';
 import { Comment } from '../../Models/Comment.model';
-import { LandOwnerShip } from '../../Models/LandOwnerShip.model';
+
 import { FilesComponent } from '../files/files.component';
 import { FilesService } from '../../service/files.service';
 import { CommentComponent } from '../comment/comment.component';
+import { LandOwnerShip } from '../../Models/LandOwnerShip.model';
 // interface Column {
 //   field: string;
 //   header: string;
