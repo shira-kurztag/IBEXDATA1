@@ -1,9 +1,8 @@
-<form [formGroup]="mortgageForm" (ngSubmit)="saveAll()">
+<form [formGroup]="mortgageForm" >
  
   <div class="contractors-container">
    
-    <!-- <div class="p-grid" *ngIf="mortgageForm.get('selectedMortgageType')?.value?.mortagegesTypeId ==null"> -->
-      <div class="p-grid" *ngIf="MortagegeId == 0">
+       <div class="p-grid" *ngIf="MortagegeId == 0">
       <div class="p-col-12 p-md-6 contractor-detail">
         <label for="mortgageType" class="detail-title">:נא בחר/י את סוג המשכנתא שברצונך להוסיף</label>
         <p-dropdown id="mortgageType" class="MortagegesType-select" [options]="mortagegesTypes" formControlName="mortagegesType" >
@@ -11,8 +10,7 @@
           <ng-template let-selectedMortgageType pTemplate="selectedItem">
             <div class="contractor-item">
               {{selectedMortgageType?.mortagegesTypeText }}
-             
-            </div>
+             </div>
           </ng-template>
           <ng-template let-mortgageType pTemplate="item">
             <div class="contractor-item">
@@ -68,19 +66,11 @@
     <div class="p-col-12 p-md-6 contractor-detail">
       <label for="borrowerName" class="detail-title">מי נוטל המשכנתא?</label>
       <p-dropdown id="borrowerName" [options]="borrowerOptions" formControlName="TeanantId" optionLabel="label" (onChange)="onBorrowerChange($event)"></p-dropdown>
-<!-- שאלה נוספת שמוצגת רק בתנאים מסוימים -->
+
 <!-- שאלה נוספת שמוצגת רק בתנאים מסוימים -->
 <div  *ngIf="showAdditionalQuestion">
    <label for="allOwnersApproved" class="detail-title">האם התקבלו אישורים מכל הבעלים?</label>
-   <!-- <div class="switch-wrapper">
-    <span class="switch-off-label">לא</span>
-    <p-inputSwitch 
-      id="IsAllTenantlpprovat" 
-      formControlName="IsAllTenantlpprovat">
-    </p-inputSwitch>
-    <span class="switch-on-label">כן</span>
-  </div> -->
-  <div class="card flex justify-center gap-4">
+    <div class="card flex justify-center gap-4">
         <p-toggleswitch formControlName="isAllTenantlpprovat">
           <ng-template #handle let-checked="checked">
             <span [ngClass]="['!text-xs']">{{ checked ? 'כן' : 'לא' }}</span>
@@ -93,8 +83,7 @@
     <div class="p-col-12 p-md-6 contractor-detail">
       <span class="detail-title">סכום ההתחייבות:</span>
       <p-dropdown class="unlimitedAmount-select" [options]="unlimitedAmountOptions"  optionLabel="label" [(ngModel)]="selectedunlimitedAmount" [ngModelOptions]="{standalone: true}">
-      
-        <ng-template let-selectedunlimitedAmount pTemplate="selectedItem">
+              <ng-template let-selectedunlimitedAmount pTemplate="selectedItem">
           <div class="contractor-item">
             {{selectedunlimitedAmount?.label}}
           </div>
@@ -218,23 +207,30 @@
     </div>
 
     <div class="p-col-12 p-md-6 contractor-detail">
-      <span class="detail-title">הוסף הערה:</span>
-      <textarea formControlName="note" class="additional-note-input"></textarea>
+      <app-comment [objectId]="MortagegeId"></app-comment>
     </div>
    
-      
-    <div class="p-col-12 p-md-6 contractor-detail"> 
+   <div class="p-col-12 p-md-6 contractor-detail"> 
       
       <button pButton type="submit" label="שמור והעבר לאישור מנהל" (click)="saveAndSend()" class="p-button"></button>
-      <button pButton type="submit" label="שמור" class="p-button"></button>
+      <button pButton type="submit" label="שמור" class="p-button" (click)="saveAll()"></button>
    
     </div>
-<div *ngIf="booolSave">
-  <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-     <app-admin-approval [comment]="קיימת משכנאת ל........"></app-admin-approval>
+<div *ngIf="boolSave">
+  <p-dialog 
+    [modal]="true" 
+    [(visible)]="visible" 
+    [style]="{ width: '25rem', top: '10px' }" 
+    [closable]="false" 
+    [blockScroll]="true">
+    <app-admin-approval 
+     [ownerId]="listIdOwnerOfmort"
+     [apartmentId]="apartmentId"
+      [comment]="commentText" 
+      (close)="closeAdminApprovalDialog()">
+    </app-admin-approval>
    </p-dialog>
  </div>
-
   </div>
   <p-dialog header="שגיאה" [(visible)]="displayErrorDialog" [modal]="true" [closable]="true">
     <p>{{errorDialogMessage}}</p>

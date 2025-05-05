@@ -5,7 +5,7 @@ import { FilesService } from '../../service/files.service';
 @Component({
   selector: 'app-files',
   templateUrl: './files.component.html',
-  styleUrls: ['./files.component.css'],
+  styleUrls: [],
   standalone: true
 })
 export class FilesComponent implements OnChanges {

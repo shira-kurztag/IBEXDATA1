@@ -29,4 +29,5 @@ export class TenantService {
   GetPartAssetByOwnerTenants(id: number): Observable<number> {
     return this.http.get<number>(`${this.BASE_URL}/GetPartAssetByOwnerTenants/${id}`);
   }
+  
 }

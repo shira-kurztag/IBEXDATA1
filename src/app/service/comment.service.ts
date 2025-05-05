@@ -15,11 +15,14 @@ export class CommentService {
   constructor() { }
 
   AddComment(comment: Comment): Observable<Comment> {
+    console.log("CommentService-add");
+    
     console.log('Sending Comment data:', comment);
     return this.https.post<Comment>(this.BASE_URL, comment);
   }
 
   GetComment(id: bigint): Observable<Comment> {
+    console.log("CommentService-get");
     return this.https.get<Comment>(`${this.BASE_URL}/GetComment/${id}`);
   }
 

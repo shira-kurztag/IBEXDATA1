@@ -7,6 +7,7 @@ import { MortagegeLevels } from '../Models/MortagegeLevels.model';
 import { Owner } from '../Models/Owner.model';
 import { Tenant } from '../Models/Tenant.model';
 import { Mortagege } from '../Models/Mortagege.model';
+import { TypeMessage } from '../Models/TypeMessage.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,26 +30,20 @@ export class MortagegeService {
   GetAllMortagegeLevels(): Observable<MortagegeLevels[]> {
     return this.http.get<MortagegeLevels[]>(this.BASE_URL+'/GetAllMortagegeLevels');
   }
- //  https://localhost:5178/api/Mortagege
+
  CreateMortagege(mortagege:Mortagege):Observable<any>{
   console.log(mortagege);
   return this.http.post<any>(this.BASE_URL,mortagege);
  }
-//  return this.http.get<Tenant[]>(`${this.BASE_URL}/GetOwnersByApartmentId/${id}`);
-//  https://localhost:5178/api/Mortagege/SaveFullMortagege/8721
-//  savedFullMortagege(mortagege: Mortagege,id:number): Observable<any> {
-//   console.log("id:"+id);
-//   // const mortagege1 = {
-//   //   TeanantId: 123,
-//   //   Amount: 100000,
-//   //   InterestRate: 3.5,
-//   //   Duration: 30,
-//   // }; // אובייקט משכנתא תקין
-//     return this.http.put<any>(`${this.BASE_URL}/SaveFullMortagege/${id}`, mortagege);
-//   }
+
 savedFullMortagege(mortagege: Mortagege, id: number): Observable<any> {
   console.log("Received id:", id);
   console.log("Received mortagege object:", mortagege);
   return this.http.put<any>(`${this.BASE_URL}/SaveFullMortagege/${id}`, mortagege);
 }
+
+GetAllTypeMessages(): Observable<TypeMessage[]> {
+  return this.http.get<TypeMessage[]>(this.BASE_URL+'/GetAllTypeMessages');
+}
+
 }

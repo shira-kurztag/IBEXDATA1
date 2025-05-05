@@ -8,7 +8,8 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-comment',
   imports: [CommonModule,  FormsModule],
   templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+  styleUrl: './comment.component.css',
+  standalone: true
 })
 export class CommentComponent {
 @Input() objectId=0;
