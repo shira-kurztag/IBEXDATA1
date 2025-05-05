@@ -1,15 +1,16 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TenantService } from '../../../service/tenant.service';
 import { getIdentityTypeString, IdentityType } from '../../../Models/IdentityType.enum';
 import { getTenantStatusString, TenantStatus } from '../../../Models/TenantStatus.enum';
+import { OwnerdetailsComponent } from '../../detailsApartment/ownerdetails/ownerdetails.component';
 
 @Component({
   selector: 'app-tenant',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterModule,OwnerdetailsComponent  ],
   templateUrl: './maintenant.component.html',
   styleUrls: ['./maintenant.component.css'],
   providers: [TenantService],
@@ -20,6 +21,7 @@ export class MainTenantComponent implements OnInit {
   partAsset: number = 0;
   Message: boolean = false;
   editMode: boolean = false; // מצב עריכה - ברירת מחדל: תצוגה בלבד
+  activeComponent: string = ''; // מצב ברירת מחדל - לא מוצגת קומפוננטה
 
   @Input() apartmentID!: number;
 
@@ -123,10 +125,28 @@ export class MainTenantComponent implements OnInit {
   }
 
 
-  //פונקציה שבודקת את את חלק בנכס 
+  //פונקציה שבודקת את את חלק בנכס/ 
   // אם הוא גדול מ-100
 
- 
+  deleteTenant(id: number): void {
+    if (confirm('האם אתה בטוח שברצונך למחוק את הפריט?')) {
+      console.log(id);
+      this.srvTenant.DeleteTenants(id).subscribe(
+        (response: any) => {
+          console.log('Tenants delete:', response);
+          this.getTenants(); // רענון הרשימה לאחר מחיקה
+        },
+        (error) => {
+          console.error('Error delete tenants:', error);
+          this.getTenants(); // רענון הרשימה לאחר מחיקה
+          alert('הייתה שגיאה בעת מחיקת הנתונים.');
+        }
+      );
+    } else {
+      console.log('המשתמש ביטל את המחיקה.');
+    }
+  }
+  
   
   toggleEdit(): void {
     this.editMode = true; // מעבר למצב עריכה
@@ -146,5 +166,9 @@ export class MainTenantComponent implements OnInit {
 
   getTenantStatusString(status: TenantStatus): string {
     return getTenantStatusString(status);
+  }
+
+  setActiveComponent(componentName: string): void {
+    this.activeComponent = componentName;
   }
 }

@@ -250,3 +250,19 @@
     height: 40px; /* Ensure consistent height */
     font-size: 14px; /* Ensure consistent font size */
 }
+button.owner-details-button.active-button {
+    background-color: #1f4b4b !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 15px !important;
+    border-radius: 5px !important;
+    margin-left: 10px !important; /* Ensure proper spacing for RTL */
+    cursor: pointer !important;
+    height: 35px !important; /* Ensure consistent height */
+    font-size: 14px !important; /* Ensure consistent font size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+
+}

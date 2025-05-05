@@ -35,6 +35,8 @@
               <span class="status-box" *ngIf="!editMode">
                 {{ getTenantStatusString(tenant.get('tenantStatus')?.value) }}
               </span>
+              <button *ngIf="!editMode" type="button" icon="pi pi-trash" class="  p-button p-button-danger "
+                        (click)="deleteTenant(tenant.get('tenantId')?.value )"></button>
              
             </div>
 
@@ -175,3 +177,67 @@
     </div>
   </form>
 </div>
+
+
+
+<div class="contractor1">
+  <div class="contractor-header1">
+   
+   <div class="contractor-button1">
+       <!-- הוספת תנאי [ngClass] כדי להוסיף מחלקה לכפתור שנלחץ -->
+       <button 
+           pButton 
+           type="button" 
+           (click)="setActiveComponent('ownerdetails')" 
+           [ngClass]="{'active-button1': activeComponent === 'OwnerdetailsComponent'}" 
+           label="פרטי בעליים" 
+     
+
+           class="p-button owner-details-button1">
+       פרטי בעליים
+       </button>
+
+       <!-- <button 
+           pButton 
+           type="button" 
+           (click)="setActiveComponent('apartmentDetailsByTenant')" 
+           [ngClass]="{'active-button': activeComponent === 'apartmentDetailsByTenant'}" 
+           label="פרטי הדירה" 
+           class="p-button owner-details-button1">
+           פרטי דירה
+       </button> -->
+
+       <!-- <button 
+           pButton 
+           type="button" 
+           (click)="setActiveComponent('maintenant')" 
+           [ngClass]="{'active-button': activeComponent === 'maintenant'}" 
+           label="רשימת דיירים" 
+           class="p-button owner-details-button1">
+           רשימת דיירים
+       </button> -->
+
+       <!-- <button 
+           pButton 
+           type="button" 
+           (click)="setActiveComponent('apartmentHomePage')" 
+           [ngClass]="{'active-button': activeComponent === 'apartmentHomePage'}" 
+           label="דף הבית" 
+           class="p-button owner-details-button1">
+           דף הבית
+       </button> -->
+   </div>
+ </div>
+ <div class="contractor-content1">
+
+   <div class="content-content1"> 
+       <!-- הצגת קומפוננטות הילדים -->
+       <app-owner-details *ngIf="activeComponent === 'ownerdetails'"    [apartmentID]="apartmentID"></app-owner-details>
+       <!-- <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
+       <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant> -->
+       <!-- <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant> -->
+   </div>
+</div>
+</div>
+
+

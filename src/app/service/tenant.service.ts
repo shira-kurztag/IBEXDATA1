@@ -41,5 +41,10 @@ export class TenantService {
   UpdateTenants(tenants: TenantDTO2[]): Observable<any> {
     return this.http.put(`${this.BASE_URL}`, tenants);
   }
+  
+  DeleteTenants(TenantId: number): Observable<any> {
+    return this.http.delete(`${this.BASE_URL}/${TenantId}`, );
+  }
 
+ 
 }
