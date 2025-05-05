@@ -1,1 +1,233 @@
-<p>building works!</p>
+<div>
+  <button (click)="goBack()">חזרה לרשימת בניינים</button>
+  <h2>פרטי בניין</h2>
+  <p><strong>מספר בניין:</strong> {{ building?.buildingNumber }}</p>
+  <p><strong>מספר קומות:</strong> {{ building?.floors }}</p>
+  <p><strong>מספר דירות:</strong> {{ building?.apartments }}</p>
+  <p><strong>תיאור:</strong> {{ building?.description }}</p>
+</div>
+
+
+
+<div class="grid grid-cols-2 gap-4">
+  <div class="flex flex-col gap-6">
+
+    <label for="buildingStatus" class="block font-bold">סטטוס בניין: </label>
+    <button pButton type="submit" label="פעיל" class="p-button-primary w-full"></button>
+  </div>
+
+  <div>
+    <label for="buildingNumber" class="block font-bold">מספר בניין : {{  BuildingNumber}}</label>
+    <input type="number" pInputText id="buildingNumber" [(ngModel)]="building.buildingNumber" class="p-inputtext" />
+
+  </div>
+
+</div>
+<div class="col-span-2">
+  <label for=" floorsNumber" class="block font-bold"> מספר קומות: </label>
+  <input type="number" pInputText id=" floorsNumber" [(ngModel)]="building.floorsNumber" class="w-full" />
+</div>
+<div>
+  <label for="isElevator" class="block font-bold">מעלית: </label>
+  <input type="text" pInputText id="isElevator" [(ngModel)]="building.isElevator" class="p-inputtext" />
+
+</div>
+
+<label for="addressAndNumberOfMunicipal" class="block font-bold">כתובת ומספר עירוני : </label>
+<input type="text" pInputText id="addressAndNumberOfMunicipal" [(ngModel)]="building.addressAndNumberOfMunicipal" class="p-inputtext" />
+</div>
+
+<div>
+<label for="isBuildingPermit" class="block font-bold"> היתר הבנייה שלי : </label>
+<input type="text" pInputText id="isBuildingPermit" [(ngModel)]="building.isBuildingPermit" class="p-inputtext" />
+
+</div>
+
+</div>
+<div class="col-span-2">
+<label for=" buildingPermitFile" class="block font-bold">  קובץ היתר בנייה: </label>
+<input type="text" pInputText id=" buildingPermitFile" [(ngModel)]="building.buildingPermitFile" class="w-full" />
+</div>
+<div>
+<label for="is4Form" class="block font-bold">nnnn: </label>
+<input type="text" pInputText id="is4Form" [(ngModel)]="building.is4Form" class="p-inputtext" />
+
+</div>
+
+<div>
+  <label for="_4formFile" class="block font-bold"> ggf : {{  _4formFile}}</label>
+  <input type="number" pInputText id="_4formFile" [(ngModel)]="building._4formFile" class="p-inputtext" />
+
+</div>
+
+</div>
+<div class="col-span-2">
+<label for=" isPerselasia" class="block font-bold">  פרסלסיה: </label>
+<input type="text" pInputText id="isPerselasia" [(ngModel)]="building.isPerselasia" class="w-full" />
+</div>
+<div>
+<label for="fullAssetIdentificationBeforePerselasia" class="block font-bold">נכס לפני: </label>
+<input type="text" pInputText id="fullAssetIdentificationBeforePerselasia" [(ngModel)]="building.fullAssetIdentificationBeforePerselasia" class="p-inputtext" />
+
+</div>
+
+<label for="anotherIdentification" class="block font-bold">  זיהוי נוסף : </label>
+<input type="text" pInputText id="anotherIdentification" [(ngModel)]="building.anotherIdentification" class="p-inputtext" />
+</div>
+
+<div>
+<label for="bloc" class="block font-bold"> גוש   :</label>
+<input type="number" pInputText id="bloc" [(ngModel)]="building.bloc" class="p-inputtext" />
+
+</div>
+
+</div>
+<div class="col-span-2">
+<label for="smooth" class="block font-bold">   להחליק : </label>
+<input type="text" pInputText id="smooth" [(ngModel)]="building.smooth" class="w-full" />
+</div>
+<div>
+<label for="isTookJointListingExpenses" class="block font-bold">הוצאות רישום משותף של: </label>
+<input type="text" pInputText id="isTookJointListingExpenses" [(ngModel)]="building.isTookJointListingExpenses" class="p-inputtext" />
+
+</div>
+
+<div>
+  <label for="principalAmount" class="block font-bold">  סכום קרן : </label>
+  <input type="text" pInputText id="principalAmount" [(ngModel)]="building.principalAmount" class="p-inputtext" />
+  
+  </div>
+  
+  </div>
+  <div class="col-span-2">
+  <label for=" collectionExpensesFrom1" class="block font-bold">   הוצאות מאוסף : </label>
+  <input type="date" pInputText id=" collectionExpensesFrom1" [(ngModel)]="building.collectionExpensesFrom1" class="w-full" />
+  </div>
+  <div>
+  <label for="collectionAmount1" class="block font-bold">סכום אוסף: </label>
+  <input type="number" pInputText id="collectionAmount1" [(ngModel)]="building.collectionAmount1" class="p-inputtext" />
+  
+  </div>
+  
+  <div>
+    <label for="collectionExpensesFrom2" class="block font-bold"> הוצאות אוסף מ-2 : </label>
+    <input type="date" pInputText id="collectionExpensesFrom2" [(ngModel)]="building.collectionExpensesFrom2" class="p-inputtext" />
+  
+  </div>
+  
+  </div>
+  <div class="col-span-2">
+  <label for="collectionAmount2" class="block font-bold">  סכום אוסף2: </label>
+  <input type="number" pInputText id="collectionAmount2" [(ngModel)]="building.collectionAmount2" class="w-full" />
+  </div>
+  <div>
+  <label for="collectionExpensesFrom3" class="block font-bold">הוצאות אוסף מ-3 : </label>
+  <input type="date" pInputText id="collectionExpensesFrom3" [(ngModel)]="building.collectionExpensesFrom3" class="p-inputtext" />
+  
+  </div>
+  
+  <label for="collectionAmount3" class="block font-bold">  סכום אוסף3  : </label>
+  <input type="number" pInputText id="collectionAmount3" [(ngModel)]="building.collectionAmount3" class="p-inputtext" />
+  </div>
+  
+  <div>
+  <label for="note" class="block font-bold"> פֶּתֶק   :</label>
+  <input type="text" pInputText id="note" [(ngModel)]="building.note" class="p-inputtext" />
+  
+  </div>
+  
+  </div>
+  <div class="col-span-2">
+  <label for="noteStatus" class="block font-bold">   הערה סטטוס : </label>
+  <input type="text" pInputText id="noteStatus" [(ngModel)]="building.noteStatus" class="w-full" />
+  </div>
+  <div>
+  <label for="insertDate" class="block font-bold">   תאריך הכנס: </label>
+  <input type="date" pInputText id="insertDate" [(ngModel)]="building.insertDate" class="p-inputtext" />
+  
+  </div>
+  
+  <div class="col-span-2">
+    <label for="updateDate" class="block font-bold">   תאריך עדכון : </label>
+    <input type="date" pInputText id="updateDate" [(ngModel)]="building.updateDate" class="w-full" />
+    </div>
+    <div>
+    <label for="deleteReson" class="block font-bold"> מחיקת רזון: </label>
+    <input type="text" pInputText id="deleteReson" [(ngModel)]="building.deleteReson" class="p-inputtext" />
+    
+    </div>
+    
+    <div>
+      <label for="noteEdit" class="block font-bold">  הערה עריכה  : </label>
+      <input type="text" pInputText id="noteEdit" [(ngModel)]="building.noteEdit" class="p-inputtext" />
+      
+      </div>
+      
+      </div>
+      <div class="col-span-2">
+      <label for=" noteEditStatus" class="block font-bold"> הערה עריכה סטטוס: </label>
+      <input type="text" pInputText id=" noteEditStatus" [(ngModel)]="building.noteEditStatus" class="w-full" />
+      </div>
+      <div>
+      <label for="noteApprovalRights" class="block font-bold"> הערה זכויות אישור: </label>
+      <input type="text" pInputText id="noteApprovalRights" [(ngModel)]="building.noteApprovalRights" class="p-inputtext" />
+      
+      </div>
+      
+      <div>
+        <label for="noteEsitApprovalRights" class="block font-bold">   הערה זכויות אישור : </label>
+        <input type="text" pInputText id="noteEsitApprovalRights" [(ngModel)]="building.noteEsitApprovalRights" class="p-inputtext" />
+      
+      </div>
+      
+      </div>
+      <div class="col-span-2">
+      <label for="buildingDrawingFile" class="block font-bold">   קובץ ציור בניין: </label>
+      <input type="text" pInputText id="buildingDrawingFile" [(ngModel)]="building.buildingDrawingFile" class="w-full" />
+      </div>
+      <div>
+      <label for="parkingDrawingFile" class="block font-bold">  קובץ ציור חניה : </label>
+      <input type="text" pInputText id="parkingDrawingFile" [(ngModel)]="building.parkingDrawingFile" class="p-inputtext" />
+      
+      </div>
+      
+      <label for="warehauseDrawingFile" class="block font-bold">   קובץ ציור מחסן  : </label>
+      <input type="text" pInputText id="warehauseDrawingFile" [(ngModel)]="building.warehauseDrawingFile" class="p-inputtext" />
+      </div>
+      
+      <div>
+      <label for="fullAssetIdentificationAfterPerselasia" class="block font-bold"> זיהוי נכסים לאחר   :</label>
+      <input type="text" pInputText id="fullAssetIdentificationAfterPerselasia" [(ngModel)]="building.fullAssetIdentificationAfterPerselasia" class="p-inputtext" />
+      
+      </div>
+      
+     
+      <div class="col-span-2">
+      <label for="isStartingRishumBaitMeshutaf" class="block font-bold">   מתחיל רישום בייט משוטף  : </label>
+      <input type="text" pInputText id="isStartingRishumBaitMeshutaf" [(ngModel)]="building.isStartingRishumBaitMeshutaf" class="w-full" />
+      </div>
+      <div>
+      <label for="isPrepareWarningComment" class="block font-bold">  אזהרה של הכנה: </label>
+      <input type="date" pInputText id="isPrepareWarningComment" [(ngModel)]="building.isPrepareWarningComment" class="p-inputtext" />
+      
+      </div>
+      
+      <div class="col-span-2">
+        <label for="isRishumBaitMeshutaf" class="block font-bold">  הוא רישום בייט משותף : </label>
+        <input type="text" pInputText id="isRishumBaitMeshutaf" [(ngModel)]="building.isRishumBaitMeshutaf" class="w-full" />
+        </div>
+        <div>
+        <label for="smothArea" class="block font-bold">   אזור smoth : </label>
+        <input type="number" pInputText id="smothArea" [(ngModel)]="building.smothArea" class="p-inputtext" />
+        
+        </div>
+  
+  
+  
+  
+  
+
+
+
+
+
