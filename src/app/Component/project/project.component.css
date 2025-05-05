@@ -274,4 +274,27 @@ h3 {
   outline-color: transparent;
   box-shadow: var(--p-inputtext-shadow);
 }
+.building-list {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
+.building-item {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.building-item:hover {
+  background-color: #f9f9f9;
+}
+
+.building-details {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

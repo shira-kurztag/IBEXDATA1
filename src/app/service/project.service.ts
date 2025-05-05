@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ProjectCreateDTO } from '../Models/ProjectCreateDTO.model';
 import { Contractor } from '../Models/Contractor.model';
 import { LandOwnerShip } from '../Models/LandOwnerShip.model';
+import { BuildingDTO } from '../Models/BuildingDTO.model';
 
 @Injectable({
   providedIn: 'root'

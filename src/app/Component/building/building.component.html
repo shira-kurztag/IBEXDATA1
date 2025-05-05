@@ -1,0 +1,53 @@
+
+<div class="section-left" *ngIf="!IsGetFirst">
+  <div class="button-container">
+    <div class="contractor-box-container">
+
+      <div class="contractor-box">
+        <div class="icon-box">
+          <i class="pi pi-pencil"></i>
+        </div>
+        <button class="contractor-button" (click)="lookingForBuilding()">חפש</button>
+      </div>
+
+      <div class="contractor-box">
+        <div class="icon-box">
+          <i class="pi pi-pencil"></i>
+        </div>
+        <button class="contractor-button" (click)="update()"> ערוך בניין </button>
+      </div>
+      <div class="contractor-box">
+        <div class="icon-box">
+          <i class="pi pi-plus"></i>
+        </div>
+        <button class="contractor-button" (click)="addBuilding()"> הוסף בניין</button>
+      </div>
+      <div class="contractor-box" >
+        <div class="icon-box" dir="ltr">
+          <i class="pi pi-align-justify"></i>
+        </div>
+        <button class="contractor-button"  (click)="()">רשימת דירות</button>
+        <div *ngIf="flagList" >
+          <select (change)="onBuildSelect($event)" >
+            <option *ngFor="let p of BuildingActive"  [value]="p.buildingNumber">{{ p.buildingNumber }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="contractor-box">
+        <div class="icon-box">
+          <i class="pi pi-align-justify"></i>
+        </div>
+        <button class="contractor-button" (click)="getDeleteBuildings()"> בנינים שנמחקו </button>
+   
+      </div>
+
+      <div class="contractor-box">
+        <div class="icon-box">
+          <i class="pi pi-plus"></i>
+        </div>
+        <button class="contractor-button" (click)="moveMangerBulding()"> העברה למנהל </button>
+      </div>
+
+    </div>
+  </div>
+</div>
