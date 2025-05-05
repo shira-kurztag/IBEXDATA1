@@ -9,49 +9,147 @@ import { FilesService } from '../../service/files.service';
   standalone: true
 })
 export class FilesComponent implements OnChanges {
+  DocId: number = 0;
+  DocId2: number = 0;
+  isProcessingFiles: boolean = false; // דגל לניהול עיבוד הקבצים
+  lastProcessedLabel: string | null = null; // מזהה לשינוי ב-labelText
+  debounceTimeout: any = null; // מנגנון debounce
+
   @Input() fileNameShow: string[] = []; // שמות הקבצים
-  @Input() contractorCode?: number;
-  @Input() projectCode?: number;
+  @Input() contractorCode?: number; // קוד הקבלן
+  @Input() projectCode?: number; // קוד הפרויקט
+  @Input() buildingCode?: number;
+  @Input() apartmentCode?: number;
+  @Input() tenantCode?: number;
+  @Input() fileList!: FileList; // רשימת הקבצים הנבחרים
+  @Input() nameDoc?: string; // שם המסמך
+  @Input() labelText: string = ''; // קבלת הטקסט של ה-label
+
   @Output() uniqIdGenerated = new EventEmitter<string>(); // Output להעברת ה-UniqId
+  @Output() nameDocGenerated = new EventEmitter<string>(); // Output להעברת ה-nameDoc
 
   constructor(private fileService: FilesService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['fileNameShow'] &&
-      changes['fileNameShow'].currentValue &&
-      changes['fileNameShow'].currentValue.length > 0
-    ) {
-      console.log('FilesComponent detected change:', changes['fileNameShow'].currentValue);
-      this.addFiles();
+    console.log('ngOnChanges triggered:', changes);
+
+    // בדיקה אם labelText השתנה
+    if (changes['labelText'] && changes['labelText'].currentValue) {
+      const newLabelText = changes['labelText'].currentValue;
+
+      // מניעת קריאות כפולות על אותו labelText
+      if (this.lastProcessedLabel === newLabelText) {
+        console.log('Skipping duplicate labelText processing:', newLabelText);
+        return;
+      }
+
+      // עדכון מזהה השינוי
+      this.lastProcessedLabel = newLabelText;
+
+      // מנגנון debounce למניעת קריאות מרובות
+      clearTimeout(this.debounceTimeout);
+      this.debounceTimeout = setTimeout(() => {
+        this.processLabelText(newLabelText);
+      }, 300); // עיכוב של 300ms
     }
   }
 
-  addFiles() {
-    if (this.fileNameShow.length === 0) {
+  private processLabelText(labelText: string): void {
+    console.log('Processing labelText:', labelText);
+
+    // מניעת עיבודים מקבילים
+    if (this.isProcessingFiles) {
+      console.log('Processing is already in progress, skipping...');
       return;
     }
-    // יצירת UniqId
-    const uniqId = this.generateUniqueId();
 
-    // שידור ה-UniqId לקומפוננטת האב
+    this.isProcessingFiles = true;
+
+    this.getdocId(labelText)
+      .then(() => {
+        console.log('Calling addFiles after successful getdocId...');
+        this.addFiles(this.fileList);
+      })
+      .finally(() => {
+        this.isProcessingFiles = false; // איפוס הדגל לאחר סיום
+      });
+  }
+
+  addFiles(fileList: FileList): void {
+    if (!fileList || fileList.length === 0) {
+      console.error('No files selected.');
+      return;
+    }
+
+    if (!this.DocId2) {
+      console.error('DocId is not set. Cannot proceed with addFiles.');
+      return;
+    }
+
+    console.log('Starting to process files:', fileList);
+
+    const uniqId = this.generateUniqueId();
+    this.nameDocGenerated.emit(this.labelText);
     this.uniqIdGenerated.emit(uniqId);
 
-    // יצירת מסמכים
-    this.fileNameShow.forEach((fileName) => {
-      const magardoc = new Magardoc();
-      magardoc.UniqId = uniqId;
-      magardoc.LogId = this.generateGuidLogId();
-      magardoc.FileNameShow = fileName;
-      magardoc.ContractorCode = this.contractorCode;
-      magardoc.ProjectCode = this.projectCode;
+    const formData = new FormData();
 
-      this.fileService.AddFile(magardoc);
+  Array.from(fileList).forEach(file => {
+  //const uniqId = this.generateUniqueId(); // יצירת uniqId עבור כל קובץ
+  const magardoc = new Magardoc();
+  magardoc.uniqId = uniqId;
+  magardoc.logId = this.generateGuidLogId();
+  magardoc.fileNameShow = file.name;
+  magardoc.docId = this.DocId2;
+  magardoc.contractorCode = this.contractorCode ?? 0;
+  magardoc.projectCode = this.projectCode ?? 0;
+  magardoc.date = this.formatDate(new Date());
+  magardoc.buildingCode = this.buildingCode ?? 0;
+  magardoc.apartmentCode = this.apartmentCode ?? 0;
+  magardoc.tenantCode = this.tenantCode ?? 0;
+
+  const formData = new FormData();
+  formData.append('file', file); // שדה file
+  formData.append('magardocJson', JSON.stringify(magardoc)); // שדה magardocJson
+
+  this.fileService.AddFile(formData).subscribe({
+    next: (response) => {
+      console.log('File uploaded successfully:', response);
+    },
+    error: (err) => {
+      console.error('Error uploading file:', err);
+    },
+  });
+});
+  }
+
+  getdocId(name: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      console.log('Fetching DocId for:', name);
+      this.fileService.GetdocId(name).subscribe({
+        next: (res) => {
+          this.DocId = res;
+          this.DocId2 = res.code;
+          console.log('DocId fetched successfully:', res);
+          resolve(); // פתרון ה-Promise לאחר קבלת הערך
+        },
+        error: (err) => {
+          console.error('Error fetching DocId:', err);
+          reject(err); // דחיית ה-Promise במקרה של שגיאה
+        },
+      });
     });
   }
 
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
   private generateUniqueId(): string {
-    return `${this.getRandomNumbers(6)}-${this.getTimestamp()}`;
+    return `${this.contractorCode}-${this.getRandomNumbers(6)}-${this.getTimestamp()}`;
   }
 
   private getRandomNumbers(length: number): string {

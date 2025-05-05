@@ -38,6 +38,19 @@ import { FilesComponent } from '../files/files.component';
 import { BuildingService } from '../../service/building.service'; // ייבוא השירות החדש
 import { BuildingDTO } from '../../Models/BuildingDTO.model';
  
+import { FilesService } from '../../service/files.service';
+import { CommentComponent } from '../comment/comment.component'; 
+// interface Column {
+//   field: string;
+//   header: string;
+//   customExportHeader?: string;
+// }
+
+// interface ExportColumn {
+//   title: string;
+//   dataKey: string;
+// }
+
 @Component({
   selector: 'app-project-component',
   templateUrl: './project.component.html',
@@ -63,7 +76,8 @@ import { BuildingDTO } from '../../Models/BuildingDTO.model';
     CalendarModule,
     CheckboxModule,
     HttpClientModule,
-    FilesComponent
+    FilesComponent,
+    CommentComponent
   ],
   providers: [MessageService, ConfirmationService],
   styles: [
@@ -88,26 +102,31 @@ export class ProjectComponent implements OnInit {
   comNamesString : string | undefined
   lendingBankName : string =""
   bankId : number=0
+  companyId: number = 0;
+  comNames: Contractor = new Contractor();
+  comNamesString: string | undefined;
+  lendingBankName: string = '';
+  bankId: number = 0;
   allBanks: Bank[] = [];
   project: Project = new Project();
-  projectName: string ="";
+  projectName: string = '';
   banks: BankNamesDTO[] = [];
   bank!: BankNamesDTO;
-  filteredBanks: BankNamesDTO[] = []
+  filteredBanks: BankNamesDTO[] = [];
   allContractors: Contractor[] = [];
   lendingContractorName: string = '';
   contractors: Contractor[] = [];
-  contractorId: number | undefined; // אתחול לא null
+  contractorId: number | undefined;
   filteredContractors: Contractor[] = [];
   isNumberValid: boolean = true;
-  degelUp :boolean=false;
-  IsGetFirst: boolean = true// הוספה
-  flagUpdate: boolean = false
-  IsGetSecond: boolean = false// הצגה
+  degelUp: boolean = false;
+  IsGetFirst: boolean = true;
+  flagUpdate: boolean = false;
+  IsGetSecond: boolean = false;
   showAdditionalFields: boolean = false;
-  nameBank: string | undefined
-  flagAddGet!: string
-  degelUpdate: boolean= false;
+  nameBank: string | undefined;
+  flagAddGet!: string;
+  degelUpdate: boolean = false;
   isEdit: boolean = false;
   comment: Comment = new Comment()
   commentsArr: Comment[]=[]
@@ -125,6 +144,19 @@ export class ProjectComponent implements OnInit {
   buildingNumber?: string =""
   flagBuild! : boolean
 
+  comment: Comment = new Comment();
+  commentsArr: Comment[] = [];
+  commentPrev: Comment = new Comment();
+  commentsPrev: Comment[] = [];
+  commentFlag: boolean = false;
+  idAfter: number = 0;
+  commentsList: Comment[] = [];
+  filteredcomment: Comment[] = [];
+  comment$: Comment[] = [];
+  landOwnerShips: LandOwnerShip[] = [];
+  landOwnerShipName: string = '';
+  namelandOwnerShip: string | undefined;
+  LandOwnerShipId: number = 0;
   selectedFileNames: string[] = []; // רשימת שמות הקבצים שנבחרו
   contractDevelopmentFileUniqId: string = ''; // UniqId לשדה קובץ חוזה בפיתוח
   @Output() filesSelected = new EventEmitter<string[]>(); // Output להעברת שמות הקבצים לקומפוננטה אחרת
@@ -146,11 +178,24 @@ export class ProjectComponent implements OnInit {
   // buildings: any[] = []; // רשימת הבניינים שתוצג
   // showBuildings: boolean = false; // משתנה לבקרת הצגת הרשימה
  
+  selectedFiles: FileList = new DataTransfer().files; // רשימת הקבצים בפועל
+  documentName: string = "";
+  currentFieldId: string = ''; // מזהה השדה הפעיל
+
+  @Output() filesSelected = new EventEmitter<FileList>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
+  @Output() contractorCodeChanged = new EventEmitter<number>(); // Output להעברת contractorCode
+  @Output() nameDoc = new EventEmitter<string>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
+  @ViewChild(CommentComponent) commentComponent!: CommentComponent; // קישור לקומפוננטת הבן
+  
+  // נתונים לשדות חוזים
+  public fileData: { [key: string]: { uniqId: string; nameDoc: string } } = {};
+
   constructor(
     private route: ActivatedRoute,
      private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private cd: ChangeDetectorRef,
     private cd: ChangeDetectorRef,
     private projectService: ProjectService,
     private commentService: CommentService,
@@ -241,6 +286,90 @@ getBuild(projectname: string) {
   }
  
   onFilesSelected(event: Event): void {
+    private bankService: BankService,
+    private fileService: FilesService
+  ) {}
+
+ // עדכון ל-ngOnInit()
+ngOnInit() {
+  this.getAllBanks();
+  this.getBanks();
+  this.getLandOwnerShip();
+  this.getIdBank();
+  this.getIdLandOwnerShip();
+
+  this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
+
+  if (this.flagAddGet === 'false') {
+    this.projectName = String(this.route.snapshot.paramMap.get('name'));
+    this.IsGetFirst = false;
+    this.IsGetSecond = true;
+    this.getProject();
+  } else {
+    this.IsGetFirst = true;
+    this.IsGetSecond = false;
+  }
+
+  this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+  console.log('companyId', this.companyId);
+
+  this.getCompanyName();
+
+  if (this.isEdit) {
+    this.updateProjectDatesForDisplay();
+  }
+
+  // אתחול נתונים עבור כל השדות
+  this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['appreciationTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
+}
+
+// עדכון ל-onUniqIdReceived
+onUniqIdReceived(uniqId: string): void {
+  if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
+    const nameDoc = this.fileData[this.currentFieldId].nameDoc;
+
+    switch (nameDoc) {
+      case 'קובץ חוזה בפיתוח':
+        this.project.contractDevelopmentFile = uniqId;
+        console.log('Updated project.contractDevelopmentFile with uniqId:', uniqId);
+        break;
+
+      case 'קובץ חוזה חכירה':
+        this.project.hachiraContractFile = uniqId;
+        console.log('Updated project.hachiraContractFile with uniqId:', uniqId);
+        break;
+
+      case 'קובץ אישור תשלום מס רכישה':
+        this.project.purchaseTaxPaymentConfirmationFile = uniqId;
+        console.log('Updated project.purchaseTaxPaymentConfirmationFile with uniqId:', uniqId);
+        break;
+
+      case 'קובץ אישור תשלום מס שבח':
+        this.project.appreciationTaxPaymentConfirmationFile = uniqId;
+        console.log('Updated project.appreciationTaxPaymentConfirmationFile with uniqId:', uniqId);
+        break;
+
+      default:
+        console.warn('No matching field found for nameDoc:', nameDoc);
+    }
+  } else {
+    console.error('nameDoc is not defined or invalid. Unable to update project field with uniqId.');
+  }
+}
+
+  onNameDocReceived(nameDoc: string): void {
+    if (this.currentFieldId && this.fileData[this.currentFieldId]) {
+      this.fileData[this.currentFieldId].nameDoc = nameDoc;
+      console.log(`${this.currentFieldId} nameDoc:`, nameDoc);
+    }
+  }
+
+  // פונקציה לטיפול בקבצים שנבחרו
+  onFilesSelected(event: Event, fieldId: string): void {
+    this.currentFieldId = fieldId; // שמירת השדה הפעיל
     const input = event.target as HTMLInputElement;
     if (input.files) {
       const selectedFileNames = Array.from(input.files).map(file => file.name);
@@ -251,6 +380,35 @@ getBuild(projectname: string) {
     }
   }
  
+      this.selectedFiles = input.files;
+      this.selectedFileNames = Array.from(input.files).map(file => file.name);
+
+      console.log(`Selected files for ${fieldId}:`, this.selectedFileNames);
+    }
+  }
+
+  // פונקציה להחזרת טקסט מתוך label
+  getLabelText(labelForId: string): string {
+    console.log("Called getLabelText with ID:", labelForId);
+    const labels = Array.from(document.querySelectorAll('label'));
+    console.log("Available labels:", labels);
+    const labelElement = labels.find(label => label.getAttribute('for') === this.currentFieldId);
+    console.log("Found label element:", labelElement);
+    return labelElement ? labelElement.textContent?.replace(':', '').trim() || '' : '';
+  }
+
+  // onFilesSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files) {
+  //     const selectedFileNames = Array.from(input.files).map(file => file.name);
+  //     this.selectedFileNames = [...selectedFileNames];
+  //     console.log('Selected files in parent:', this.selectedFileNames);
+  //   //  this.contractorCode = this.contractorId ?? 0; // השתמש ב-0 כברירת מחדל אם contractorId הוא undefined
+  //     this.contractorCodeChanged.emit(this.contractorId); // שידור contractorCode
+  //     this.filesSelected.emit(this.selectedFileNames);
+  //   }
+  // }
+
   toggleAdditionalFields() {
     this.showAdditionalFields = !this.showAdditionalFields;
   }
@@ -466,6 +624,7 @@ getBuild(projectname: string) {
       this.comNames = comNames;
       console.log('Company name:', comNames);
       this.comNamesString = this.comNames.contractorName;
+      this.contractorId = this.comNames.contractorId
       console.log('comNamesString name:', this.comNames.contractorName);
     });
   }
@@ -525,6 +684,7 @@ async update1() {
       next: data => {
         console.log("Data received:", data);
         this.cleanFile();
+        
       },
       error: err => {
         console.error("Error occurred:", err);
@@ -548,7 +708,7 @@ async update1() {
       this.projectService.Update(this.project.projectId, this.project).subscribe({
         next: data => {
           console.log("Data received:", data);
-         // this.cleanFile();
+        ///  this.commentComponent.updateComment(data.projectId)
           this.IsGetFirst = false;
           this.IsGetSecond = true;
           this.getProject()
@@ -581,7 +741,11 @@ async update1() {
       next: data => {
         console.log("Data received:", data);
        // this.cleanFile();
-        this.updateComment(data.projectId);
+       debugger;
+       this.commentComponent.updateComment(data.projectId)
+        // this.updateComment(data.projectId);
+        
+
         this.IsGetFirst = false;
         this.IsGetSecond = true;
         this.getProject()
@@ -661,6 +825,32 @@ async update1() {
   }
   }
  
+
+  // async updateComment(idOfProj: number){
+    
+  //   for (let i = 0; i < this.commentsList.length; i++) {
+  //     if(this.comment.commentText !=""){
+  //     this.commentsList[i].objectId = idOfProj
+
+  //     const id = this.commentsList[i].id ?? '0'; 
+  //     const idComment = BigInt(id);
+  //     console.log("idComment",idComment);
+  //     console.log("this.commentsList[i]",this.commentsList[i]);
+      
+      
+  //     // השתמשי ב-UpdateComment עם idComment
+  //     this.commentService.UpdateComment(idComment, this.commentsList[i]).subscribe(
+  //       data => {
+  //         console.log('Comment updated:', data);
+  //       },
+  //       error => {
+  //         console.error('Error updating comment', error);
+  //       }
+  //     );
+  //   }
+  // }
+  // }
+
   deleteCommentFromList(idComment: bigint) {
     for (let i = 0; i < this.commentsList.length; i++) {
       const commentId = this.commentsList[i].id;
