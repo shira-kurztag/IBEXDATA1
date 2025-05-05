@@ -6,7 +6,6 @@
       </div>
       <!-- כפתור למעבר למצב עריכה -->
       <button class="tenant-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך</button>
-
     </div>
     <div class="tenant-box2" *ngIf="editMode">
       <div class="icon-box">
@@ -36,8 +35,8 @@
                 {{ getTenantStatusString(tenant.get('tenantStatus')?.value) }}
               </span>
               <button *ngIf="!editMode" type="button" icon="pi pi-trash" class="  p-button p-button-danger "
-                        (click)="deleteTenant(tenant.get('tenantId')?.value )"></button>
-             
+                        (click)="deleteTenant( tenant.get('tenantId')?.value  )"> מחיקת דייר</button>
+            
             </div>
 
             <!-- פרטים אישיים -->
@@ -45,6 +44,8 @@
               <label class="detail-title">שם:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('firstName')?.value }}
+
+               
               </span>
               <input
                 class="detail-content"

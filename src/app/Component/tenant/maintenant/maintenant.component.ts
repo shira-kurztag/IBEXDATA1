@@ -48,7 +48,7 @@ export class MainTenantComponent implements OnInit {
 
   createTenantGroup(tenant: any): FormGroup {
     return this.fb.group({
-      TenantId: [tenant.tenantId || 0], // מספר
+      tenantId: [tenant.tenantId|| 0], // מספר
       ApartmentId: [this.apartmentId || 0], // מספר
       tenantStatus: [tenant.tenantStatus || 0], // מספר
       firstName: [tenant.firstName || ''], // מחרוזת
@@ -129,6 +129,8 @@ export class MainTenantComponent implements OnInit {
   // אם הוא גדול מ-100
 
   deleteTenant(id: number): void {
+    console.log(id);
+
     if (confirm('האם אתה בטוח שברצונך למחוק את הפריט?')) {
       console.log(id);
       this.srvTenant.DeleteTenants(id).subscribe(
