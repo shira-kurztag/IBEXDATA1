@@ -33,10 +33,11 @@ import { BankNamesDTO } from '../../Models/BankNamesDTO.model';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from '../../service/comment.service';
 import { Comment } from '../../Models/Comment.model';
-import { LandOwnerShip } from '../../Models/LandOwnerShip.model';
+
 import { FilesComponent } from '../files/files.component';
 import { FilesService } from '../../service/files.service';
-import { CommentComponent } from '../comment/comment.component'; 
+import { CommentComponent } from '../comment/comment.component';
+import { LandOwnerShip } from '../../Models/LandOwnerShip.model';
 // interface Column {
 //   field: string;
 //   header: string;
@@ -295,10 +296,10 @@ onUniqIdReceived(uniqId: string): void {
 
   async getIdBank(): Promise<void> {
     console.log("--------getIdBank------");
-  
+ 
     return new Promise<void>((resolve, reject) => {
      
-      try { 
+      try {
         console.log("nameBank",this.lendingBankName);
         console.log("allBanks",this.allBanks);
         for (let i = 0; i < this.allBanks.length; i++) {
@@ -326,7 +327,7 @@ onUniqIdReceived(uniqId: string): void {
 
   getNameLandOwnerShip(){
     console.log("---------getNameLandOwnerShip----------");
-    
+   
     for (let i = 0; i < this.landOwnerShips.length; i++) {
       if (this.landOwnerShips[i].id == this.project.landOwnershipId)
         this.landOwnerShipName = this.landOwnerShips[i].description
@@ -334,10 +335,10 @@ onUniqIdReceived(uniqId: string): void {
       console.log("project",this.project);
       console.log(" this.project.landOwnershipId", this.project.landOwnershipId);
       console.log(this.landOwnerShips[i].id == this.project.landOwnershipId);
-      
+     
     }
     console.log("landOwnerShipName",this.landOwnerShipName);
-    
+   
   }
 
   getBanks() {
@@ -372,7 +373,7 @@ onUniqIdReceived(uniqId: string): void {
 
   // async getIdBank(): Promise<void> {
   //   console.log("--------getIdBank------");
-  
+ 
   //   // עוטפים את הלוגיקה בהבטחה כדי להפוך את הפונקציה לאסינכרונית
   //   // return new Promise<void>((resolve, reject) => {
   //     for (let i = 0; i < this.allBanks.length; i++) {
@@ -386,7 +387,7 @@ onUniqIdReceived(uniqId: string): void {
   // }
   // async getIdBank(): Promise<void> {
   //   console.log("--------getIdBank------");
-  
+ 
   //   // עוטפים את הלוגיקה בהבטחה כדי להפוך את הפונקציה לאסינכרונית
   //   return new Promise<void>((resolve, reject) => {
   //     for (let i = 0; i < this.allBanks.length; i++) {
@@ -394,7 +395,7 @@ onUniqIdReceived(uniqId: string): void {
   //         this.bankId = this.allBanks[i].bankId;
   //       console.log("bankId", this.bankId);
   //       console.log("====-0---------------============");
-        
+       
   //     }
   //     resolve(); // מסיימים את ההבטחה כאשר הפעולה הסתיימה
   //   });
@@ -405,7 +406,7 @@ onUniqIdReceived(uniqId: string): void {
     for (let i = 0; i < this.allBanks.length; i++) {
       if (this.allBanks[i].bankId == this.project.lendingBank)
         this.nameBank = this.allBanks[i].bankText
-        console.log("name",this.nameBank); 
+        console.log("name",this.nameBank);
     }
   }
 
@@ -473,7 +474,7 @@ onUniqIdReceived(uniqId: string): void {
   }
 
   getCompanyName() {
-    
+   
     this.projectService.GetCompanyById(this.companyId).pipe(
       catchError(error => {
         console.error('Error fetching company name:', error);  // הדפס את השגיאה
@@ -489,7 +490,7 @@ onUniqIdReceived(uniqId: string): void {
   }
 
   cleanFile(){
-    this.project = new Project() 
+    this.project = new Project()
   }
 
   //   // קריאה לשירות לעדכון הפרויקט עם ה-ID
@@ -515,17 +516,17 @@ onUniqIdReceived(uniqId: string): void {
   //   });
   // }
 
-  
+ 
 
   //update(id: number){
-  
+ 
   delete(){
   this.degelUp=true;
    this.update();
   }
-    
+   
   update() {
-    this.IsGetFirst = true; 
+    this.IsGetFirst = true;
     this.IsGetSecond= false;
     this.isEdit = true;
     this.updateProjectDatesForDisplay();
@@ -543,7 +544,7 @@ async update1() {
       next: data => {
         console.log("Data received:", data);
         this.cleanFile();
-        
+       
       },
       error: err => {
         console.error("Error occurred:", err);
@@ -585,11 +586,11 @@ async update1() {
       await this.update1();
       return;
     }
-  
-    await this.updateProjectDates(); 
+ 
+    await this.updateProjectDates();
     await this.getIdBank();
     await this.getIdLandOwnerShip();
-  
+ 
       this.project.lendingBank = this.bankId;
       this.project.projectStatus = 1;
       this.project.contractingCompanyId = this.companyId;
@@ -603,7 +604,7 @@ async update1() {
        debugger;
        this.commentComponent.updateComment(data.projectId)
         // this.updateComment(data.projectId);
-        
+       
 
         this.IsGetFirst = false;
         this.IsGetSecond = true;
@@ -624,7 +625,7 @@ async update1() {
         this.commentsPrev = [...this.commentsPrev,data]
         this.commentsList = [...this.commentsList,data]
         console.log("commentsList", this.commentsList);
-        
+       
       },
       error => {
         console.error('Error fetching project', error);
@@ -638,7 +639,7 @@ async update1() {
     try {
       this.comment.id = BigInt(0).toString();
       this.comment.objectId = this.project.projectId;
-  
+ 
       const data = await this.commentService.AddComment(this.comment).toPromise();
       console.log("Data received:", data);
       if (data) {
@@ -651,7 +652,7 @@ async update1() {
         } else {
           console.error("ID is undefined in received data");
         }
-  
+ 
         this.comment = new Comment();
       }
     } catch (err) {
@@ -661,17 +662,17 @@ async update1() {
   }
 
   // async updateComment(idOfProj: number){
-    
+   
   //   for (let i = 0; i < this.commentsList.length; i++) {
   //     if(this.comment.commentText !=""){
   //     this.commentsList[i].objectId = idOfProj
 
-  //     const id = this.commentsList[i].id ?? '0'; 
+  //     const id = this.commentsList[i].id ?? '0';
   //     const idComment = BigInt(id);
   //     console.log("idComment",idComment);
   //     console.log("this.commentsList[i]",this.commentsList[i]);
-      
-      
+     
+     
   //     // השתמשי ב-UpdateComment עם idComment
   //     this.commentService.UpdateComment(idComment, this.commentsList[i]).subscribe(
   //       data => {
@@ -693,13 +694,13 @@ async update1() {
       }
     }
     console.log("this.commentsList after delete",this.commentsList);
-    
+   
   }
-  
+ 
   deleteComment(comment: Comment) {
     if (comment.id !== undefined && comment.id !== null) {
       const id = BigInt(comment.id);
-  
+ 
       this.commentService.DeleteComment((id)).subscribe(
         data => {
           console.log("Delete comment:", comment);
@@ -795,7 +796,7 @@ async update1() {
   }
 
   save(){
-  
+ 
   }
 
   addBuilding(){
@@ -803,11 +804,11 @@ async update1() {
   }
 
   getBuildings(){
-    
+   
   }
 
   getDeleteBuildings(){
-    
+   
   }
 
   moveManger(){
@@ -870,7 +871,7 @@ async update1() {
     this.project.isPrepareWarningComment = false;
   }
 
-  
+ 
 }
   // getWinningTenderDate() {
   //   return this.isEdit ? this.project.dateWinningTenderDisplay : this.project.dateWinningTender;
@@ -1191,7 +1192,7 @@ async update1() {
 //   ngOnInit() {
    
 //   }
-  
+ 
 //   private formatDate(date: Date): string {
 //     return date.toISOString().split('T')[0];
 //   }
@@ -1236,7 +1237,7 @@ async update1() {
 //   // addProject() {
 //   //   this.project.insertDate = new Date();
 //   //   console.log(this.project);
-    
+   
 
 //   //   this.projectService.add(this.project).subscribe({
 //   //     next: data => {
@@ -1478,7 +1479,7 @@ async update1() {
 //   addProject() {
 //     this.project.insertDate = new Date();
 //     console.log(this.project);
-    
+   
 
 //     this.projectService.add(this.project).subscribe({
 //       next: data => {
@@ -1558,7 +1559,7 @@ async update1() {
   //     if (flagUpdate) {
   //       const data = await this.projectService.Update( this.project.projectId, this.project).toPromise();
   //       console.log("Data received:", data);
-        
+       
   //       this.messageService.add({
   //         severity: 'success',
   //         summary: 'הפרויקט עודכן בהצלחה!',
@@ -1568,7 +1569,7 @@ async update1() {
   //     } else {
   //       const data = await this.projectService.AddProject(this.project).toPromise();
   //       console.log("Data received:", data);
-        
+       
   //       this.messageService.add({
   //         severity: 'success',
   //         summary: 'הפרויקט נשמר בהצלחה!',
@@ -1588,7 +1589,7 @@ async update1() {
   // }
   // update(projectId:number){
   //   console.log("הגיע",projectId);
-    
+   
   //   if (this.degelUp==true){  //רוצה למחוק את הפרויקט
   //     console.log("degelUp",this.degelUp);
   //     this.project.projectStatus = 0;
@@ -1644,20 +1645,20 @@ async update1() {
 
   // async addProject( ) {
   //   try {
-  //     await this.updateProjectDates(); 
-      
+  //     await this.updateProjectDates();
+     
   //     console.log(this.project);
-      
+     
   //     await this.getIdBank();
-      
+     
   //     this.project.lendingBank = this.bankId;
   //     // this.project.lendingContractorName= this.contractorId;
   //     this.project.projectStatus = 1;
   //     this.project.contractingCompanyId = this.companyId;
-  
+ 
   //     const data = await this.projectService.AddProject(this.project).toPromise();
   //     console.log("Data received:", data);
-      
+     
   //     this.messageService.add({
   //       severity: 'success',
   //       summary: 'הפרויקט נשמר בהצלחה!',
@@ -1693,7 +1694,7 @@ async update1() {
   //     } else {
   //       const data = await this.projectService.AddProject(this.project).toPromise();
   //       console.log("Data received:", data);
-        
+       
   //       this.messageService.add({
   //         severity: 'success',
   //         summary: 'הפרויקט נשמר בהצלחה!',
@@ -1724,7 +1725,7 @@ async update1() {
 
   //     const data = await this.projectService.Update(this.project.projectId, this.project).toPromise();
   //     console.log("Data received:", data);
-      
+     
   //     this.messageService.add({
   //       severity: 'success',
   //       summary: 'הפרויקט נשמר בהצלחה!',
@@ -1741,4 +1742,3 @@ async update1() {
   //     });
   //   }
   // }
-

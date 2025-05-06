@@ -47,4 +47,3 @@ export const routes: Routes = [
  //   { path: 'AddTenant', component: AddTenantComponent ,canDeactivate:[UnsavedChangesGuard]},
    // { path: 'tenant', component: TenantComponent },///+id
     //{ path: 'AddContractors', component: AddContractorComponent ,canDeactivate:[UnsavedChangesGuard]},
-];

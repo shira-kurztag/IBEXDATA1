@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilesComponent } from './files.component';
+import { AdminApprovalComponent } from './admin-approval.component';
 
-describe('FilesComponent', () => {
-  let component: FilesComponent;
-  let fixture: ComponentFixture<FilesComponent>;
+describe('AdminApprovalComponent', () => {
+  let component: AdminApprovalComponent;
+  let fixture: ComponentFixture<AdminApprovalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FilesComponent]
+      imports: [AdminApprovalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FilesComponent);
+    fixture = TestBed.createComponent(AdminApprovalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

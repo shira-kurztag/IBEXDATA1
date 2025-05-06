@@ -21,8 +21,7 @@ export class BankService {
   }
 
   GetAll(): Observable<Bank[]> {
-    console.log(`${this.BASE_URL}`);
-    return this.https.get<Bank[]>(`${this.BASE_URL}`);
+      return this.https.get<Bank[]>(`${this.BASE_URL}`);
   }
 
   getBanks(): Observable<Bank[]> {

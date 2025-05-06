@@ -1,7 +1,9 @@
 <div *ngIf="contractor" class="contractors-container">
+  
     <ng-template pTemplate="header">
       <span class="header-title">{{ contractor.contractorName }} קבלן</span>
     </ng-template>
+
     <div *ngIf="!editMode">
       <div class="p-grid">
         <div class="p-col-12 p-md-6 contractor-detail">
@@ -73,8 +75,10 @@
             <i class="pi pi-align-justify"></i>
           </div>
           <button class="contractor-button" (click)="projectDelete()"> פרויקטים שנמחקו</button>
-          <div *ngIf="flagListDelete">
-            <option *ngFor="let p of  ProjectsDelete" [value]="p.projectName">{{ p.projectName }}</option>
+          <div *ngIf="flagListDelete"> 
+            <select [(ngModel)]="chosedProject" (change)="onProjectChange()" class="w-full">
+              <option *ngFor="let p of  ProjectsDelete" [value]="p.projectName">{{ p.projectName }}</option>
+            </select>
           </div>
         </div>
 
@@ -100,8 +104,8 @@
               <small class="p-error">נא להזין מספר ח.פ תקין</small>
             </div>
           </div>
+
           <div class="p-col-12 p-md-6 contractor-detail-edit">
-           
             <input id="managementName" type="text" pInputText formControlName="managementName" />
             <label for="managementName" class="detail-title">: שם מלא של המנהל</label>
             <div *ngIf="contractorForm.get('managementName')?.invalid && contractorForm.get('managementName')?.touched">
