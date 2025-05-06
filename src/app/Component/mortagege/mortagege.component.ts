@@ -33,8 +33,9 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     CheckboxModule,
     ButtonModule,
     DialogModule,
-    Dialog, ButtonModule
-    , FormsModule, ToggleSwitch,InputSwitchModule
+    Dialog, 
+    ButtonModule, 
+    FormsModule, ToggleSwitch,InputSwitchModule
 
   ],
 
