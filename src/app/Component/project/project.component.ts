@@ -38,6 +38,7 @@ import { FilesComponent } from '../files/files.component';
 import { FilesService } from '../../service/files.service';
 import { CommentComponent } from '../comment/comment.component';
 import { LandOwnerShip } from '../../Models/LandOwnerShip.model';
+import { Magardoc } from '../../Models/Magardoc.model';
 // interface Column {
 //   field: string;
 //   header: string;
@@ -138,12 +139,18 @@ export class ProjectComponent implements OnInit {
   selectedFiles: FileList = new DataTransfer().files; // רשימת הקבצים בפועל
   documentName: string = "";
   currentFieldId: string = ''; // מזהה השדה הפעיל
-
+  filesFromChild: Magardoc[] = []; // משתנה לקליטת הקבצים
+  showTable: boolean = false;
+  isFileUploaded: boolean = false; // משתנה לבקרת כפתור הפעולה הנוסף
+  private uniqueIdForSession: string | null = null;
   @Output() filesSelected = new EventEmitter<FileList>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
   @Output() contractorCodeChanged = new EventEmitter<number>(); // Output להעברת contractorCode
   @Output() nameDoc = new EventEmitter<string>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
   @ViewChild(CommentComponent) commentComponent!: CommentComponent; // קישור לקומפוננטת הבן
-  
+  @ViewChild(FilesComponent) fileComponent!: FilesComponent;
+  filesArr : Magardoc[] = []
+  nameDocumet: string =""
+
   // נתונים לשדות חוזים
   public fileData: { [key: string]: { uniqId: string; nameDoc: string } } = {};
 
@@ -155,99 +162,116 @@ export class ProjectComponent implements OnInit {
     private projectService: ProjectService,
     private commentService: CommentService,
     private bankService: BankService,
-    private fileService: FilesService
+    private fileService: FilesService,
+    private cdr: ChangeDetectorRef
   ) {}
-
- // עדכון ל-ngOnInit()
-ngOnInit() {
-  this.getAllBanks();
-  this.getBanks();
-  this.getLandOwnerShip();
-  this.getIdBank();
-  this.getIdLandOwnerShip();
-
-  this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
-
-  if (this.flagAddGet === 'false') {
-    this.projectName = String(this.route.snapshot.paramMap.get('name'));
-    this.IsGetFirst = false;
-    this.IsGetSecond = true;
-    this.getProject();
-  } else {
-    this.IsGetFirst = true;
-    this.IsGetSecond = false;
+  ngOnInit() {
+    this.getAllBanks();
+    this.getBanks();
+    this.getLandOwnerShip();
+    this.getIdBank();
+    this.getIdLandOwnerShip();
+  
+    this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
+  
+    if (this.flagAddGet === 'false') {
+      this.projectName = String(this.route.snapshot.paramMap.get('name'));
+      this.IsGetFirst = false;
+      this.IsGetSecond = true;
+      this.getProject(this.projectName);
+    } else {
+      this.IsGetFirst = true;
+      this.IsGetSecond = false;
+    }
+  
+    this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('companyId', this.companyId);
+  
+    this.getCompanyName();
+  
+    if (this.isEdit) {
+      this.updateProjectDatesForDisplay();
+    }
+  
+    // אתחול נתונים עבור כל השדות
+    this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
+    this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
+    this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' };
+    this.fileData['appreciationTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
   }
 
-  this.companyId = Number(this.route.snapshot.paramMap.get('id'));
-  console.log('companyId', this.companyId);
+  // עדכון ל-onUniqIdReceived
+  onUniqIdReceived(uniqId: string): void {
+    //if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
+      //const nameDoc = this.fileData[this.currentFieldId].nameDoc;
+  
+      if(uniqId != ""){
+        
+      switch (this.nameDocumet) {
+        case 'קובץ חוזה בפיתוח':
+          this.project.contractDevelopmentFile = uniqId;
+          console.log('Updated project.contractDevelopmentFile with uniqId:', uniqId);
+          break;
+  
+        case 'קובץ חוזה חכירה':
+          this.project.hachiraContractFile = uniqId;
+          console.log('Updated project.hachiraContractFile with uniqId:', uniqId);
+          break;
+  
+        case 'קובץ אישור תשלום מס רכישה':
+          this.project.purchaseTaxPaymentConfirmationFile = uniqId;
+          console.log('Updated project.purchaseTaxPaymentConfirmationFile with uniqId:', uniqId);
+          break;
+  
+        case 'קובץ אישור תשלום מס שבח':
+          this.project.appreciationTaxPaymentConfirmationFile = uniqId;
+          console.log('Updated project.appreciationTaxPaymentConfirmationFile with uniqId:', uniqId);
+          break;
+  
+          case 'קובץ אישור תשלום מס מכירה ':
+            this.project.appreciationTaxPaymentConfirmationFile = uniqId;
+            console.log('Updated project.appreciationTaxPaymentConfirmationFile with uniqId:', uniqId);
+            break;
+    
+            case 'קובץ אישור תשלום מס  ':
+              this.project.salesTaxPaymentConfirmationFile = uniqId;
+              console.log('Updated project.salesTaxPaymentConfirmationFile with uniqId:', uniqId);
+              break;
 
-  this.getCompanyName();
+              case 'יפוי כוח ב"ח לעורך דין מטפל ':
+               this.project.powerOfAttorneyToLawyerFile = uniqId;
+                console.log('Updated project.powerOfAttorneyToLawyerFile with uniqId:', uniqId);
+                break;
 
-  if (this.isEdit) {
-    this.updateProjectDatesForDisplay();
+            case 'קובץ פרצלציה':
+              this.project.perselasiaFile = uniqId;
+              console.log('Updated project.perselasiaFile with uniqId:', uniqId);
+              break;
+      
+              case 'תשריט העמדה על הפרויקט':
+                this.project.projectDrawingFile = uniqId;
+                console.log('Updated project.projectDrawingFile with uniqId:', uniqId);
+                break;
+        
+
+        default:
+          console.warn('No matching field found for nameDoc:', this.nameDocumet);
+      }
+    } else {
+      console.error('nameDoc is not defined or invalid. Unable to update project field with uniqId.');
+    }
   }
 
-  // אתחול נתונים עבור כל השדות
-  this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
-  this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
-  this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' };
-  this.fileData['appreciationTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
+onNameDocReceived(nameDoc: string): void {
+  console.log('onNameDocReceived called with nameDoc:', nameDoc);
+  this.nameDocumet = nameDoc
+
+  if (this.currentFieldId && this.fileData[this.currentFieldId]) {
+    this.fileData[this.currentFieldId].nameDoc = nameDoc;
+    console.log(`${this.currentFieldId} nameDoc:`, nameDoc)
+  }
 }
 
-// עדכון ל-onUniqIdReceived
-onUniqIdReceived(uniqId: string): void {
-  if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
-    const nameDoc = this.fileData[this.currentFieldId].nameDoc;
-
-    switch (nameDoc) {
-      case 'קובץ חוזה בפיתוח':
-        this.project.contractDevelopmentFile = uniqId;
-        console.log('Updated project.contractDevelopmentFile with uniqId:', uniqId);
-        break;
-
-      case 'קובץ חוזה חכירה':
-        this.project.hachiraContractFile = uniqId;
-        console.log('Updated project.hachiraContractFile with uniqId:', uniqId);
-        break;
-
-      case 'קובץ אישור תשלום מס רכישה':
-        this.project.purchaseTaxPaymentConfirmationFile = uniqId;
-        console.log('Updated project.purchaseTaxPaymentConfirmationFile with uniqId:', uniqId);
-        break;
-
-      case 'קובץ אישור תשלום מס שבח':
-        this.project.appreciationTaxPaymentConfirmationFile = uniqId;
-        console.log('Updated project.appreciationTaxPaymentConfirmationFile with uniqId:', uniqId);
-        break;
-
-      default:
-        console.warn('No matching field found for nameDoc:', nameDoc);
-    }
-  } else {
-    console.error('nameDoc is not defined or invalid. Unable to update project field with uniqId.');
-  }
-}
-
-  onNameDocReceived(nameDoc: string): void {
-    if (this.currentFieldId && this.fileData[this.currentFieldId]) {
-      this.fileData[this.currentFieldId].nameDoc = nameDoc;
-      console.log(`${this.currentFieldId} nameDoc:`, nameDoc);
-    }
-  }
-
-  // פונקציה לטיפול בקבצים שנבחרו
-  onFilesSelected(event: Event, fieldId: string): void {
-    this.currentFieldId = fieldId; // שמירת השדה הפעיל
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      this.selectedFiles = input.files;
-      this.selectedFileNames = Array.from(input.files).map(file => file.name);
-
-      console.log(`Selected files for ${fieldId}:`, this.selectedFileNames);
-    }
-  }
-
-  // פונקציה להחזרת טקסט מתוך label
   getLabelText(labelForId: string): string {
     console.log("Called getLabelText with ID:", labelForId);
     const labels = Array.from(document.querySelectorAll('label'));
@@ -257,17 +281,6 @@ onUniqIdReceived(uniqId: string): void {
     return labelElement ? labelElement.textContent?.replace(':', '').trim() || '' : '';
   }
 
-  // onFilesSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files) {
-  //     const selectedFileNames = Array.from(input.files).map(file => file.name);
-  //     this.selectedFileNames = [...selectedFileNames];
-  //     console.log('Selected files in parent:', this.selectedFileNames);
-  //   //  this.contractorCode = this.contractorId ?? 0; // השתמש ב-0 כברירת מחדל אם contractorId הוא undefined
-  //     this.contractorCodeChanged.emit(this.contractorId); // שידור contractorCode
-  //     this.filesSelected.emit(this.selectedFileNames);
-  //   }
-  // }
 
   toggleAdditionalFields() {
     this.showAdditionalFields = !this.showAdditionalFields;
@@ -317,13 +330,6 @@ onUniqIdReceived(uniqId: string): void {
     });
   }
 
-  // getIdLandOwnerShip() {
-  //   for (let i = 0; i < this.landOwnerShips.length; i++) {
-  //     if (this.landOwnerShips[i].description == this.landOwnerShipName)
-  //       this.LandOwnerShipId = this.landOwnerShips[i].id;
-  //     console.log("LandOwnerShipId", this.LandOwnerShipId);
-  //   }
-  // }
 
   getNameLandOwnerShip(){
     console.log("---------getNameLandOwnerShip----------");
@@ -459,18 +465,18 @@ onUniqIdReceived(uniqId: string): void {
     ).subscribe();
   }
 
-  getProject() {
-    this.projectService.getProjectByName(this.projectName).subscribe(data => {
-    this.project = data;
-    this.getNameBank()
-    this.getNameLandOwnerShip()
-    console.log("project after get",this.project);
-    // לשלוף את שם הבעלות
-    this.IsGetSecond = true
-    this.IsGetFirst = false
-  }, error => {
-    console.error('Error fetching project', error);
-  });
+  async getProject(name: string) {
+    try {
+      const data = await this.projectService.getProjectByName(name).toPromise();
+      this.project = data;
+      this.getNameBank();
+      this.getNameLandOwnerShip();
+      console.log("project after get", this.project);
+      this.IsGetSecond = true;
+      this.IsGetFirst = false;
+    } catch (error) {
+      console.error('Error fetching project', error);
+    }
   }
 
   getCompanyName() {
@@ -571,7 +577,7 @@ async update1() {
         ///  this.commentComponent.updateComment(data.projectId)
           this.IsGetFirst = false;
           this.IsGetSecond = true;
-          this.getProject()
+          this.getProject(this.project.projectName)
         },
         error: err => {
           console.error("Error occurred:", err);
@@ -580,40 +586,69 @@ async update1() {
   }
 }
 
-  async addProject() {
+async addProject() {
+  if (this.degelUpdate == true || this.isEdit == true) {
+    await this.update1();
+    return;
+  }
 
-    if (this.degelUpdate == true || this.isEdit == true) {
-      await this.update1();
-      return;
-    }
- 
-    await this.updateProjectDates();
-    await this.getIdBank();
-    await this.getIdLandOwnerShip();
- 
-      this.project.lendingBank = this.bankId;
-      this.project.projectStatus = 1;
-      this.project.contractingCompanyId = this.companyId;
-      this.project.landOwnershipId = this.LandOwnerShipId;
-      console.log("project after change",this.project);
-   
-    const data = await this.projectService.AddProject(this.project).subscribe({
-      next: data => {
-        console.log("Data received:", data);
-       // this.cleanFile();
-       debugger;
-       this.commentComponent.updateComment(data.projectId)
-        // this.updateComment(data.projectId);
-       
+  await this.updateProjectDates();
+  await this.getIdBank();
+  await this.getIdLandOwnerShip();
 
-        this.IsGetFirst = false;
-        this.IsGetSecond = true;
-        this.getProject()
-      },
-      error: err => {
-        console.error("Error occurred:", err);
-      }
+  this.project.lendingBank = this.bankId;
+  this.project.projectStatus = 1;
+  this.project.contractingCompanyId = this.companyId;
+  this.project.landOwnershipId = this.LandOwnerShipId;
+  console.log("project after change", this.project);
+
+  try {
+    // הוספתי toPromise כדי להמתין להשלמת ה-AddProject
+    const data = await this.projectService.AddProject(this.project).toPromise();
+    
+    console.log("Data received:", data);
+    this.commentComponent.updateComment(this.project.projectId);
+    this.IsGetFirst = false;
+    this.IsGetSecond = true;
+
+    // המתן לסיום getProject לפני המשך
+    await this.getProject(this.project.projectName);
+    
+    // עדכון קבצים לאחר שסיים את הפונקציה getProject
+    this.updateFiles();
+    
+  } catch (err) {
+    console.error("Error occurred:", err);
+  }
+}
+
+
+  updateFiles(){
+    // שולחת את כל השדות קבצים לעדכון לפי UNIQI
+
+   // this.filesArr = this.fileComponent.GetFiles(this.project.projectDrawingFile)
+    // this.fileComponent.GetFiles(this.project.perselasiaFile)
+    // this.fileComponent.GetFiles(this.project.powerOfAttorneyToLawyerFile)
+    // this.fileComponent.GetFiles(this.project.salesTaxPaymentConfirmationFile)
+    // this.fileComponent.GetFiles(this.project.appreciationTaxPaymentConfirmationFile )
+    this.filesArr = this.fileComponent.GetFiles(this.project.contractDevelopmentFile)
+    // this.fileComponent.GetFiles(this.project.hachiraContractFile)
+    // this.fileComponent.GetFiles(this.project.purchaseTaxPaymentConfirmationFile)
+
+
+    this.filesArr.forEach(file => {
+      file.projectCode = this.project.projectId
+      this.fileService.UpdateFile(file.id? file.id : 0, file).subscribe({
+        next: data => {
+          console.log("Data received succesfully:", data);
+        },
+        error: err => {
+          console.error("Error occurred:", err);
+        }
+      });
     });
+    // נשלח לGET לפי this.uniqueIdForSession
+    // ואת מה שהתקבל לנשלח לעדכון
   }
 
   getComment(idAfter: bigint){
@@ -632,7 +667,7 @@ async update1() {
       }
     );
   }
-
+  
   async saveComment() {
    if(this.comment.commentText !=""){
 

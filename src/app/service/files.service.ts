@@ -21,7 +21,23 @@ export class FilesService {
   GetdocId(docName: string): Observable<any> {
     return this.https.get<TipeFile>(`${this.BASE_URL}/GetIdFile/${docName}`);
   }
-  
+
+  GetFile(uniqId: string): Observable<Magardoc[]> {
+    return this.https.get<Magardoc[]>(`${this.BASE_URL}/GetUniqId/${uniqId}`)
+  }
+
+  DeleteFile(id: number): Observable<void> { // שינוי סוג ההחזרה ל-void
+    return this.https.delete<void>(`${this.BASE_URL}/${id}`);
+  }
+
+
+  UpdateFile(id: number, magardoc: Magardoc): Observable<Magardoc>{
+    const url = `${this.BASE_URL}/${id}`;
+    console.log("url",url);
+    return this.https.put<Magardoc>(url, magardoc);
+  }
+
+   
   // AddFile(file: Magardoc): Observable<Magardoc> {
   //   console.log('Sending Magardocs data:', file);
   //   console.log("SDERDTYGOIUGKJ;LK';LK",this.BASE_URL, file);
