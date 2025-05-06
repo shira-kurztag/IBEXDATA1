@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit, ViewChild,Output, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ViewChild,Output, EventEmitter } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
@@ -34,6 +35,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommentService } from '../../service/comment.service';
 import { Comment } from '../../Models/Comment.model';
 
+
 import { FilesComponent } from '../files/files.component';
 import { FilesService } from '../../service/files.service';
 import { CommentComponent } from '../comment/comment.component';
@@ -45,6 +47,10 @@ import { Magardoc } from '../../Models/Magardoc.model';
 //   customExportHeader?: string;
 // }
 
+// interface ExportColumn {
+//   title: string;
+//   dataKey: string;
+// }
 // interface ExportColumn {
 //   title: string;
 //   dataKey: string;
@@ -272,7 +278,13 @@ onNameDocReceived(nameDoc: string): void {
   }
 }
 
+  // פונקציה להחזרת טקסט מתוך label
   getLabelText(labelForId: string): string {
+    console.log("Called getLabelText with ID:", labelForId);
+    const labels = Array.from(document.querySelectorAll('label'));
+    console.log("Available labels:", labels);
+    const labelElement = labels.find(label => label.getAttribute('for') === this.currentFieldId);
+    console.log("Found label element:", labelElement);
     console.log("Called getLabelText with ID:", labelForId);
     const labels = Array.from(document.querySelectorAll('label'));
     console.log("Available labels:", labels);
@@ -365,12 +377,17 @@ onNameDocReceived(nameDoc: string): void {
 
   getAllBanks() {
     console.log('Fetching  names of banks...');
+  getAllBanks() {
+    console.log('Fetching  names of banks...');
     this.bankService.GetAll().pipe(
       tap((banks: Bank[]) => {
         console.log('Received  names of banks:', banks);
         this.allBanks = banks;
+        console.log('Received  names of banks:', banks);
+        this.allBanks = banks;
       }),
       catchError(error => {
+        console.error('Error fetching names of banks:', error);
         console.error('Error fetching names of banks:', error);
         return of([]);
       })
@@ -409,9 +426,42 @@ onNameDocReceived(nameDoc: string): void {
 
 
   getNameBank(){
+  // async getIdBank(): Promise<void> {
+  //   console.log("--------getIdBank------");
+ 
+  //   // עוטפים את הלוגיקה בהבטחה כדי להפוך את הפונקציה לאסינכרונית
+  //   // return new Promise<void>((resolve, reject) => {
+  //     for (let i = 0; i < this.allBanks.length; i++) {
+  //       if (this.allBanks[i].bankText == this.nameBank)
+  //         this.bankId = this.allBanks[i].bankId;
+  //       console.log("bankId", this.bankId);
+  //       console.log("====-0---------------============");
+  //     }
+  //     // resolve(); // מסיימים את ההבטחה כאשר הפעולה הסתיימה
+  //   // });
+  // }
+  // async getIdBank(): Promise<void> {
+  //   console.log("--------getIdBank------");
+ 
+  //   // עוטפים את הלוגיקה בהבטחה כדי להפוך את הפונקציה לאסינכרונית
+  //   return new Promise<void>((resolve, reject) => {
+  //     for (let i = 0; i < this.allBanks.length; i++) {
+  //       if (this.allBanks[i].bankText == this.nameBank)
+  //         this.bankId = this.allBanks[i].bankId;
+  //       console.log("bankId", this.bankId);
+  //       console.log("====-0---------------============");
+       
+  //     }
+  //     resolve(); // מסיימים את ההבטחה כאשר הפעולה הסתיימה
+  //   });
+  // }
+
+
+  getNameBank(){
     for (let i = 0; i < this.allBanks.length; i++) {
       if (this.allBanks[i].bankId == this.project.lendingBank)
         this.nameBank = this.allBanks[i].bankText
+        console.log("name",this.nameBank);
         console.log("name",this.nameBank);
     }
   }
@@ -443,6 +493,7 @@ onNameDocReceived(nameDoc: string): void {
 }
 
   getIdContractor() {
+  getIdContractor() {
     console.log('Fetching contractors...');
     this.projectService.GetAll().pipe(
       tap((contractors: Contractor[]) => {
@@ -464,6 +515,7 @@ onNameDocReceived(nameDoc: string): void {
       })
     ).subscribe();
   }
+  }
 
   async getProject(name: string) {
     try {
@@ -481,6 +533,7 @@ onNameDocReceived(nameDoc: string): void {
 
   getCompanyName() {
    
+   
     this.projectService.GetCompanyById(this.companyId).pipe(
       catchError(error => {
         console.error('Error fetching company name:', error);  // הדפס את השגיאה
@@ -496,6 +549,7 @@ onNameDocReceived(nameDoc: string): void {
   }
 
   cleanFile(){
+    this.project = new Project()
     this.project = new Project()
   }
 
@@ -527,12 +581,53 @@ onNameDocReceived(nameDoc: string): void {
   //update(id: number){
  
   delete(){
+  //   // קריאה לשירות לעדכון הפרויקט עם ה-ID
+  //   this.projectService.Update(this.projId, this.project).subscribe({
+  //     next: data => {
+  //       console.log("Project status updated:", data);
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'הפרויקט עודכן בהצלחה!',
+  //         detail: 'סטטוס הפרויקט שונה למחקה.',
+  //         life: 3000
+  //       });
+  //     },
+  //     error: err => {
+  //       console.error("Error occurred:", err);
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'שגיאה',
+  //         detail: 'התרחשה שגיאה בעת עדכון הסטטוס של הפרויקט.',
+  //         life: 3000
+  //       });
+  //     }
+  //   });
+  // }
+
+ 
+
+  //update(id: number){
+ 
+  delete(){
   this.degelUp=true;
+   this.update();
    this.update();
   }
    
   update() {
+   
+  update() {
     this.IsGetFirst = true;
+    this.IsGetSecond= false;
+    this.isEdit = true;
+    this.updateProjectDatesForDisplay();
+  }
+
+async update1() {
+  if (this.degelUp == true) {  // רוצה למחוק את הפרויקט
+    console.log("degelUp", this.degelUp);
+
+    this.project.projectStatus = 0;
     this.IsGetSecond= false;
     this.isEdit = true;
     this.updateProjectDatesForDisplay();
@@ -550,6 +645,7 @@ async update1() {
       next: data => {
         console.log("Data received:", data);
         this.cleanFile();
+       
        
       },
       error: err => {
@@ -661,6 +757,7 @@ async addProject() {
         this.commentsList = [...this.commentsList,data]
         console.log("commentsList", this.commentsList);
        
+       
       },
       error => {
         console.error('Error fetching project', error);
@@ -675,6 +772,7 @@ async addProject() {
       this.comment.id = BigInt(0).toString();
       this.comment.objectId = this.project.projectId;
  
+ 
       const data = await this.commentService.AddComment(this.comment).toPromise();
       console.log("Data received:", data);
       if (data) {
@@ -688,6 +786,7 @@ async addProject() {
           console.error("ID is undefined in received data");
         }
  
+ 
         this.comment = new Comment();
       }
     } catch (err) {
@@ -698,14 +797,18 @@ async addProject() {
 
   // async updateComment(idOfProj: number){
    
+   
   //   for (let i = 0; i < this.commentsList.length; i++) {
   //     if(this.comment.commentText !=""){
   //     this.commentsList[i].objectId = idOfProj
 
   //     const id = this.commentsList[i].id ?? '0';
+  //     const id = this.commentsList[i].id ?? '0';
   //     const idComment = BigInt(id);
   //     console.log("idComment",idComment);
   //     console.log("this.commentsList[i]",this.commentsList[i]);
+     
+     
      
      
   //     // השתמשי ב-UpdateComment עם idComment
@@ -730,11 +833,14 @@ async addProject() {
     }
     console.log("this.commentsList after delete",this.commentsList);
    
+   
   }
+ 
  
   deleteComment(comment: Comment) {
     if (comment.id !== undefined && comment.id !== null) {
       const id = BigInt(comment.id);
+ 
  
       this.commentService.DeleteComment((id)).subscribe(
         data => {
@@ -774,7 +880,18 @@ async addProject() {
     return new Date(year, month - 1, day);
   }
 
+  private parseDate(dateString: string): Date | null {
+    if (!dateString) return null;
+    const [day, month, year] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+
   private updateProjectDates() {
+    this.project.dateWinningTender = this.formatDate(this.project.dateWinningTenderDisplay);
+    this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDateDisplay);
+    this.project.collectionExpensesFrom1 = this.formatDate(this.project.collectionExpensesFrom1Display);
+    this.project.collectionExpensesFrom2 = this.formatDate(this.project.collectionExpensesFrom2Display);
+    this.project.collectionExpensesFrom3 = this.formatDate(this.project.collectionExpensesFrom3Display);
     this.project.dateWinningTender = this.formatDate(this.project.dateWinningTenderDisplay);
     this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDateDisplay);
     this.project.collectionExpensesFrom1 = this.formatDate(this.project.collectionExpensesFrom1Display);
@@ -782,6 +899,56 @@ async addProject() {
     this.project.collectionExpensesFrom3 = this.formatDate(this.project.collectionExpensesFrom3Display);
     this.project.insertDate = this.formatDate(new Date());
     this.project.updateDate = this.formatDate(new Date());
+    this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDateDisplay);
+  }
+
+  private updateProjectDatesForDisplay() {
+    this.project.dateWinningTenderDisplay = this.parseDate(this.project.dateWinningTender);
+    this.project.developmentPeriodEndDateDisplay = this.parseDate(this.project.developmentPeriodEndDate);
+    this.project.collectionExpensesFrom1Display = this.parseDate(this.project.collectionExpensesFrom1);
+    this.project.collectionExpensesFrom2Display = this.parseDate(this.project.collectionExpensesFrom2);
+    this.project.collectionExpensesFrom3Display = this.parseDate(this.project.collectionExpensesFrom3);
+    this.project.hachiraContractEndDateDisplay = this.parseDate(this.project.hachiraContractEndDate);
+  }
+
+  onDateWinningTenderChange() {
+    if (this.project.dateWinningTender === '') {
+      this.project.dateWinningTenderDisplay = null;
+    }
+  }
+
+  onDevelopmentPeriodEndDateChange() {
+    if (this.project.developmentPeriodEndDate === '') {
+      this.project.developmentPeriodEndDateDisplay = null;
+    }
+  }
+
+  onCollectionExpensesFrom1Change() {
+    if (this.project.collectionExpensesFrom1 === '') {
+      this.project.collectionExpensesFrom1Display = null;
+    }
+  }
+
+  onCollectionExpensesFrom2Change() {
+    if (this.project.collectionExpensesFrom2 === '') {
+      this.project.collectionExpensesFrom2Display = null;
+    }
+  }
+
+  onCollectionExpensesFrom3Change() {
+    if (this.project.collectionExpensesFrom3 === '') {
+      this.project.collectionExpensesFrom3Display = null;
+    }
+  }
+
+  onHachiraContractEndDateChange() {
+    if (this.project.hachiraContractEndDate === '') {
+      this.project.hachiraContractEndDateDisplay = null;
+    }
+  }
+
+  save(){
+ 
     this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDateDisplay);
   }
 
@@ -840,9 +1007,11 @@ async addProject() {
 
   getBuildings(){
    
+   
   }
 
   getDeleteBuildings(){
+   
    
   }
 
@@ -906,6 +1075,41 @@ async addProject() {
     this.project.isPrepareWarningComment = false;
   }
 
+ 
+}
+  // getWinningTenderDate() {
+  //   return this.isEdit ? this.project.dateWinningTenderDisplay : this.project.dateWinningTender;
+  // }
+
+  // getDevelopmentPeriodEndDate() {
+  //   return this.isEdit ? this.project.developmentPeriodEndDateDisplay : this.project.developmentPeriodEndDate;
+  // }
+
+  // getCollectionExpensesFrom1() {
+  //   return this.isEdit ? this.project.collectionExpensesFrom1Display : this.project.collectionExpensesFrom1;
+  // }
+
+  // getCollectionExpensesFrom2() {
+  //   return this.isEdit ? this.project.collectionExpensesFrom2Display : this.project.collectionExpensesFrom2;
+  // }
+
+  // getCollectionExpensesFrom3() {
+  //   return this.isEdit ? this.project.collectionExpensesFrom3Display : this.project.collectionExpensesFrom3;
+  // }
+
+  // getHachiraContractEndDate() {
+  //   return this.isEdit ? this.project.hachiraContractEndDateDisplay : this.project.hachiraContractEndDate;
+  // }
+ // delete(number : id) {
+// showWarningDialog() {
+  //   if (this.isIf) {
+  //     this.isWarningDialogVisible = true;
+  //   }
+  // }
+
+  // closeWarningDialog() {
+  //   this.isWarningDialogVisible = false;
+  // }
  
 }
   // getWinningTenderDate() {
@@ -1228,6 +1432,7 @@ async addProject() {
    
 //   }
  
+ 
 //   private formatDate(date: Date): string {
 //     return date.toISOString().split('T')[0];
 //   }
@@ -1272,6 +1477,7 @@ async addProject() {
 //   // addProject() {
 //   //   this.project.insertDate = new Date();
 //   //   console.log(this.project);
+   
    
 
 //   //   this.projectService.add(this.project).subscribe({
@@ -1515,6 +1721,7 @@ async addProject() {
 //     this.project.insertDate = new Date();
 //     console.log(this.project);
    
+   
 
 //     this.projectService.add(this.project).subscribe({
 //       next: data => {
@@ -1612,6 +1819,199 @@ async addProject() {
   //         life: 3000
   //       });
   //     }
+  //   } catch (err) {
+  //     console.error("Error occurred:", err);
+  //     this.messageService.add({
+  //       severity: 'error',
+  //       summary: 'שגיאה',
+  //       detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
+  //       life: 3000
+  //     });
+  // async addProject(flagUpdate: boolean) {
+  //   try {
+  //     await this.updateProjectDates();
+  //     console.log(this.project);
+  //     await this.getIdBank();
+  //     this.project.lendingBank = this.bankId;
+  //     this.project.projectStatus = 1;
+  //     this.project.contractingCompanyId = this.companyId;
+
+  //     if (flagUpdate) {
+  //       const data = await this.projectService.Update( this.project.projectId, this.project).toPromise();
+  //       console.log("Data received:", data);
+       
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'הפרויקט עודכן בהצלחה!',
+  //         detail: 'הפרויקט עודכן במערכת.',
+  //         life: 3000
+  //       });
+  //     } else {
+  //       const data = await this.projectService.AddProject(this.project).toPromise();
+  //       console.log("Data received:", data);
+       
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'הפרויקט נשמר בהצלחה!',
+  //         detail: 'הפרויקט נוסף למערכת.',
+  //         life: 3000
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.error("Error occurred:", err);
+  //     this.messageService.add({
+  //       severity: 'error',
+  //       summary: 'שגיאה',
+  //       detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
+  //       life: 3000
+  //     });
+  //   }
+  // }
+  // update(projectId:number){
+  //   console.log("הגיע",projectId);
+   
+  //   if (this.degelUp==true){  //רוצה למחוק את הפרויקט
+  //     console.log("degelUp",this.degelUp);
+  //     this.project.projectStatus = 0;
+  //     console.log("סטטוס",this.project.projectStatus);  
+  //     this.projectService.Update(projectId,this.project).subscribe({
+  //       next: data => {
+  //         console.log("Data received:", data);
+  //         this.messageService.add({
+  //           severity: 'success',
+  //           summary: 'הפרויקט נמחק בהצלחה!',
+  //           detail: 'הפרויקט נוסף למערכת.',
+  //           life: 3000
+  //         });
+  //       },
+  //       error: err => {
+  //         console.error("Error occurred:", err);
+  //         this.messageService.add({
+  //           severity: 'error',
+  //           summary: 'שגיאה',
+  //           detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
+  //           life: 3000
+  //         });
+  //       }
+  //     });
+  //   }
+
+  //   this.updateProjectDates();
+  //   this.project.lendingBank = this.bankId
+  //   this.project.contractingCompanyId = this.companyId
+  //   console.log('update', this.project);
+
+  //   this.projectService.Update(this.project.projectId,this.project).subscribe({
+  //     next: data => {
+  //       console.log("Data received:", data);
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'הפרויקט עודכן בהצלחה!',
+  //         detail: 'הפרויקט נוסף למערכת.',
+  //         life: 3000
+  //       });
+  //     },
+  //     error: err => {
+  //       console.error("Error occurred:", err);
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'שגיאה',
+  //         detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
+  //         life: 3000
+  //       });
+  //     }
+  //   });
+  // }
+
+  // async addProject( ) {
+  //   try {
+  //     await this.updateProjectDates();
+     
+  //     console.log(this.project);
+     
+  //     await this.getIdBank();
+     
+  //     this.project.lendingBank = this.bankId;
+  //     // this.project.lendingContractorName= this.contractorId;
+  //     this.project.projectStatus = 1;
+  //     this.project.contractingCompanyId = this.companyId;
+ 
+  //     const data = await this.projectService.AddProject(this.project).toPromise();
+  //     console.log("Data received:", data);
+     
+  //     this.messageService.add({
+  //       severity: 'success',
+  //       summary: 'הפרויקט נשמר בהצלחה!',
+  //       detail: 'הפרויקט נוסף למערכת.',
+  //       life: 3000
+  //     });
+  //   } catch (err) {
+  //     console.error("Error occurred:", err);
+  //     this.messageService.add({
+  //       severity: 'error',
+  //       summary: 'שגיאה',
+  //       detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
+  //       life: 3000
+  //     });
+  //   }
+  // }
+
+
+
+  // async addProject(flagUpdate: boolean): Promise<void> {
+  //   try {
+  //     await this.updateProjectDates();
+  //     console.log(this.project);
+  //     await this.getIdBank();
+  //     this.project.lendingBank = this.bankId;
+  //     this.project.projectStatus = 1;
+  //     this.project.contractingCompanyId = this.companyId;
+
+  //     if (flagUpdate) {
+  //       console.log("הגיע כעדכון",flagUpdate);
+  //       this.update(this.project.projectId)
+  //       console.log("this project update",this.project.projectId);
+  //     } else {
+  //       const data = await this.projectService.AddProject(this.project).toPromise();
+  //       console.log("Data received:", data);
+       
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'הפרויקט נשמר בהצלחה!',
+  //         detail: 'הפרויקט נוסף למערכת.',
+  //         life: 3000
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.error("Error occurred:", err);
+  //     this.messageService.add({
+  //       severity: 'error',
+  //       summary: 'שגיאה',
+  //       detail: 'התרחשה שגיאה בעת שמירת הפרויקט.',
+  //       life: 3000
+  //     });
+  //   }
+  // }
+
+
+  // async updateProject() {
+  //   try {
+  //     await this.updateProjectDates();
+  //     console.log(this.project);
+  //     await this.getIdBank();
+  //     this.project.lendingBank = this.bankId;
+  //     this.project.projectStatus = 1;
+  //     this.project.contractingCompanyId = this.companyId;
+
+  //     const data = await this.projectService.Update(this.project.projectId, this.project).toPromise();
+  //     console.log("Data received:", data);
+     
+  //     this.messageService.add({
+  //       severity: 'success',
+  //       summary: 'הפרויקט נשמר בהצלחה!',
+  //       detail: 'הפרויקט נוסף למערכת.',
+  //       life: 3000
+  //     });
   //   } catch (err) {
   //     console.error("Error occurred:", err);
   //     this.messageService.add({
