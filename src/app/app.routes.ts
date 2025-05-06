@@ -27,6 +27,7 @@ export const routes: Routes = [
     { path:'AddContractors', component:AddContractorComponent},
     { path: 'mortagege', component: MortagegeComponent },
     { path: 'AddingApartmentComponent', component: AddingApartmentComponent }
+]
  
     // { path: 'contractor', component: ContractorComponent, children:[
     //    // {path:'', redirectTo: 'list', pathMatch:'full'},

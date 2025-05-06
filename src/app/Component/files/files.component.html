@@ -1,3 +1,13 @@
+<input type="file" id="contractDevelopmentFile" (change)="onFilesSelected($event, 'contractDevelopmentFile')"
+    class="w-full" multiple />
+<!-- <small *ngIf="errorMessages['contractDevelopmentFile']" class="error">
+{{ errorMessages['contractDevelopmentFile'] }}
+</small> -->
+<!-- כפתור להצגת הטבלה -->
+<div *ngIf="isFileUploaded" class="mt-4">
+    <button pButton class="p-button-rounded p-button-primary" icon="pi pi-arrow-right" (click)="showT()">
+        {{ showTable ? 'סגור טבלה' : 'הצג טבלה' }}
+    </button>
 
 <input type="file" id="contractDevelopmentFile" (change)="onFilesSelected($event, 'contractDevelopmentFile')"
     class="w-full" multiple />
