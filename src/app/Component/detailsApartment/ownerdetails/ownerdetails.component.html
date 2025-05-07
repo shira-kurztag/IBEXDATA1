@@ -1,10 +1,183 @@
-<p>ownerdetails works!</p>
-<!-- {{apartmentID}} -->
-
-<div class="tenant-box1">
-    <div class="icon-box">
-      <i class="pi pi-pencil"></i>
+<div class="main">
+  <form [formGroup]="ownerForm" (ngSubmit)="saveOwnerChanges()">
+    <!-- כפתור עריכה -->
+    <div class="owner-box1">
+      <div class="icon-box">
+        <i class="pi pi-pencil"></i>
+      </div>
+      <button class="owner-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך בעלים</button>
     </div>
-    <button class="tenant-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך בעליים</button>
 
-  </div>
+
+    <!-- כפתור שמירה -->
+    <div class="owner-box2" *ngIf="editMode">
+      <div class="icon-box">
+        <i class="pi pi-save"></i>
+      </div>
+      <button class="owner-button" type="submit">שמור שינויים</button>
+    </div>
+
+    <!-- כפתור ביטול -->
+    <div class="owner-box1" *ngIf="editMode">
+      <div class="icon-box">
+        <i class="pi pi-times"></i>
+      </div>
+      <button class="tenant-button" type="button" (click)="cancelEdit()">ביטול</button>
+    </div>
+
+    <!-- פרטי בעלים -->
+    <div class="t">
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">ממי נרכש הדירה:</label>
+          <!-- <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('OwnerId')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="OwnerId" type="number" /> -->
+
+          <label class="detail-title">בתאריך:</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('PurchasDate')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="PurchasDate" type="date" />
+        </div>
+
+       
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">כתובת לפי חוזה:</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('AddressByContract')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="AddressByContract" type="text" />
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">כתובת הדירה הנרכשת:</label>
+          <!-- <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('AddressByContract')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="AddressByContract" type="text" /> -->
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">כתובת למשלוח דואר:</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('MailingAddress')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="MailingAddress" type="text" />
+        </div>
+
+         <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">כתובת משנית:</label>
+          <!-- <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('MailingAddress')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="MailingAddress" type="text" /> -->
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">טלפון :</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('NumberPhone1')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="NumberPhone1" type="number" />
+          <label class="detail-title">תיאור:</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('DescriptionPhone1')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="DescriptionPhone1" type="text" />
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">טלפון :</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('NumberPhone2')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="NumberPhone2" type="number" />
+          <label class="detail-title">תיאור :</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('DescriptionPhone2')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="DescriptionPhone2" type="text" />
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">טלפון :</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('NumberPhone3')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="NumberPhone3" type="number" />
+          <label class="detail-title">תיאור :</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('DescriptionPhone3')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="DescriptionPhone3" type="text" />
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">פקס:</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('Fax')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="Fax" type="number" />
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">דוא"ל:</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('Email')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="Email" type="email" />
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title" > שם עו"ד המייצג</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('LawyerName')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="LawyerName" type="text" />
+        </div>
+
+        <div class="p-col-12 p-md-6 owner-detail">
+          <label class="detail-title">תאריך רכישה:</label>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('PurchasDate')?.value }}</span>
+          <input class="detail-content" *ngIf="editMode" formControlName="PurchasDate" type="date" />
+        </div>
+
+        <!-- דיווח למס שבח -->
+<div class="p-col-12 p-md-6 owner-detail">
+  <label class="detail-title">תאריך דיווח למס שבח:</label>
+  <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('DeadlineForReporting')?.value | date: 'dd/MM/yyyy' }}</span>
+  <input class="detail-content" *ngIf="editMode" formControlName="DeadlineForReporting" type="date" />
+</div>
+
+<div class="p-col-12 p-md-6 owner-detail">
+  <label class="detail-title">האם דווח למס שבח:</label>
+  <span class="detail-content" *ngIf="!editMode">
+    <i *ngIf="ownerForm.get('DeadlineForReporting')?.value" class="pi pi-check" style="font-size: 1rem;"></i>     
+    <i *ngIf="!ownerForm.get('DeadlineForReporting')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+  </span>
+  <input class="detail-content" *ngIf="editMode" formControlName="IsReported" type="checkbox" />
+</div>
+
+<!-- יפוי כח -->
+<div class="p-col-12 p-md-6 owner-detail">
+  <label class="detail-title">האם יש יפוי כח:</label>
+  <span class="detail-content" *ngIf="!editMode">
+    <span [ngClass]="ownerForm.get('HavePowerOfAttorney')?.value ">
+      <i *ngIf="ownerForm.get('HavePowerOfAttorney')?.value" class="pi pi-check" style="font-size: 1rem;"></i>     
+      <i *ngIf="!ownerForm.get('HavePowerOfAttorney')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+    </span>
+  </span>
+  <input class="detail-content" *ngIf="editMode" formControlName="HavePowerOfAttorney" type="checkbox" />
+</div>
+
+<!-- שוברים -->
+<div class="p-col-12 p-md-6 owner-detail">
+  <label class="detail-title">האם ניתנו שוברים:</label>
+  <span class="detail-content" *ngIf="!editMode">
+    <span [ngClass]="ownerForm.get('IsGivenVouchers')?.value ">
+      <i *ngIf="ownerForm.get('IsGivenVouchers')?.value" class="pi pi-check" style="font-size: 1rem;"></i>     
+      <i *ngIf="!ownerForm.get('IsGivenVouchers')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+    </span>
+  </span>
+  <input class="detail-content" *ngIf="editMode" formControlName="IsGivenVouchers" type="checkbox" />
+</div>
+
+<!-- תשלום הוצאות משפט -->
+<div class="p-col-12 p-md-6 owner-detail">
+  <label class="detail-title">האם שולמו הוצאות משפט:</label>
+  <span class="detail-content" *ngIf="!editMode">
+    <span [ngClass]="ownerForm.get('IsLegalExpensesPaid')?.value ">
+      <i *ngIf="ownerForm.get('IsLegalExpensesPaid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>     
+      <i *ngIf="!ownerForm.get('IsLegalExpensesPaid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>    </span>
+  </span>
+  <input class="detail-content" *ngIf="editMode" formControlName="IsLegalExpensesPaid" type="checkbox" />
+</div>
+
+<!-- טופס הוראות בלתי חוזרות -->
+<div class="p-col-12 p-md-6 owner-detail">
+  <label class="detail-title">האם נחתם טופס הוראות בלתי חוזרות:</label>
+  <span class="detail-content" *ngIf="!editMode">
+    <span [ngClass]="ownerForm.get('IsFormSignedIrrevocableInstructions')?.value ">
+      <i *ngIf="ownerForm.get('IsFormSignedIrrevocableInstructions')?.value" class="pi pi-check" style="font-size: 1rem;"></i>     
+      <i *ngIf="!ownerForm.get('IsFormSignedIrrevocableInstructions')?.value" class="pi pi-times" style="font-size: 1rem;"></i>    </span>
+  </span>
+  <input class="detail-content" *ngIf="editMode" formControlName="IsFormSignedIrrevocableInstructions" type="checkbox" />
+</div>
+
+        
+      </div>
+    </div>
+  </form>
+</div>
