@@ -1,5 +1,5 @@
 import { CommonModule, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OwnerService } from '../../../service/owner.service';
@@ -7,14 +7,16 @@ import { OwnerService } from '../../../service/owner.service';
 @Component({
   selector: 'app-owner-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterModule,NgIf,OwnerService],
+  imports: [CommonModule, ReactiveFormsModule,RouterModule,NgIf],
   templateUrl: './ownerdetails.component.html',
-  styleUrls: ['./ownerdetails.component.css']
+  styleUrls: ['./ownerdetails.component.css'],
+   providers: [OwnerService]
 })
 export class OwnerdetailsComponent {
   @Input() apartmentID!: number;
 
   editMode: boolean = false; // מצב עריכה - ברירת מחדל: תצוגה בלבד
+  srvOwnerService: OwnerService = inject(OwnerService);
 
   ownerForm: FormGroup;
 
@@ -55,12 +57,18 @@ export class OwnerdetailsComponent {
         AddressByContract: [owner.AddressByContract || ''], // מחרוזת
       });
     }
-    loadOwnerData(apartmentID: number): void {
-      // כאן אפשר להוסיף את הקוד להטעין נתונים משרת
-      //  this.OwnerService.GetOwnerByApartmentId(apartmentID).subscribe(owner => {
-      //     this.ownerForm.patchValue(owner);
-      // });
+
+
+    GetOwner(apartmentID: number): void {
+      this.srvOwnerService.GetOwnerByApartmentId(apartmentID).subscribe((owner: any) => {
+        if (owner) {
+          // אם מדובר באובייקט אחד, עדכן את הטופס עם patchValue
+          this.ownerForm.patchValue(owner);
+          console.log(owner);
+        }
+      });
     }
+  
 
     saveOwnerChanges(): void {
       if (this.ownerForm.valid) {
@@ -74,7 +82,7 @@ export class OwnerdetailsComponent {
     cancelEdit(): void {
       this.editMode = false;
       this.ownerForm.reset(); // לאפס את הטופס או להחזיר ערכים ברירת מחדל
-      this.loadOwnerData(this.apartmentID); // להטעין מחדש את הנתונים
+      this.GetOwner(this.apartmentID); // להטעין מחדש את הנתונים
     }
     toggleEdit(): void {
       this.editMode = true; // מעבר למצב עריכה
