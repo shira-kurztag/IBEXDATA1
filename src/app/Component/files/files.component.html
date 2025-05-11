@@ -1,0 +1,52 @@
+<input type="file" id="contractDevelopmentFile" (change)="onFilesSelected($event, 'contractDevelopmentFile')"
+    class="w-full" multiple />
+<!-- <small *ngIf="errorMessages['contractDevelopmentFile']" class="error">
+{{ errorMessages['contractDevelopmentFile'] }}
+</small> -->
+<!-- כפתור להצגת הטבלה -->
+<div *ngIf="isFileUploaded" class="mt-4">
+    <button pButton class="p-button-rounded p-button-primary" icon="pi pi-arrow-right" (click)="showT()">
+        {{ showTable ? 'סגור טבלה' : 'הצג טבלה' }}
+    </button>
+
+    <!-- טבלה להצגת הנתונים -->
+    <div class="card" *ngIf="showTable">
+        <p-table [value]="fetchedFiles" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>docId</th>
+                    <th>fileNameShow</th>
+                    <th>contractorCode</th>
+                    <th>projectCode</th>
+                    <th>פעולות</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-file>
+                <tr>
+                    <td>{{ file.docId }}</td>
+                    <td>{{ file.fileNameShow }}</td>
+                    <td>{{ file.contractorCode }}</td>
+                    <td>{{ file.projectCode }}</td>
+                    <td>
+                <button
+                            pButton
+                            class="p-button-rounded p-button-danger"
+                            icon="pi pi-trash"
+                            (click)="deleteFile(file.id)"
+                        >
+                        <i class="pi pi-trash"></i>
+                        </button>
+                        <button
+                            pButton
+                            class="p-button-rounded p-button-success"
+                            icon="pi pi-download"
+                            (click)="downloadFile(file)"
+                        >
+                        <i class="pi pi-download"></i>
+                        </button>
+                    </td>
+                </tr> 
+            </ng-template>
+        </p-table>
+    </div>
+</div>

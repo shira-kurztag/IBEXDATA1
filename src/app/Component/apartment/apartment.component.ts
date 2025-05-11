@@ -7,7 +7,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
-import { ApartmentDTO } from '../../Models/ApartmentDTO';
+import { ApartmentDTO } from '../../Models/ApartmentDTO.model'; // ודא שהנתיב נכון
 import { ApartmentService } from '../../service/apartment.service';
 
 @Component({

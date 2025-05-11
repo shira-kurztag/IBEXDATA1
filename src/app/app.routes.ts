@@ -27,7 +27,7 @@ export const routes: Routes = [
     { path:'AddContractors', component:AddContractorComponent},
     { path: 'mortagege', component: MortagegeComponent },
     { path: 'AddingApartmentComponent', component: AddingApartmentComponent }
- 
+]
     // { path: 'contractor', component: ContractorComponent, children:[
     //    // {path:'', redirectTo: 'list', pathMatch:'full'},
     //     {path:'listcontractor', component:ListContractorsComponent},
@@ -47,4 +47,3 @@ export const routes: Routes = [
  //   { path: 'AddTenant', component: AddTenantComponent ,canDeactivate:[UnsavedChangesGuard]},
    // { path: 'tenant', component: TenantComponent },///+id
     //{ path: 'AddContractors', component: AddContractorComponent ,canDeactivate:[UnsavedChangesGuard]},
-];

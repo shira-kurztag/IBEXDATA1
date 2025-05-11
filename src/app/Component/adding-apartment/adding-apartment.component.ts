@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApartmentDTO } from '../../Models/ApartmentDTO';
+import { ApartmentDTO } from '../../Models/ApartmentDTO.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ApartmentService } from '../../service/apartment.service';
 import { CommonModule } from '@angular/common';
@@ -9,7 +9,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CalendarModule } from 'primeng/calendar';
-
 @Component({
   selector: 'app-adding-apartment',
   templateUrl: './adding-apartment.component.html',
