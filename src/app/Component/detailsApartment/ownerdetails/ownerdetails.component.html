@@ -10,19 +10,18 @@
 
 
     <!-- כפתור שמירה -->
-    <div class="owner-box2" *ngIf="editMode">
+    <div class="owner-box1" *ngIf="editMode">
       <div class="icon-box">
         <i class="pi pi-save"></i>
       </div>
       <button class="owner-button" type="submit">שמור שינויים</button>
     </div>
-
-    <!-- כפתור ביטול -->
-    <div class="owner-box1" *ngIf="editMode">
+    
+    <div class="owner-box2" *ngIf="editMode">
       <div class="icon-box">
         <i class="pi pi-times"></i>
       </div>
-      <button class="tenant-button" type="button" (click)="cancelEdit()">ביטול</button>
+      <button class="owner-button" type="button" (click)="cancelEdit()">ביטול</button>
     </div>
 
     <!-- פרטי בעלים -->

@@ -20,4 +20,8 @@ export class OwnerService {
     GetOwnerByApartmentId(ApartmentId: number): Observable<number> {
       return this.http.get<number>(`${this.BASE_URL}/GetOwnerByApartmentId/${ApartmentId}`);
     }
+
+    UpdateOwner(owner: ownerDTO2): Observable<any> {
+        return this.http.put(`${this.BASE_URL}`, owner);
+    }
 }

@@ -29,6 +29,7 @@ export class OwnerdetailsComponent {
   
   ngOnInit(): void {
       this.apartmentID = 10032; // מזהה דירה זמני
+      this.GetOwner(this.apartmentID)
    }
   
     createOwnerGroup(owner: any): FormGroup {
@@ -69,16 +70,37 @@ export class OwnerdetailsComponent {
       });
     }
   
-
     saveOwnerChanges(): void {
-      if (this.ownerForm.valid) {
-        // כאן אפשר להוסיף את הקוד לשמור את השינויים בשרת
+      try {
+        if (!this.ownerForm.valid) {
+          console.log("הטופס לא תקין!");
+          return;
+        }
+    
+        this.editMode = false;
+        this.updateProjectDates();
         console.log(this.ownerForm.value);
-      } else {
-        console.log("הטופס לא תקין!");
+    
+        this.srvOwnerService.UpdateOwner(this.ownerForm.value).subscribe({
+          next: (owner: any) => {
+            if (owner) {
+              this.ownerForm.patchValue(owner);
+              console.log("העדכון הצליח:", owner);
+              this.GetOwner(this.apartmentID);
+            }
+          },
+          error: (err) => {
+            console.error("שגיאה במהלך שמירת השינויים:", err);
+            this.GetOwner(this.apartmentID);
+          }
+        });
+    
+      } catch (error) {
+        console.error("שגיאה כללית בפונקציה saveOwnerChanges:", error);
+        this.GetOwner(this.apartmentID);
       }
     }
-
+    
     cancelEdit(): void {
       this.editMode = false;
       this.ownerForm.reset(); // לאפס את הטופס או להחזיר ערכים ברירת מחדל
@@ -87,5 +109,27 @@ export class OwnerdetailsComponent {
     toggleEdit(): void {
       this.editMode = true; // מעבר למצב עריכה
     }
-  
+    private updateProjectDates() {
+      this.ownerForm.patchValue({
+        dateWinningTender: this.formatDate(this.ownerForm.get('dateWinningTender')?.value),
+        developmentPeriodEndDate: this.formatDate(this.ownerForm.get('developmentPeriodEndDate')?.value),
+        collectionExpensesFrom1: this.formatDate(this.ownerForm.get('collectionExpensesFrom1')?.value),
+        collectionExpensesFrom2: this.formatDate(this.ownerForm.get('collectionExpensesFrom2')?.value),
+        collectionExpensesFrom3: this.formatDate(this.ownerForm.get('collectionExpensesFrom3')?.value),
+        insertDate: this.formatDate(new Date()),
+        updateDate: this.formatDate(new Date()),
+        hachiraContractEndDate: this.formatDate(this.ownerForm.get('hachiraContractEndDate')?.value)
+      });
+    }
+    
+
+    private formatDate(date: any): string {
+      if (!date) return ''; // בדיקה אם התאריך אינו תקף
+      if (typeof date === 'string') {
+        const [day, month, year] = date.split('-');
+        date = new Date(`${year}-${month}-${day}`);
+      }
+      if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
+      return date.toISOString().split('T')[0];
+    }
 }
