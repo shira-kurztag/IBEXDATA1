@@ -128,6 +128,9 @@ export class AddbuildingComponent {
   }
 
 
+
+  
+
   onSubmit() {
     console.log('Sending building data:', this.newBuilding);
     this.newBuilding.projectId = this.projectId;
