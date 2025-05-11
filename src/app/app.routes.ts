@@ -11,8 +11,10 @@ import { MortagegeComponent } from "./Component/mortagege/mortagege.component";
 import { AddTenantComponent } from "./Component/tenant/addtenant/addtenant.component";
 import { MainTenantComponent } from "./Component/tenant/maintenant/maintenant.component";
 import { AddingApartmentComponent } from "./Component/adding-apartment/adding-apartment.component";
-
-
+import { BuildingComponent } from "./Component/building/building.component";
+import { AddbuildingComponent } from "./Component/building/addbuilding/addbuilding.component";
+ 
+ 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'bank', component: BankComponent },
@@ -26,24 +28,10 @@ export const routes: Routes = [
     { path:'contractor/:id', component:MaincontractorComponent},
     { path:'AddContractors', component:AddContractorComponent},
     { path: 'mortagege', component: MortagegeComponent },
-    { path: 'AddingApartmentComponent', component: AddingApartmentComponent }
+    { path: 'AddingApartmentComponent', component: AddingApartmentComponent },
+    { path: 'buildings/:id//:flag', component: BuildingComponent }, // נתיב לבניינים
+    { path: 'project/:projectId', component: ProjectComponent },
+    { path: 'Addbuilding/:id', component: AddbuildingComponent }
+ 
+ 
 ]
-    // { path: 'contractor', component: ContractorComponent, children:[
-    //    // {path:'', redirectTo: 'list', pathMatch:'full'},
-    //     {path:'listcontractor', component:ListContractorsComponent},
-    //     {path:'contractor/:id', component:MaincontractorComponent},
-    //     {path:'AddContractors', component:AddContractorComponent},
-    // ]},
-    // { path: 'tenant', component: TenantComponent, children:[
-    //     // {path:'', redirectTo: 'list', pathMatch:'full'},
-    //     {path:'AddTenant', component:AddTenantComponent},
-    //     {path:'mainTenant', component:MainTenantComponent},
-    //  ]},
-   
-    // { path: 'list-contractors', component: ListContractorsComponent},
-    // { path: '', component: ListContractorsComponent },
-   // { path: 'contractor/:id', component: ContractorComponent },
-  //  { path: 'ContractorList', component: ListContractorsComponent },
- //   { path: 'AddTenant', component: AddTenantComponent ,canDeactivate:[UnsavedChangesGuard]},
-   // { path: 'tenant', component: TenantComponent },///+id
-    //{ path: 'AddContractors', component: AddContractorComponent ,canDeactivate:[UnsavedChangesGuard]},

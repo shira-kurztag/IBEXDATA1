@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, ViewChild,Output, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
@@ -30,9 +30,12 @@ import { Contractor } from '../../Models/Contractor.model';
 import { Bank } from '../../Models/Bank.model';
 import { BankService } from '../../service/bank.service';
 import { BankNamesDTO } from '../../Models/BankNamesDTO.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentService } from '../../service/comment.service';
 import { Comment } from '../../Models/Comment.model';
+
+import { BuildingService } from '../../service/building.service'; // ייבוא השירות החדש
+import { BuildingDTO } from '../../Models/BuildingDTO.model';
 
 import { FilesComponent } from '../files/files.component';
 import { FilesService } from '../../service/files.service';
@@ -114,28 +117,49 @@ export class ProjectComponent implements OnInit {
   filteredContractors: Contractor[] = [];
   isNumberValid: boolean = true;
   degelUp: boolean = false;
-  IsGetFirst: boolean = true;
-  flagUpdate: boolean = false;
-  IsGetSecond: boolean = false;
+  IsGetFirst: boolean = true// הוספה
+  flagUpdate: boolean = false
+  IsGetSecond: boolean = false// הצגה
   showAdditionalFields: boolean = false;
-  nameBank: string | undefined;
-  flagAddGet!: string;
+  nameBank: string | undefined
+  flagAddGet!: string
   degelUpdate: boolean = false;
   isEdit: boolean = false;
-  comment: Comment = new Comment();
-  commentsArr: Comment[] = [];
-  commentPrev: Comment = new Comment();
-  commentsPrev: Comment[] = [];
-  commentFlag: boolean = false;
-  idAfter: number = 0;
-  commentsList: Comment[] = [];
-  filteredcomment: Comment[] = [];
-  comment$: Comment[] = [];
-  landOwnerShips: LandOwnerShip[] = [];
-  landOwnerShipName: string = '';
-  namelandOwnerShip: string | undefined;
-  LandOwnerShipId: number = 0;
+  comment: Comment = new Comment()
+  commentsArr: Comment[] = []
+  commentPrev: Comment = new Comment()
+  commentsPrev: Comment[] = []
+  commentFlag: boolean = false
+  idAfter: number = 0
+  commentsList: Comment[] = []
+  filteredcomment: Comment[] = []
+  comment$: Comment[] = []
+  landOwnerShips: LandOwnerShip[] = []
+  landOwnerShipName: string = ""
+  namelandOwnerShip: string | undefined
+  LandOwnerShipId: number = 0
   selectedFileNames: string[] = []; // רשימת שמות הקבצים שנבחרו
+  contractDevelopmentFileUniqId: string = ''; // UniqId לשדה קובץ חוזה בפיתוח
+  @Output() filesSelected = new EventEmitter<string[]>(); // Output להעברת שמות הקבצים לקומפוננטה אחרת
+  @Output() contractorCode = this.project.contractingCompanyId
+  @Output() projectCode = this.project.projectId
+  buildings: any[] = []; // רשימת הבניינים
+  showBuildings: boolean = false; // האם להציג את הרשימה
+  //selectedBuilding: any = null; // הבניין הנבחר
+  showBuildingDetails: boolean = false; // דגל להצגת פרטי הבניין
+  selectedProjectId: any;
+  errorMessage: string | undefined;
+  projectId: any;
+  BuildingActive: BuildingDTO[] = [];
+  flagList: boolean = false
+  flagBuild!: boolean
+  contractor!: any;
+
+  selectedBuilding: Project | null = null;
+  // משתנים חדשים
+  // buildings: any[] = []; // רשימת הבניינים שתוצג
+  // showBuildings: boolean = false; // משתנה לבקרת הצגת הרשימה
+
   selectedFiles: FileList = new DataTransfer().files; // רשימת הקבצים בפועל
   documentName: string = "";
   currentFieldId: string = ''; // מזהה השדה הפעיל
@@ -143,7 +167,6 @@ export class ProjectComponent implements OnInit {
   showTable: boolean = false;
   isFileUploaded: boolean = false; // משתנה לבקרת כפתור הפעולה הנוסף
   private uniqueIdForSession: string | null = null;
-  @Output() filesSelected = new EventEmitter<FileList>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
   @Output() contractorCodeChanged = new EventEmitter<number>(); // Output להעברת contractorCode
   @Output() nameDoc = new EventEmitter<string>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
   @ViewChild(CommentComponent) commentComponent!: CommentComponent; // קישור לקומפוננטת הבן
@@ -156,20 +179,21 @@ export class ProjectComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private cd: ChangeDetectorRef,
     private projectService: ProjectService,
     private commentService: CommentService,
     private bankService: BankService,
+    private buildingService: BuildingService, // ייבוא השירות החדש
     private fileService: FilesService,
     private cdr: ChangeDetectorRef
   ) {}
   ngOnInit() {
 //     this.fileComponent.showT()
 // this.commentComponent.saveComment()
-
-
+  this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
 this.getAllBanks();
 this.getBanks();
 this.getLandOwnerShip();
@@ -198,36 +222,96 @@ this.getIdLandOwnerShip();
       this.projectName = String(this.route.snapshot.paramMap.get('name'));
       this.IsGetFirst = false;
       this.IsGetSecond = true;
-      this.getProject(this.projectName);
-    } else {
-      this.IsGetFirst = true;
-      this.IsGetSecond = false;
+      
     }
-  
-    this.companyId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('companyId', this.companyId);
-  
-    this.getCompanyName();
-  
+   else {
+    this.IsGetFirst = true;
+    this.IsGetSecond = false;
+  }
+  this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+  console.log('companyId', this.companyId);
+
+
+
+  // אתחול נתונים עבור כל השדות
+  this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' };
+  this.fileData['appreciationTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
+
+    this.getAllBuildings()
+    //this.getDeleteProjects()
     if (this.isEdit) {
       this.updateProjectDatesForDisplay();
     }
-  
-    // אתחול נתונים עבור כל השדות
-    this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
-    this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
-    this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' };
-    this.fileData['appreciationTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
+  }
+  onSelectBuilding(event: any): void {
+    this.selectedBuilding = event.value;
+    if (this.selectedBuilding) {
+      this.router.navigate(['/project', this.selectedBuilding.projectId]);
+    }
   }
 
-  getAllBuildings(){
 
-   // צריך לפנות לפונקציה שמקבל PROJECTID 
-   //מתוך האוביקט project.projectID
-   //מציג את כל רשימת הבנינים
+  // פונקציה לניווט לקומפוננטת הבניינים
+  projectList() {
+    this.flagList = !this.flagList;
+    console.log('projectList called, flagList:', this.flagList);
+    if (this.flagList) {
+      this.getAllBuildings();
+    }
+  }
+  getAllBuildings() {
+    console.log('Fetching buildings for projectId:', this.projectId);
+    this.buildingService.getBuildingsByProjectId(this.projectId).pipe(
+      catchError(error => {
+        console.error('Error fetching Buildings:', error);
+        return of([]); // החזרת מערך ריק במקרה של שגיאה
+      })
+    ).subscribe((buildings: BuildingDTO[]) => {
+      console.log('Buildings received:', buildings);
+      this.buildings = buildings;
+
+      // איפוס הרשימה הפעילה לפני מילוי מחדש
+      this.BuildingActive = [];
+
+      for (let building of this.buildings) {
+        if (building.buildingStatus === 1) {
+          this.BuildingActive.push(building);
+        }
+      }
+
+      console.log('Active Buildings:', this.BuildingActive);
+    });
+}
+  // פונקציה לבחירת בניין לפי מספר
+  onBuildSelect(event: Event) {
+    const selectedBuildNumber = (event.target as HTMLSelectElement).value;
+    this.getBuild(selectedBuildNumber);
   }
 
-  // עדכון ל-onUniqIdReceived
+  getBuild(projectname: string) {
+    this.projectName = projectname;
+    this.flagBuild = false;
+    this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagBuild)]);
+  }
+
+  // פונקציה לעדכון ה-ID של הפרויקט שהמשתמש בחר
+  onProjectSelectionChange(projectId: number): void {
+    this.selectedProjectId = projectId;
+  }
+  // פונקציה חדשה לטיפול ב-UniqId
+
+  onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      const selectedFileNames = Array.from(input.files).map(file => file.name);
+      this.selectedFileNames = [...selectedFileNames];
+      console.log('Selected files in parent:', this.selectedFileNames);
+      // this.contractorCode = this.contractorId
+      this.filesSelected.emit(this.selectedFileNames);
+    }
+  }
   onUniqIdReceived(uniqId: string): void {
     //if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
       //const nameDoc = this.fileData[this.currentFieldId].nameDoc;
@@ -317,7 +401,7 @@ onNameDocReceived(nameDoc: string): void {
     this.projectService.GetLandOwnerShip().pipe(
       tap((getLandOwnerShips: LandOwnerShip[]) => {
         this.landOwnerShips = getLandOwnerShips;
-        console.log('fetching names of landOwnerShips:',this.landOwnerShips);
+        console.log('fetching names of landOwnerShips:', this.landOwnerShips);
       }),
       catchError(error => {
         console.error('Error fetching names of landOwnerShips:', error);
@@ -326,7 +410,7 @@ onNameDocReceived(nameDoc: string): void {
     ).subscribe();
   }
 
-  async getIdLandOwnerShip(){
+  async getIdLandOwnerShip() {
     for (let i = 0; i < this.landOwnerShips.length; i++) {
       if (this.landOwnerShips[i].description == this.landOwnerShipName)
         this.LandOwnerShipId = this.landOwnerShips[i].id
@@ -358,14 +442,14 @@ onNameDocReceived(nameDoc: string): void {
   }
 
 
-  getNameLandOwnerShip(){
+  getNameLandOwnerShip() {
     console.log("---------getNameLandOwnerShip----------");
    
     for (let i = 0; i < this.landOwnerShips.length; i++) {
       if (this.landOwnerShips[i].id == this.project.landOwnershipId)
         this.landOwnerShipName = this.landOwnerShips[i].description
 
-      console.log("project",this.project);
+      console.log("project", this.project);
       console.log(" this.project.landOwnershipId", this.project.landOwnershipId);
       console.log(this.landOwnerShips[i].id == this.project.landOwnershipId);
      
@@ -435,7 +519,7 @@ onNameDocReceived(nameDoc: string): void {
   // }
 
 
-  getNameBank(){
+  getNameBank() {
     for (let i = 0; i < this.allBanks.length; i++) {
       if (this.allBanks[i].bankId == this.project.lendingBank)
         this.nameBank = this.allBanks[i].bankText
@@ -453,11 +537,11 @@ onNameDocReceived(nameDoc: string): void {
         // חיפוש הקבלן על פי השם שניתן
         const contractorFound = contractors.find(contractor => contractor.contractorName === contractorName);
         if (contractorFound) {
-            this.contractorId = contractorFound.contractorId // קבלת ה-ID של הקבלן
-            console.log('Contractor ID:', this.contractorId);
+          this.contractorId = contractorFound.contractorId // קבלת ה-ID של הקבלן
+          console.log('Contractor ID:', this.contractorId);
         } else {
-            console.log('Contractor not found');
-           // this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
+          console.log('Contractor not found');
+          // this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
         }
 
         this.cd.detectChanges();
@@ -467,7 +551,7 @@ onNameDocReceived(nameDoc: string): void {
         return of([]);
       })
     ).subscribe();
-}
+  }
 
   getIdContractor() {
     console.log('Fetching contractors...');
@@ -565,13 +649,13 @@ onNameDocReceived(nameDoc: string): void {
     this.updateProjectDatesForDisplay();
   }
 
-async update1() {
-  if (this.degelUp == true) {  // רוצה למחוק את הפרויקט
-    console.log("degelUp", this.degelUp);
+  async update1() {
+    if (this.degelUp == true) {  // רוצה למחוק את הפרויקט
+      console.log("degelUp", this.degelUp);
 
-    this.project.projectStatus = 0;
+      this.project.projectStatus = 0;
 
-    console.log("סטטוס", this.project.projectStatus);
+      console.log("סטטוס", this.project.projectStatus);
 
     this.projectService.Update(this.project.projectId, this.project).subscribe({
       next: data => {
@@ -586,9 +670,9 @@ async update1() {
   } else {
     console.log("------------------update-----------------");
 
-    await this.updateProjectDates();
-    await this.getIdBank();
-    await this.getIdLandOwnerShip();
+      await this.updateProjectDates();
+      await this.getIdBank();
+      await this.getIdLandOwnerShip();
 
       this.project.lendingBank = this.bankId;
       this.project.projectStatus = 1;
@@ -610,8 +694,8 @@ async update1() {
           console.error("Error occurred:", err);
         }
       });
+    }
   }
-}
 
 async addProject() {
   if (this.degelUpdate == true || this.isEdit == true) {
@@ -695,14 +779,14 @@ ngAfterViewInit() {
     // ואת מה שהתקבל לנשלח לעדכון
   }
 
-  getComment(idAfter: bigint){
+  getComment(idAfter: bigint) {
     this.commentService.GetComment(idAfter).subscribe(
       data => {
-        console.log("comment after get",data);
+        console.log("comment after get", data);
         this.commentFlag = true
         this.commentPrev = data;
-        this.commentsPrev = [...this.commentsPrev,data]
-        this.commentsList = [...this.commentsList,data]
+        this.commentsPrev = [...this.commentsPrev, data]
+        this.commentsList = [...this.commentsList, data]
         console.log("commentsList", this.commentsList);
        
       },
@@ -713,31 +797,6 @@ ngAfterViewInit() {
   }
   
   async saveComment() {
-   if(this.comment.commentText !=""){
-
-    try {
-      this.comment.id = BigInt(0).toString();
-      this.comment.objectId = this.project.projectId;
- 
-      const data = await this.commentService.AddComment(this.comment).toPromise();
-      console.log("Data received:", data);
-      if (data) {
-        // שליפת ההערה שנוצרה מהמסד
-        if (data.id !== undefined) {
-
-          const idAfter = BigInt(data.id);
-          this.getComment(idAfter)
-         
-        } else {
-          console.error("ID is undefined in received data");
-        }
- 
-        this.comment = new Comment();
-      }
-    } catch (err) {
-      console.error("Error occurred:", err);
-    }
-  }
   }
 
   // async updateComment(idOfProj: number){
@@ -764,7 +823,7 @@ ngAfterViewInit() {
   //   }
   // }
   // }
-
+    
   deleteCommentFromList(idComment: bigint) {
     for (let i = 0; i < this.commentsList.length; i++) {
       const commentId = this.commentsList[i].id;
@@ -801,7 +860,7 @@ ngAfterViewInit() {
       console.error('Comment id is not a valid bigint:', comment.id);
     }
   }
-
+    
   private formatDate(date: any): string {
     if (!date) return ''; // בדיקה אם התאריך אינו תקף
     if (typeof date === 'string') {
@@ -879,7 +938,7 @@ ngAfterViewInit() {
   }
 
   addBuilding(){
-
+    this.router.navigate(['/Addbuilding', this.project.projectId]);
   }
 
   getBuildings(){
@@ -890,19 +949,20 @@ ngAfterViewInit() {
    
   }
 
-  moveManger(){
+
+  moveManger() {
 
   }
 
-  moveMangerBulding(){
+  moveMangerBulding() {
 
   }
 
-  lookingFor(){
+  lookingFor() {
 
   }
 
-  lookingForBuilding(){
+  lookingForBuilding() {
 
   }
 
@@ -931,7 +991,7 @@ ngAfterViewInit() {
   }
 
   transformValue(value: number): string {
-  return value === 0 ? '' : value.toString();
+    return value === 0 ? '' : value.toString();
   }
 
   hideDialog() {

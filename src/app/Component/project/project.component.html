@@ -20,16 +20,7 @@
           <div>
             <label for="contractingCompanyId" class="block font-bold">חברה קבלנית: {{ comNamesString}}</label>
           </div>
-          <!-- <div>
-            <label for="contractingCompanyId" class="block font-bold">חברה קבלנית </label>
-            <input
-            type="text"
-            id="contractingCompanyId"
-           [(ngModel)]="project.contractingCompanyId"
-            (keypress)="onlyAllowNumbers($event)"
-            (input)="validateNumber($event)"
-           class="w-full"
-            /> -->
+
         </div>
         <div class="col-span-2">
           <label for="projectName" class="block font-bold">שם פרויקט: </label>
@@ -48,43 +39,6 @@
           <input type="text" pInputText id="neighborhood" [(ngModel)]="project.neighborhood" class="w-full" />
         </div>
 
-        <!-- 
-        <div class="col-span-2">
-          <label for="isPurchaseInTender"  class=".p-checkbox-input">האם רכישה במסגרת המכרז? </label>
-          <p-checkbox id="isPurchaseInTender" [(ngModel)]="project.isPurchaseInTender" binary="true"></p-checkbox>
-        </div> -->
-        <!-- <div class="col-span-2">
-          <label for="isPurchaseInTender" class="block font-bold">האם רכישה במסגרת המכרז? </label>
-          <input type="checkbox" id="isPurchaseInTender" [(ngModel)]="project.isPurchaseInTender" class="p-checkbox-input">
-          <span class="p-checkbox-custom"></span>
-        </div>
-
-        <div class="col-span-2" *ngIf="project.isPurchaseInTender">
-          <label for="dateWinningTender" class="block font-bold">תאריך זכיה במכרז: </label>
-          <p-calendar id="dateWinningTender" [(ngModel)]="project.dateWinningTender" dateFormat="dd/mm/yy"></p-calendar>
-        </div>
-
-        <div class="col-span-2">
-          <label for="isContractDevelopment" class="block font-bold">האם יש חוזה בפיתוח? </label>
-          <p-checkbox id="isContractDevelopment" [(ngModel)]="project.isContractDevelopment" binary="true" ></p-checkbox>
-        </div>
-
-        <div class="col-span-2" *ngIf="project.isContractDevelopment">
-          <label for="contractDevelopmentFile" class="block font-bold">קובץ חוזה בפיתוח: </label>
-          <input type="file" id="contractDevelopmentFile" [(ngModel)]="project.contractDevelopmentFile"
-            class="w-full" />
-        </div>
-        <div class="col-span-2" *ngIf="project.isContractDevelopment">
-          <label for="numberHakiraContract" class="block font-bold mb-2">מספר חוזה חכירה: </label>
-          <input type="text" pInputText id="numberHakiraContract" [(ngModel)]="project.numberHakiraContract"
-            class="w-full" />
-        </div>
-
-        <div class="col-span-2" *ngIf="project.isContractDevelopment">
-          <label for="developmentPeriodEndDate" class="block font-bold mb-2">תאריך סיום תקופת הפיתוח: </label>
-          <p-calendar id="developmentPeriodEndDate" [(ngModel)]="project.developmentPeriodEndDate" dateFormat="dd/mm/yy"
-            class="w-full"></p-calendar>
-        </div> -->
 
         <div class="col-span-2">
           <label for="isPurchaseInTender" class="block font-bold">האם רכישה במסגרת המכרז? </label>
@@ -363,71 +317,6 @@
             [(ngModel)]="project.fullAssetIdentificationBeforePerselasia" class="w-full" />
         </div>
 
-        <div class="col-span-2">
-          <label for="anotherIdentification" class="block font-bold mb-2">זיהוי נוסף: </label>
-          <input type="text" pInputText id="anotherIdentification" [(ngModel)]="project.anotherIdentification"
-            class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="isPerselasia" class="block font-bold mb-2">האם בוצעה פרצלציה: </label>
-          <p-checkbox id="isPerselasia" [(ngModel)]="project.isPerselasia" binary="true"></p-checkbox>
-        </div>
-
-        <div class="col-span-3" *ngIf="project.isPerselasia">
-          <div class="col-span-2">
-            <label for="perselasiaFile" class="block font-bold mb-2"></label>
-            <input type="file" pInputText id="perselasiaFile" [(ngModel)]="project.perselasiaFile" class="w-full" />
-          </div>
-
-          <div class="col-span-2">
-            <label for="fullAssetIdentificationAfterPerselasia" class="block font-bold mb-2"> זיהוי נכס מלא לאחר
-              פרצלציה:
-            </label>
-            <input type="text" pInputText id="fullAssetIdentificationAfterPerselasia"
-              [(ngModel)]="project.fullAssetIdentificationAfterPerselasia" class="w-full" />
-          </div>
-
-          <div class="col-span-2">
-            <label for="bloc" class="block font-bold mb-2">גוש: </label>
-            <input type="number" pInputText id="bloc" [(ngModel)]="project.bloc" class="w-full" />
-          </div>
-
-          <div class="col-span-2">
-            <label for="smooth" class="block font-bold mb-2">חלקה: </label>
-            <input type="number" pInputText id="smooth" [(ngModel)]="project.smooth" class="w-full" />
-          </div>
-
-          <div class="col-span-2">
-            <label for="smothArea" class="block font-bold mb-2">שטח החלקה: </label>
-            <input type="number" pInputText id="smothArea" [(ngModel)]="project.smothArea" class="w-full" />
-          </div>
-        </div>
-
-        <div class="col-span-2">
-          <label for="isRishumBaitMeshutafStarted" class="block font-bold mb-2">האם החל רישום בית משותף: </label>
-          <p-checkbox id="isRishumBaitMeshutafStarted" [(ngModel)]="project.isRishumBaitMeshutafStarted"
-            binary="true"></p-checkbox>
-        </div>
-
-        <div class="col-span-2">
-          <label for="isPrepareWarningComment" class="block font-bold mb-2">יש להכין ניירת להערות אזהרה? </label>
-          <p-checkbox id="isPrepareWarningComment" [(ngModel)]="project.isPrepareWarningComment" binary="true"
-            (onChange)="showWarningDialog()">
-          </p-checkbox>
-
-
-          <p-dialog header="אזהרה" [(visible)]="isWarningDialogVisible" [modal]="true" [closable]="true"
-            [dismissableMask]="true" [style]="{ width: '50vw' }">
-
-            <p>שים לב שבשמירה ייפתחו הערות אזהרה על משכנתאות/ העברת זכויות/ הגבלות שבפרויקט זה!</p>
-
-            <ng-template pTemplate="footer">
-              <button pButton type="button" label="אישור" icon="pi pi-check" style="display: block"
-                (click)="closeWarningDialog()"></button>
-            </ng-template>
-          </p-dialog>
-        </div> -->
 
           <div class="col-span-2">
             <label for="fullAssetIdentificationBeforePerselasia" class="block font-bold mb-2">זיהוי הנכס מלא לפני
@@ -498,16 +387,11 @@
             </ng-template>
           </p-dialog>
 
-          <!-- <div class="col-span-2">
+           <div class="col-span-2">
           <label for="isRishumBaitMeshutaf" class="block font-bold mb-2">האם נרשם בית משותף?</label>
           <p-checkbox id="isRishumBaitMeshutaf" [(ngModel)]="project.isRishumBaitMeshutaf" binary="true"></p-checkbox>
         </div>
 
-        <div class="col-span-2">
-          <label for="isTookJointListingExpenses" class="block font-bold mb-2">האם נדרשו הוצאות רישום משותף</label>
-          <p-checkbox id="isTookJointListingExpenses" [(ngModel)]="project.isTookJointListingExpenses"
-            binary="true"></p-checkbox>
-        </div> -->
 
           <div class="col-span-2">
             <label for="isRishumBaitMeshutaf" class="block font-bold mb-2">האם נרשם בית משותף?</label>
@@ -521,7 +405,7 @@
               class="custom-checkbox" />
           </div>
 
-          <!-- <div class="col-span-2" *ngIf="project.isTookJointListingExpenses">
+         <div class="col-span-2" *ngIf="project.isTookJointListingExpenses">
           <div class="col-span-2">
             <label for="principalAmount" class="block font-bold mb-2">סכום קרן</label>
             <input type="text" pInputText id="principalAmount" [ngModel]="transformValue(project.principalAmount)"
@@ -529,93 +413,6 @@
               (input)="validateNumber($event)" class="w-full" />
           </div>
 
-          <div class="col-span-2">
-            <label for="collectionExpensesFrom1" class="block font-bold mb-2">הוצאות גבייה מיום</label>
-            <p-calendar id="collectionExpensesFrom1" [(ngModel)]="project.collectionExpensesFrom1" dateFormat="dd/mm/yy"
-              class="w-full"></p-calendar>
-          </div>
-
-          <div class="col-span-2">
-            <label for="collectionAmount1" class="block font-bold mb-2">בסכום</label>
-            <input type="text" pInputText id="collectionAmount1" [(ngModel)]="project.collectionAmount1"
-              (keypress)="onlyAllowNumbers($event)" (input)="validateNumber($event)" class="w-full" />
-          </div>
-
-          <div class="col-span-2">
-            <label for="collectionExpensesFrom2" class="block font-bold mb-2">הוצאות גבייה מיום</label>
-            <p-calendar id="collectionExpensesFrom2" [(ngModel)]="project.collectionExpensesFrom2" dateFormat="dd/mm/yy"
-              class="w-full"></p-calendar>
-          </div>
-
-          <div class="col-span-2">
-            <label for="collectionAmount2" class="block font-bold mb-2">בסכום</label>
-            <input type="text" pInputText id="collectionAmount2" [(ngModel)]="project.collectionAmount2"
-              (keypress)="onlyAllowNumbers($event)" (input)="validateNumber($event)" class="w-full" />
-          </div>
-
-          <div class="col-span-2">
-            <label for="collectionExpensesFrom3" class="block font-bold mb-2">הוצאות גבייה מיום</label>
-            <p-calendar id="collectionExpensesFrom3" [(ngModel)]="project.collectionExpensesFrom3" dateFormat="dd/mm/yy"
-              class="w-full"></p-calendar>
-          </div>
-
-          <div class="col-span-2">
-            <label for="collectionAmount3" class="block font-bold mb-2">בסכום</label>
-            <input type="text" pInputText id="collectionAmount3" [(ngModel)]="project.collectionAmount3"
-              (keypress)="onlyAllowNumbers($event)" (input)="validateNumber($event)" class="w-full" />
-          </div>
-        </div>
-
-
-        <div class="col-span-2">
-          <label for="landOwnershipId" class="block font-bold mb-2">על שם מי רשומה בעלות בקרקע?</label>
-          <input type="number" pInputText id="landOwnershipId" [(ngModel)]="project.landOwnershipId" class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="mechozReshutMass" class="block font-bold mb-2">מחוז רשות המס המטפלת בפרויקט</label>
-          <input type="text" pInputText id="mechozReshutMass" [(ngModel)]="project.mechozReshutMass" class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="mechozReshutMassAddress" class="block font-bold mb-2">כתובת</label>
-          <input type="text" pInputText id="mechozReshutMassAddress" [(ngModel)]="project.mechozReshutMassAddress"
-            class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="mechozMenaelMekarkaey" class="block font-bold mb-2">מחוז מנהל מקרקעי ישראל המטפל
-            בפרויקט</label>
-          <input type="text" pInputText id="mechozMenaelMekarkaey" [(ngModel)]="project.mechozMenaelMekarkaey"
-            class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="mechozMenaelMekarkaeyAddress" class="block font-bold mb-2">כתובת </label>
-          <input type="text" pInputText id="mechozMenaelMekarkaeyAddress"
-            [(ngModel)]="project.mechozMenaelMekarkaeyAddress" class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="mechozTabu" class="block font-bold mb-2">מחוז טאבו המטפל בפרויקט</label>
-          <input type="text" pInputText id="mechozTabu" [(ngModel)]="project.mechozTabu" class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="mechozTabuAddress" class="block font-bold mb-2">כתובת </label>
-          <input type="text" pInputText id="mechozTabuAddress" [(ngModel)]="project.mechozTabuAddress" class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="projectDrawingFile" class="block font-bold mb-2"> תשריט העמדה על הפרויקט</label>
-          <input type="file" pInputText id="projectDrawingFile" [(ngModel)]="project.projectDrawingFile"
-            class="w-full" />
-        </div>
-
-        <div class="col-span-2">
-          <label for="note" class="block font-bold mb-2">הוסף הערה</label>
-          <textarea id="note" pTextarea [(ngModel)]="project.note" rows="3" class="w-full"></textarea>
-        </div> -->
 
           <div class="col-span-2" *ngIf="project.isTookJointListingExpenses">
             <div class="col-span-2 flex-container">
@@ -731,7 +528,7 @@
           </div>
           <app-comment [objectId]="project.projectId"></app-comment>
 
-          <!-- <div class="col-span-2 flex-container" *ngIf="commentFlag">
+           <div class="col-span-2 flex-container" *ngIf="commentFlag">
           <label for="projectDrawingFile" class="block font-bold mb-2 flex-item">הערה:
             {{commentPrev.commentText}}</label>
           <i class="pi pi-delete"></i>
@@ -1579,40 +1376,42 @@
               <button class="contractor-button" (click)="lookingForBuilding()">חפש</button>
             </div>
 
-            <div class="contractor-box">
-              <div class="icon-box">
-                <i class="pi pi-plus"></i>
-              </div>
-              <button class="contractor-button" (click)="addBuilding()"> הוסף בנין</button>
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-pencil"></i>
             </div>
-
-            <div class="contractor-box">
-              <div class="icon-box">
-                <i class="pi pi-pencil"></i>
-              </div>
-              <button class="contractor-button" (click)="update()"> ערוך פרויקט </button>
+            <button class="contractor-button" (click)="update()"> ערוך פרויקט </button>
+          </div>
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-plus"></i>
             </div>
-
-            <div class="contractor-box">
-              <div class="icon-box">
-                <i class="pi pi-align-justify"></i>
-              </div>
-              <button class="contractor-button" (click)="getBuildings()"> רשימת בנינים </button>
-              <!-- <div *ngIf="flagList">
-          <select (change)="onProjectSelect($event)">
-            <option *ngFor="let p of ProjectsActive" [value]="p.projectName">{{ p.projectName }}</option>
-          </select>
-        </div> -->
+            <button class="contractor-button" (click)="addBuilding()"> הוסף בניין</button>
+          </div>
+          <div class="contractor-box">
+            <div class="icon-box" dir="ltr">
+              <i class="pi pi-align-justify"></i>
             </div>
+            <button class="contractor-button" (click)="projectList()">רשימת בניינים</button>
+            <div *ngIf="BuildingActive.length > 0">
+              <select (change)="onBuildSelect($event)">
+                <option *ngFor="let building of BuildingActive" [value]="building.buildingId">
+                  {{ building.buildingNumber }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-align-justify"></i>
+            </div>
+            <button class="contractor-button" (click)="getDeleteBuildings()"> בנינים שנמחקו </button>
 
-            <div class="contractor-box">
-              <div class="icon-box">
-                <i class="pi pi-align-justify"></i>
-              </div>
-              <button class="contractor-button" (click)="getDeleteBuildings()"> בנינים שנמחקו </button>
-              <!-- <div *ngIf="flagListDelete">
-          <option *ngFor="let p of  ProjectsDelete" [value]="p.projectName">{{ p.projectName }}</option>
-        </div> -->
+          </div>
+
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-plus"></i>
             </div>
 
             <div class="contractor-box">

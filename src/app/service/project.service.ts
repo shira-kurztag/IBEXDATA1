@@ -55,3 +55,49 @@ export class ProjectService {
  
  
 }
+// import { Injectable } from '@angular/core';
+// import { Project } from '../Models/Project.model';
+// import { Observable } from 'rxjs';
+// import { ProjectDTO } from '../Models/ProjectDTO.model';
+// import { HttpClient } from '@angular/common/http';
+// import { ProjectCreateDTO } from '../Models/ProjectCreateDTO.model';
+// import { Contractor } from '../Models/Contractor.model';
+// import { LandOwnerShip } from '../Models/LandOwnerShip.model';
+
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class ProjectService {
+
+//   BASE_URL = 'https://localhost:5178/api/Project';
+
+//   constructor(private http: HttpClient) { }
+
+//   GetAll(): Observable<Contractor[]> {
+//     return this.http.get<Contractor[]>(`${this.BASE_URL}`);
+//   }
+
+//   AddProject(projectDto: Project): Observable<Project> {
+//     return this.http.post<Project>(this.BASE_URL, projectDto);
+//   }
+
+//   GetCompanyById(id: number): Observable<Contractor> {
+//     return this.http.get<Contractor>(`${this.BASE_URL}/GetCompanyById?id=${id}`);
+//   }
+
+//   getProjectByName(projectName: string): Observable<any> {
+//     return this.http.get(`${this.BASE_URL}/byname/${projectName}`);
+//   }
+
+//   Update(id: number, project: Project): Observable<Project> {
+//     return this.http.put<Project>(`${this.BASE_URL}/${id}`, project);
+//   }
+
+//   GetProjecctByContractor(id: number): Observable<Project[]> {
+//     return this.http.get<Project[]>(`${this.BASE_URL}/GetProjecctByContractor?id=${id}`);
+//   }
+
+//   GetLandOwnerShip(): Observable<LandOwnerShip[]> {
+//     return this.http.get<LandOwnerShip[]>(`${this.BASE_URL}/GetLandOwnerShip`);
+//   }
+// }

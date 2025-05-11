@@ -23,11 +23,11 @@ import { ApartmentService } from '../../service/apartment.service';
     CalendarModule,
     FormsModule,
   ],
-  
   providers: [
     ConfirmationService, // הוספת ConfirmationService ל-providers
     MessageService,
-    ApartmentService],
+    ApartmentService
+  ],
   templateUrl: './apartment.component.html',
   styleUrl: './apartment.component.css'
 })
@@ -38,7 +38,7 @@ export class ApartmentComponent {
   confirmationService: ConfirmationService = inject(ConfirmationService);
   messageService: MessageService = inject(MessageService);
 
-  newApartment: ApartmentDTO= new ApartmentDTO();
+  newApartment: ApartmentDTO = new ApartmentDTO();
 
   constructor(
     private cdr: ChangeDetectorRef
@@ -60,3 +60,4 @@ export class ApartmentComponent {
     console.log(this.newApartment);
   }
 }
+//ffgggghhsss
