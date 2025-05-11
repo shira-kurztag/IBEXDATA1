@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApartmentDTO } from '../../Models/ApartmentDTO';
+import { ApartmentDTO } from '../../Models/ApartmentDTO.model';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ApartmentService } from '../../service/apartment.service';
 import { CommonModule } from '@angular/common';

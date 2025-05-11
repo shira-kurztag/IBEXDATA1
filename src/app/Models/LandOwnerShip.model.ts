@@ -1,4 +1,4 @@
 export class LandOwnerShip {
-  id: number = 0;
-  description: string = "";
-}
+    id: number = 0;
+    description: string = "";
+  }

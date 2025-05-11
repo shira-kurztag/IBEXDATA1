@@ -1,4 +1,4 @@
 export class MortagegeLevels {
-    mortagegeLevels?:number
+    mortagegeLevelId?:number
     mortagegeLevelText?:string
 }

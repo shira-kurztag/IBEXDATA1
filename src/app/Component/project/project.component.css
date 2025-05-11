@@ -1,8 +1,4 @@
-/* :host ::ng-deep .p-dialog .product-image {
-    width: 150px;
-    margin: 0 auto 2rem auto;
-    display: block;
-} */
+
 .flex-container {
   display: flex;
   align-items: center;
@@ -83,7 +79,9 @@
 }
 
 .section-left {
-  width: 35%;
+    width: 167%;
+    margin-left: -173%;
+    margin-top: 5%;
 }
 .contractor-box {
   display: flex;
@@ -274,4 +272,6 @@ h3 {
   outline-color: transparent;
   box-shadow: var(--p-inputtext-shadow);
 }
+
+
 

@@ -55,7 +55,7 @@ export class Project {
   projectDrawingFile: string = "";
   isHachiraContract: boolean = false;
   smothArea: number = 0;
-
+ 
   // שדות עזר להצגה בטופס
   dateWinningTenderDisplay?: Date | null;
   developmentPeriodEndDateDisplay?: Date | null;
@@ -63,7 +63,7 @@ export class Project {
   collectionExpensesFrom2Display?: Date | null;
   collectionExpensesFrom3Display?: Date | null;
   hachiraContractEndDateDisplay?: Date | null;
-
+ 
   constructor() {
     const today = new Date().toISOString().split('T')[0];
     this.insertDate = today;
