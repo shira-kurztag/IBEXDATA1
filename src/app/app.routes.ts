@@ -12,6 +12,7 @@ import { AddTenantComponent } from "./Component/tenant/addtenant/addtenant.compo
 import { MainTenantComponent } from "./Component/tenant/maintenant/maintenant.component";
 import { AddingApartmentComponent } from "./Component/adding-apartment/adding-apartment.component";
 import { BuildingComponent } from "./Component/building/building.component";
+import { AddbuildingComponent } from "./Component/building/addbuilding/addbuilding.component";
  
  
 export const routes: Routes = [
@@ -28,5 +29,9 @@ export const routes: Routes = [
     { path:'AddContractors', component:AddContractorComponent},
     { path: 'mortagege', component: MortagegeComponent },
     { path: 'AddingApartmentComponent', component: AddingApartmentComponent },
-    { path: 'buildings', component: BuildingComponent }, // נתיב לבניינים
+    { path: 'buildings/:id//:flag', component: BuildingComponent }, // נתיב לבניינים
+    { path: 'project/:projectId', component: ProjectComponent },
+    { path: 'Addbuilding/:id', component: AddbuildingComponent }
+ 
+ 
 ]

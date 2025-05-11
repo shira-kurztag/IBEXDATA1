@@ -21,6 +21,8 @@ export class BuildingService {
   getBuildingById(buildingId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/GetBuildingById/${buildingId}`);
   }
-
+  saveBuilding(building: building): Observable<any> {
+    return this.http.post(`${this.baseUrl}/AddBuilding`, building);
+}
 
 }

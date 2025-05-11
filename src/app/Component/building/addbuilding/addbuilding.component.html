@@ -1,0 +1,224 @@
+<!-- <!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>טופס בניין</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="menu">
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-pencil"></i>
+            </div>
+            <button class="contractor-button" (click)="lookingForBuilding()"> חיפוש </button>
+        </div>
+ 
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-plus"></i>
+            </div>
+            <button type="submit" class="contractor-button" (click)="onSubmit()"> שמירה </button>
+        </div>
+ 
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-align-justify"></i>
+            </div>
+            <button class="contractor-button" (click)="cleanFile()"> מחיקה </button>
+        </div>
+ 
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-align-justify"></i>
+            </div>
+            <button class="contractor-button" (click)="moveMangerBulding()"> העברה למנהל </button>
+        </div>
+    </aside>
+ 
+    <main class="form-content">
+      <h1>פרטי בניין</h1>
+      <form #formDirective="ngForm" (ngSubmit)="onSubmit()" class="grid grid-cols-2 gap-4">
+        <div class="flex flex-col gap-6">
+          <label for="buildingStatus" class="block font-bold">סטטוס בניין:</label>
+          <button pButton type="button" label="פעיל" class="p-button-primary w-full"></button>
+        </div>
+        <div>
+          <label for="buildingNumber" class="block font-bold">מספר בניין:</label>
+          <input type="number" pInputText id="buildingNumber" name="buildingNumber"
+            [(ngModel)]="newBuilding.buildingNumber" class="p-inputtext" required>
+        </div>
+ 
+        <div class="col-span-2">
+          <label for="floorsNumber" class="block font-bold">מספר קומות:</label>
+          <input type="number" pInputText id="floorsNumber" name="floorsNumber"
+            [(ngModel)]="newBuilding.floorsNumber" class="w-full" required>
+        </div>
+ 
+        <div>
+          <label for="isElevator" class="block font-bold">מעלית:</label>
+          <input type="text" pInputText id="isElevator" name="isElevator"
+            [(ngModel)]="newBuilding.isElevator" class="p-inputtext">
+        </div>
+        <div>
+          <label for="addressAndNumberOfMunicipal" class="block font-bold">כתובת ומספר עירוני:</label>
+          <input type="text" pInputText id="addressAndNumberOfMunicipal" name="addressAndNumberOfMunicipal"
+            [(ngModel)]="newBuilding.addressAndNumberOfMunicipal" class="p-inputtext">
+        </div>
+ 
+        <div>
+          <label for="isBuildingPermit" class="block font-bold">היתר בנייה שלי:</label>
+          <input type="text" pInputText id="isBuildingPermit" name="isBuildingPermit"
+            [(ngModel)]="newBuilding.isBuildingPermit" class="p-inputtext">
+        </div>
+        <div>
+          <label for="buildingPermitFile" class="block font-bold">קובץ היתר בנייה:</label>
+          <input type="text" pInputText id="buildingPermitFile" name="buildingPermitFile"
+            [(ngModel)]="newBuilding.buildingPermitFile" class="w-full">
+        </div>
+ 
+        <div>
+          <label for="is4Form" class="block font-bold">טופס 4:</label>
+          <input type="text" pInputText id="is4Form" name="is4Form"
+            [(ngModel)]="newBuilding.is4Form" class="p-inputtext">
+        </div>
+        <div>
+          <label for="_4formFile" class="block font-bold">קובץ טופס 4:</label>
+          <input type="number" pInputText id="_4formFile" name="_4formFile"
+            [(ngModel)]="newBuilding._4formFile" class="p-inputtext">
+        </div>
+ 
+        <div class="col-span-2">
+          <button type="submit" class="btn btn-primary w-full">שמור</button>
+        </div>
+      </form>
+    </main>
+  </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="he" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>טופס בניין</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+   
+    <aside class="menu">
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-pencil"></i>
+            </div>
+            <button class="contractor-button" (click)="lookingForBuilding()"> חיפוש </button>
+        </div>
+
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-plus"></i>
+            </div>
+            <button type="submit" class="contractor-button" (click)="onSubmit()"> שמירה </button>
+        </div>
+
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-align-justify"></i>
+            </div>
+            <button class="contractor-button" (click)="cleanFile()"> מחיקה </button>
+        </div>
+
+        <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-align-justify"></i>
+            </div>
+            <button class="contractor-button" (click)="moveMangerBulding()"> העברה למנהל </button>
+        </div>
+    </aside>
+
+    <main class="form-content">
+      <h1>פרטי בניין</h1>
+      <form #formDirective="ngForm" (ngSubmit)="onSubmit()" class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="buildingNumber" class="block font-bold">מספר בניין:</label>
+          <input type="text" id="buildingNumber" name="buildingNumber"
+            [(ngModel)]="newBuilding.buildingNumber" class="p-inputtext" required>
+        </div>
+
+        <div>
+          <label for="floorsNumber" class="block font-bold">מספר קומות:</label>
+          <input type="number" id="floorsNumber" name="floorsNumber"
+            [(ngModel)]="newBuilding.floorsNumber" class="p-inputtext" required>
+        </div>
+
+        <div>
+          <label for="isElevator" class="block font-bold">מעלית:</label>
+          <input type="checkbox" id="isElevator" name="isElevator"
+            [(ngModel)]="newBuilding.isElevator" class="p-checkbox">
+        </div>
+
+        <div>
+          <label for="addressAndNumberOfMunicipal" class="block font-bold">כתובת ומספר עירוני:</label>
+          <input type="text" id="addressAndNumberOfMunicipal" name="addressAndNumberOfMunicipal"
+            [(ngModel)]="newBuilding.addressAndNumberOfMunicipal" class="p-inputtext">
+        </div>
+
+        <div>
+          <label for="isBuildingPermit" class="block font-bold">היתר בנייה:</label>
+          <input type="checkbox" id="isBuildingPermit" name="isBuildingPermit"
+            [(ngModel)]="newBuilding.isBuildingPermit" class="p-checkbox">
+        </div>
+
+        <div>
+          <label for="buildingPermitFile" class="block font-bold">קובץ היתר בנייה:</label>
+          <input type="text" id="buildingPermitFile" name="buildingPermitFile"
+            [(ngModel)]="newBuilding.buildingPermitFile" class="p-inputtext">
+        </div>
+
+        <div>
+          <label for="is4Form" class="block font-bold">טופס 4:</label>
+          <input type="checkbox" id="is4Form" name="is4Form"
+            [(ngModel)]="newBuilding.is4Form" class="p-checkbox">
+        </div>
+
+        <div>
+          <label for="_4formFile" class="block font-bold">קובץ טופס 4:</label>
+          <input type="text" id="_4formFile" name="_4formFile"
+            [(ngModel)]="newBuilding._4formFile" class="p-inputtext">
+        </div>
+
+        <div>
+          <label for="isPerselasia" class="block font-bold">פרצלסיה:</label>
+          <input type="checkbox" id="isPerselasia" name="isPerselasia"
+            [(ngModel)]="newBuilding.isPerselasia" class="p-checkbox">
+        </div>
+
+        <div>
+          <label for="bloc" class="block font-bold">גוש:</label>
+          <input type="number" id="bloc" name="bloc"
+            [(ngModel)]="newBuilding.bloc" class="p-inputtext">
+        </div>
+
+        <div>
+          <label for="smooth" class="block font-bold">חלקה:</label>
+          <input type="number" id="smooth" name="smooth"
+            [(ngModel)]="newBuilding.smooth" class="p-inputtext">
+        </div>
+
+        <div class="col-span-2">
+          <label for="note" class="block font-bold">הערות:</label>
+          <textarea id="note" name="note"
+            [(ngModel)]="newBuilding.note" class="p-inputtextarea"></textarea>
+        </div>
+
+        <div class="col-span-2">
+          <button type="submit" class="btn btn-primary w-full">שמור</button>
+        </div>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
