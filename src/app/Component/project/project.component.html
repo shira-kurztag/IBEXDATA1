@@ -220,7 +220,6 @@
           <!-- <app-files [fileNameShow]="selectedFileNames" [contractorCode]="contractorId"
             [fileList]="selectedFiles || undefined" [labelText]="getLabelText('purchaseTaxPaymentConfirmationFile')"
             (uniqIdGenerated)="onUniqIdReceived($event)" (nameDocGenerated)="onNameDocReceived($event)"></app-files> -->
-
           <!-- <div class="col-span-2">
           <label for="isHachiraContract" class="block font-bold mb-2">האם יש חוזה חכירה: </label>
           <p-checkbox id="isHachiraContract" [(ngModel)]="project.isHachiraContract" binary="true"></p-checkbox>
@@ -255,7 +254,6 @@
           <input type="file" pInputText id="purchaseTaxPaymentConfirmationFile"
             [(ngModel)]="project.purchaseTaxPaymentConfirmationFile" class="w-full" />
         </div> -->
-
           <!-- <div class="col-span-2">
           <label for="isAppreciationTaxPaymentConfirmation" class="block font-bold mb-2">אישור תשלום מס שבח: </label>
           <p-checkbox id="isAppreciationTaxPaymentConfirmation"
@@ -746,7 +744,6 @@
             <i class="pi pi-times"></i>
           </div>
         </div> -->
-
           <!-- <div *ngIf="commentFlag">
           <div *ngFor="let commentPrev of commentsPrev" class="col-span-2 flex-container">
             <label for="projectDrawingFile" class="block font-bold mb-2 flex-item">הערה:
@@ -1240,11 +1237,13 @@
                   <i class="pi pi-times"></i>
                 </div>
               </div>
-               <div class="col-span-2">
-              <label for="dateWinningTender" class="block font-bold" [hidden]="!project.isPurchaseInTender">תאריך זכיה במכרז:</label>
-              <input type="text" id="dateWinningTender" class="block font-bold" [hidden]="!project.isPurchaseInTender" [(ngModel)]="project.dateWinningTender" />
-            </div>
-      
+              <div class="col-span-2">
+                <label for="dateWinningTender" class="block font-bold" [hidden]="!project.isPurchaseInTender">תאריך זכיה
+                  במכרז:</label>
+                <input type="text" id="dateWinningTender" class="block font-bold" [hidden]="!project.isPurchaseInTender"
+                  [(ngModel)]="project.dateWinningTender" />
+              </div>
+
               <!-- <div class="col-span-2">
                 <label for="dateWinningTender" class="block font-bold" [hidden]="!project.isPurchaseInTender">תאריך זכיה
                   במכרז:</label>
@@ -1252,7 +1251,7 @@
                   [(ngModel)]="project.dateWinningTender" />
               </div>
                -->
-              
+
               <div class="col-span-2">
                 <div *ngIf="project.isContractDevelopment">
                   <label for="isContractDevelopment" class="block font-bold">האם יש חוזה בפיתוח?</label>

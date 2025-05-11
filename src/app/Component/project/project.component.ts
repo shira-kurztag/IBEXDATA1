@@ -166,6 +166,9 @@ export class ProjectComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
   ngOnInit() {
+//     this.fileComponent.showT()
+// this.commentComponent.saveComment()
+
     this.getAllBanks();
     this.getBanks();
     this.getLandOwnerShip();
@@ -622,8 +625,15 @@ async addProject() {
   }
 }
 
+ngAfterViewInit() {
+  if (!this.fileComponent) {
+    console.error('fileComponent is not initialized in ngAfterViewInit.');
+  } else {
+    console.log('fileComponent initialized:', this.fileComponent);
+  }
+}
 
-  updateFiles(){
+  async updateFiles(){
     // שולחת את כל השדות קבצים לעדכון לפי UNIQI
 
    // this.filesArr = this.fileComponent.GetFiles(this.project.projectDrawingFile)
@@ -631,9 +641,19 @@ async addProject() {
     // this.fileComponent.GetFiles(this.project.powerOfAttorneyToLawyerFile)
     // this.fileComponent.GetFiles(this.project.salesTaxPaymentConfirmationFile)
     // this.fileComponent.GetFiles(this.project.appreciationTaxPaymentConfirmationFile )
-    this.filesArr = this.fileComponent.GetFiles(this.project.contractDevelopmentFile)
+   // this.filesArr = this.fileComponent.GetFiles(this.project.contractDevelopmentFile)
     // this.fileComponent.GetFiles(this.project.hachiraContractFile)
     // this.fileComponent.GetFiles(this.project.purchaseTaxPaymentConfirmationFile)
+    if (!this.project.isContractDevelopment) {
+      console.error('project.isContractDevelopment is false, app-files is not initialized.');
+      return;
+    }
+
+    try {
+      this.filesArr = await this.fileComponent.GetFiles(this.project.contractDevelopmentFile);
+    } catch (error) {
+      console.error("Error fetching files:", error);
+    }
 
 
     this.filesArr.forEach(file => {

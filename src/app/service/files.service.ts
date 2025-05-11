@@ -37,6 +37,27 @@ export class FilesService {
     return this.https.put<Magardoc>(url, magardoc);
   }
 
+  // downloadFile(fileName: string): void {
+  //   // URL של ה-API בשרת
+  //   const downloadUrl = `https://your-server.com/api/files/download?fileName=${encodeURIComponent(fileName)}`;
+  
+  //   // שליחת בקשה לשרת להורדה
+  //   this.https.get(downloadUrl, { responseType: 'blob' }).subscribe({
+  //     next: (response: Blob) => {
+  //       // יצירת Blob URL
+  //       const blob = new Blob([response], { type: response.type });
+  //       const link = document.createElement('a');
+  //       link.href = window.URL.createObjectURL(blob);
+  //       link.download = fileName; // שם הקובץ שיופיע למשתמש
+  //       link.click(); // הורדה בפועל
+  //       console.log(`הקובץ ${fileName} הורד בהצלחה!`);
+  //     },
+  //     error: (err) => {
+  //       console.error('שגיאה בהורדת הקובץ:', err);
+  //     }
+  //   });
+  // }
+
    
   // AddFile(file: Magardoc): Observable<Magardoc> {
   //   console.log('Sending Magardocs data:', file);

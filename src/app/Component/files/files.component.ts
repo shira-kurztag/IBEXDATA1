@@ -83,25 +83,26 @@ downloadFile(file: any): void {
   }
 
 
-  GetFiles(uniqId: string): Magardoc[] {
+GetFiles(uniqId: string): Promise<Magardoc[]> {
+  return new Promise((resolve, reject) => {
     if (!uniqId) {
       console.error('Unique ID is required to fetch files.');
-      return [];
+      reject('Unique ID is required to fetch files.');
     }
     console.log('Calling GetFile with uniqId:', uniqId);
     this.fileService.GetFile(uniqId).subscribe(
       (files: Magardoc[]) => {
         console.log('Files fetched:', files);
-        this.fetchedFiles = files; // שמירת הקבצים ב-fetchedFiles
-        //this.filesLoaded.emit(files); // העברת הקבצים שהתקבלו באמצעות emit
-        this.isFileUploaded = true
+        this.fetchedFiles = files;
+        resolve(files);
       },
       (error) => {
         console.error('Error fetching files:', error);
+        reject(error);
       }
     );
-    return this.fetchedFiles
-  }
+  });
+}
 
   addFiles(): void {
     if (!this.selectedFiles || this.selectedFiles.length === 0) {
@@ -146,7 +147,7 @@ downloadFile(file: any): void {
       this.fileService.AddFile(formData).subscribe({
         next: (response) => {
           console.log('File uploaded successfully:', response);
-          this.fetchedFiles = this.GetFiles(uniqId);
+         // this.fetchedFiles = this.GetFiles(uniqId);
         },
         error: (err) => {
           console.error('Error uploading file:', err);
