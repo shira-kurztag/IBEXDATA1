@@ -223,9 +223,6 @@ this.getIdLandOwnerShip();
       this.IsGetFirst = false;
       this.IsGetSecond = true;
       
-      
-      
-      this.getProject()
     }
    else {
     this.IsGetFirst = true;
@@ -827,42 +824,42 @@ ngAfterViewInit() {
   // }
   // }
     
-  // deleteCommentFromList(idComment: bigint) {
-  //   for (let i = 0; i < this.commentsList.length; i++) {
-  //     const commentId = this.commentsList[i].id;
-  //     if (commentId !== undefined && BigInt(commentId) === idComment) {
-  //       this.commentsList[i].commentText = "";
-  //     }
-  //   }
-  //   console.log("this.commentsList after delete",this.commentsList);
+  deleteCommentFromList(idComment: bigint) {
+    for (let i = 0; i < this.commentsList.length; i++) {
+      const commentId = this.commentsList[i].id;
+      if (commentId !== undefined && BigInt(commentId) === idComment) {
+        this.commentsList[i].commentText = "";
+      }
+    }
+    console.log("this.commentsList after delete",this.commentsList);
    
-  // }
+  }
  
-  // deleteComment(comment: Comment) {
-  //   if (comment.id !== undefined && comment.id !== null) {
-  //     const id = BigInt(comment.id);
+  deleteComment(comment: Comment) {
+    if (comment.id !== undefined && comment.id !== null) {
+      const id = BigInt(comment.id);
  
-  //     this.commentService.DeleteComment((id)).subscribe(
-  //       data => {
-  //         console.log("Delete comment:", comment);
-  //         this.commentsList = this.commentsList.filter(c => {
-  //           const commentId = c.id ? BigInt(c.id) : undefined;
-  //           return commentId !== id;
-  //         });
-  //         this.commentsPrev = this.commentsPrev.filter(c => {
-  //           const commentId = c.id ? BigInt(c.id) : undefined;
-  //           return commentId !== id;
-  //         });
-  //         console.log("commentsList after filter", this.commentsList);
-  //       },
-  //       error => {
-  //         console.error('Error updating comment', error);
-  //       }
-  //     );
-  //   } else {
-  //     console.error('Comment id is not a valid bigint:', comment.id);
-  //   }
-  // }
+      this.commentService.DeleteComment((id)).subscribe(
+        data => {
+          console.log("Delete comment:", comment);
+          this.commentsList = this.commentsList.filter(c => {
+            const commentId = c.id ? BigInt(c.id) : undefined;
+            return commentId !== id;
+          });
+          this.commentsPrev = this.commentsPrev.filter(c => {
+            const commentId = c.id ? BigInt(c.id) : undefined;
+            return commentId !== id;
+          });
+          console.log("commentsList after filter", this.commentsList);
+        },
+        error => {
+          console.error('Error updating comment', error);
+        }
+      );
+    } else {
+      console.error('Comment id is not a valid bigint:', comment.id);
+    }
+  }
     
   private formatDate(date: any): string {
     if (!date) return ''; // בדיקה אם התאריך אינו תקף
