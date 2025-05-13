@@ -1392,8 +1392,8 @@
             <div class="icon-box" dir="ltr">
               <i class="pi pi-align-justify"></i>
             </div>
-            <button class="contractor-button" (click)="projectList()">רשימת בניינים</button>
-            <div *ngIf="BuildingActive.length > 0">
+            <button class="contractor-button"  (click)="projectList()">רשימת בניינים</button>
+            <div *ngIf="flagList" >
               <select (change)="onBuildSelect($event)">
                 <option *ngFor="let building of BuildingActive" [value]="building.buildingId">
                   {{ building.buildingNumber }}

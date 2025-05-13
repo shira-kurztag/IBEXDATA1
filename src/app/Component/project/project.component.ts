@@ -207,11 +207,14 @@ this.getIdLandOwnerShip();
         this.IsGetFirst = true;
         this.IsGetSecond = false;
       } else {
-        debugger;
+        
         this.project.projectName = String(this.route.snapshot.paramMap.get('name'));
         this.IsGetFirst = false;
         this.IsGetSecond = true;
+        this.getProject(this.project.projectName)
+
       }
+
     
     this.getCompanyName()
 
@@ -262,40 +265,38 @@ this.getIdLandOwnerShip();
     }
   }
   getAllBuildings() {
-    console.log('Fetching buildings for projectId:', this.projectId);
-    this.buildingService.getBuildingsByProjectId(this.projectId).pipe(
+    this.buildingService.getBuildingsByProjectId(this.project.projectId).pipe(
       catchError(error => {
-        console.error('Error fetching Buildings:', error);
+        console.error('Error fetching Buildings:', error); // הדפסת שגיאה
         return of([]); // החזרת מערך ריק במקרה של שגיאה
       })
     ).subscribe((buildings: BuildingDTO[]) => {
       console.log('Buildings received:', buildings);
       this.buildings = buildings;
-
+  
       // איפוס הרשימה הפעילה לפני מילוי מחדש
       this.BuildingActive = [];
-
+  
       for (let building of this.buildings) {
         if (building.buildingStatus === 1) {
           this.BuildingActive.push(building);
         }
       }
-
+  
       console.log('Active Buildings:', this.BuildingActive);
     });
+  }
+  
+onBuildSelect(event: Event) {
+  const selectedBuildNumber = (event.target as HTMLSelectElement).value;
+  this.getBuild(selectedBuildNumber);
 }
-  // פונקציה לבחירת בניין לפי מספר
-  onBuildSelect(event: Event) {
-    const selectedBuildNumber = (event.target as HTMLSelectElement).value;
-    this.getBuild(selectedBuildNumber);
-  }
 
-  getBuild(projectname: string) {
-    this.projectName = projectname;
-    this.flagBuild = false;
-    this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagBuild)]);
-  }
-
+getBuild(projectname: string) {
+  this.projectName = projectname;
+  this.flagBuild = false;
+  this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagBuild)]);
+}
   // פונקציה לעדכון ה-ID של הפרויקט שהמשתמש בחר
   onProjectSelectionChange(projectId: number): void {
     this.selectedProjectId = projectId;
@@ -682,7 +683,7 @@ onNameDocReceived(nameDoc: string): void {
 
       console.log("start update");
 
-      this.projectService.Update(this.project.projectId, this.project).subscribe({
+      this.projectService.Update(this.selectedProjectId, this.project).subscribe({
         next: data => {
           console.log("Data received:", data);
         ///  this.commentComponent.updateComment(data.projectId)
