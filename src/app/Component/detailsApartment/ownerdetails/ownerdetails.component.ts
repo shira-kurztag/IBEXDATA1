@@ -28,36 +28,48 @@ export class OwnerdetailsComponent {
   }
   
   ngOnInit(): void {
-      this.apartmentID = 10032; // מזהה דירה זמני
+      this.apartmentID = 9987; // מזהה דירה זמני
       this.GetOwner(this.apartmentID)
    }
   
-    createOwnerGroup(owner: any): FormGroup {
-      return this.fb.group({
-        OwnerId: [owner.OwnerId || 0], // מספר
-        OwnerStatus: [owner.OwnerStatus || 0], // מספר
-        ApartmentId: [owner.ApartmentId || 0], // מספר
-        OwnerApartmentStatus: [owner.OwnerApartmentStatus || 0], // מספר
-        MailingAddress: [owner.MailingAddress || ''], // מחרוזת
-        DescriptionPhone1: [owner.DescriptionPhone1 || ''], // מחרוזת
-        DescriptionPhone2: [owner.DescriptionPhone2 || ''], // מחרוזת
-        DescriptionPhone3: [owner.DescriptionPhone3 || ''], // מחרוזת
-        NumberPhone1: [owner.NumberPhone1 ], // מספר
-        NumberPhone2: [owner.NumberPhone2 ], // מספר
-        NumberPhone3: [owner.NumberPhone3 ], // מספר
-        Fax: [owner.Fax ], // מספר
-        Email: [owner.Email || ''], // מחרוזת
-        LawyerName: [owner.LawyerName || ''], // מחרוזת
-        DeadlineForReporting: [owner.DeadlineForReporting || null], // תאריך
-        IsReported: [owner.IsReported || false], // בוליאני
-        HavePowerOfAttorney: [owner.HavePowerOfAttorney || false], // בוליאני
-        IsGivenVouchers: [owner.IsGivenVouchers || false], // בוליאני
-        IsLegalExpensesPaid: [owner.IsLegalExpensesPaid || false], // בוליאני
-        IsFormSignedIrrevocableInstructions: [owner.IsFormSignedIrrevocableInstructions || false], // בוליאני
-        PurchasDate: [owner.PurchasDate || null], // תאריך
-        AddressByContract: [owner.AddressByContract || ''], // מחרוזת
-      });
-    }
+   createOwnerGroup(owner: any): FormGroup {
+    return this.fb.group({
+      ownerId: [owner.ownerId ], // מספר
+      purchasedFrom: [owner.purchasedFrom || ''], // מחרוזת
+      purchaseDate: [owner.purchaseDate || null], // תאריך
+      addressAccordingToContract: [owner.addressAccordingToContract || ''], // מחרוזת
+      addressAndNumberOfMunicipal: [owner.addressAndNumberOfMunicipal || ''], // מחרוזת
+      mailingAddress: [owner.mailingAddress || ''], // מחרוזת
+      SecondAddress: [owner.secondAddress || ''], // מחרוזת
+      descriptionPhone1: [owner.descriptionPhone1 ], // מחרוזת
+      DescriptionPhone2: [owner.descriptionPhone2 || ''], // מחרוזת
+      DescriptionPhone3: [owner.descriptionPhone3 || ''], // מחרוזת
+      NumberStringPhone1: [owner.numberStringPhone1 || ''], // מחרוזת
+      NumberStringPhone2: [owner.numberStringPhone2 || ''], // מחרוזת
+      NumberStringPhone3: [owner.numberStringPhone3 || ''], // מחרוזת
+      Fax: [owner.Fax || null], // מספר
+      Email: [owner.Email || ''], // מחרוזת
+      LawyerName: [owner.LawyerName || ''], // מחרוזת
+      DeadlineForReporting: [owner.DeadlineForReporting || null], // תאריך
+      IsReported: [owner.IsReported || false], // בוליאני
+      IsConfirmationReporting: [owner.IsConfirmationReporting || false], // בוליאני
+      ReporteFile: [owner.ReporteFile || ''], // מחרוזת
+      IsCorrectLackPurchaseTaxBalance: [owner.IsCorrectLackPurchaseTaxBalance || false], // בוליאני
+      IncumbentNumber: [owner.IncumbentNumber || ''], // מחרוזת
+      HavePowerOfAttorney: [owner.HavePowerOfAttorney || false], // בוליאני
+      IsCorrectPowerOfAttorney: [owner.IsCorrectPowerOfAttorney || false], // בוליאני
+      PowerOfAttorneyFile: [owner.PowerOfAttorneyFile || ''], // מחרוזת
+      IsGivenVouchers: [owner.IsGivenVouchers || false], // בוליאני
+      IsLegalExpensesPaid: [owner.IsLegalExpensesPaid || false], // בוליאני
+      PaidNote: [owner.PaidNote || ''], // מחרוזת
+      IsSignedTofesHearot: [owner.IsSignedTofesHearot || false], // בוליאני
+      IsProducedHachira: [owner.IsProducedHachira || false], // בוליאני
+      IsFormSignedIrrevocableInstructions: [owner.IsFormSignedIrrevocableInstructions || false], // בוליאני
+      SignedIrrevocableInstructionsFile: [owner.SignedIrrevocableInstructionsFile || ''], // מחרוזת
+      IsFurthermoreLackOfApproval: [owner.IsFurthermoreLackOfApproval || false], // בוליאני
+      LeaseNumberString: [owner.LeaseNumberString || ''], // מחרוזת
+    });
+  }
 
 
     GetOwner(apartmentID: number): void {

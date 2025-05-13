@@ -88,10 +88,9 @@
                 type="number"
                 required
               />
-            </div>
+          
 
             <!-- האם חתם באמצעות יפוי כוח -->
-            <div class="p-col-12 p-md-6 tenant-detail">
               <span class="detail-title">האם חתם באמצעות יפוי כוח:</span>
               <div class="contractor-detail" *ngIf="!editMode">
                 <i *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value" class="pi pi-check" style="font-size: 1rem;"></i>

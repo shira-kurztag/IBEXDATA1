@@ -38,7 +38,7 @@ export class MainTenantComponent implements OnInit {
   srvTenant: TenantService = inject(TenantService);
 
   ngOnInit(): void {
-    this.apartmentId = 10032; // מזהה דירה זמני
+    this.apartmentId = 9987; // מזהה דירה זמני
     this.getTenants();
   }
 
