@@ -116,19 +116,6 @@ body {
     color: green;
     font-weight: bold;
   }
-  /* Darkened overlay */
-
-/* .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 1000;
-} */
-
-/* Modal container */
 .modal-container {
   position: fixed;
   top: 50%;
@@ -140,7 +127,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1001;
 }
-.ui-widget-overlay {
-  background-color: rgba(0, 0, 0, 0.5) !important; /* צבע רקע כהה */
-  z-index: 1000 !important; /* וודא שה-overlay מעל כל האלמנטים */
+body .ui-widget-overlay {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 1000 !important;
 }

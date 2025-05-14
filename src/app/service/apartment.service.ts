@@ -12,7 +12,6 @@ export class ApartmentService {
   private apiUrl = 'https://localhost:5178/api/Apartment/GetApartmentsByBuilding/2305'; //שליפת דירות לפי ID של בנייין
  
   private BASE_URL= 'https://localhost:5178/api/Apartment/2305/add-apartment';
-   //private apiUrlBase = 'http://localhost:5090/api/Banks'; // URL בסיסי ל-API
    
    
     constructor(private http: HttpClient) {}

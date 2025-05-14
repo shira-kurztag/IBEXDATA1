@@ -1,10 +1,10 @@
 import { Mortagege } from '../../Models/Mortagege.model';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, numberAttribute, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { PanelModule } from 'primeng/panel';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToggleSwitch, ToggleSwitchModule } from 'primeng/toggleswitch';
 import { MortagegeService } from '../../service/mortagege.service';
@@ -24,6 +24,7 @@ import { getMortgageStatusString, MortgageStatus } from '../../Models/MortgageSt
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { AdminApprovalComponent } from '../admin-approval/admin-approval.component';
 import { CommentComponent } from '../comment/comment.component';
+import { BankCertificate } from '../../Models/BankCertificate.model';
 @Component({
   selector: 'app-mortagege',
   imports: [CommonModule,
@@ -54,8 +55,8 @@ export class MortagegeComponent {
   selectedMortagegesType: MortagegesTypes | null = null;
   mortagegesTypes: MortagegesTypes[] = [];
   apartmentId: number = 9983; // לשנות מקבל מקומפוננטה האבא ב url 
-  borrowerOptions: { label: string, value: string }[] = [
-    { label: 'כל בעלי זכויות', value: 'all' }
+  borrowerOptions: { label: string, value: number }[] = [
+    { label: 'כל בעלי זכויות', value: -1 }
   ];
 
   unlimitedAmountOptions: { label: string, value: string }[] = [
@@ -71,7 +72,11 @@ export class MortagegeComponent {
   irrevocableInstructions: boolean = false;
   showErrors: boolean = false;
   ownersTenant: Tenant[] = []
-  // ownersTenant: Owner[] = []
+  boolSave: boolean = false;
+  visible: boolean = false;
+  listOwnerOfmort: Owner[] = []
+  listIdOwnerOfmort: number[] = []
+  hasMortgageInProcess: boolean = false
   savedMortagege: Mortagege = {
     isApprovalCompany: false // אתחול השדות הנדרשים
   };
@@ -80,19 +85,31 @@ export class MortagegeComponent {
   srvOwner: OwnerService = inject(OwnerService);
   srvBank: BankService = inject(BankService);
   router: Router = inject(Router);
-  displayErrorDialog: boolean = false; // משתנה לשליטה בהצגת הדיאלוג
+  displayErrorDialog: boolean = false;
   errorDialogMessage: string = '';
+
+
+  isDocumentApproved: boolean = false; // האם מסמך מאושר
+  
+ // documentApproved//בהמשך נתעסק עם קבצים
+ ///2-4
+  // IsDocumentApprovedSource: boolean = false
+  // IsDocumentApprovedValid: boolean = false
+  //   level?: number
+  ///
+  listBankCertificate:BankCertificate[]=[]
+    /////
+  ListBanksForMortgages: number[] = []
+  listBanksnameForMortgages: Bank[] = []
   initializeForm() {
     this.mortgageForm = this.fb.group({
       mortagegeStatus: [-1],
       mortagegesType: [null, Validators.required], // סוג המשכנתא
       toTheBank: [null, Validators.required], // שם הבנק
       TeanantId: [[]], // מי נוטל המשכנתא
-      // selectedunlimitedAmount: [null], // סוג הסכום
       amountType: [1], // סוג המטבע
       amount: [null, Validators.min(0)], // סכום המשכנתאcommitmentAmount 
       noteOrConditioning: [null], // הערות או התניות
-      isDocumentApproved: [false], // האם מסמך מאושר
       isValidDocument: [false], // האם המסמך תקין
       sourceDocument: [false], // האם מדובר במסמך מקור
       levelMortagege: [null], // מאיזו דרגה
@@ -106,43 +123,30 @@ export class MortagegeComponent {
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
-
-      console.log(`Selected file: ${file.name}`);
-    }
+         }
   }
-  boolSave: boolean = false;
-  visible: boolean = false;
-listOwnerOfmort:Owner[]=[]
-listIdOwnerOfmort:number[]=[]
-  saveAndSend() {
 
+  saveAndSend() {
+    this.saveAll();
+       if (this.hasMortgageInProcess) {
+      this.commentText = "קיים תהליך קודם לנטילת משכנתא יש לסיימו או לבטלו בכדי לסיים הליך זה.";
+    }
+    this.commentText += "בקשה לאישור יצירת משכנתא";
     this.visible = true;
     this.boolSave = true;
-    console.log("may"+this.mortgageForm.get('TeanantId')?.value.tenantId);
-    this.saveAll();
-    this.srvOwner.GetAllOwnersByTenants(this.mortgageForm.get('TeanantId')?.value.tenantId).subscribe(response => {
-      this.listOwnerOfmort =response
-    });
-    console.log('Owners fetched:', this.listOwnerOfmort);
-    // this.listIdOwnerOfmort = this.listOwnerOfmort.map(owner => owner.OwnerId);
-    this.listIdOwnerOfmort = this.listOwnerOfmort
-    .map(owner => owner.OwnerId)
-    .filter((id): id is number => id !== undefined);
-    console.log('Owner IDs:', this.listIdOwnerOfmort);
-    this.commentText = "בקשה לאישור יצירת משכנתא";
-    
   }
-  // Close the admin approval dialog
+
   closeAdminApprovalDialog() {
     this.boolSave = false;
   }
 
-
+  
   ngOnInit(): void {
+
+   
     this.initializeForm();
     this.srvMortagege.GetAllMortagegesTypes().subscribe(response => {
       const mortagegesTypes = response ? (response as any)?.$values || response : [];
-
       this.mortagegesTypes = mortagegesTypes;
       this.selectedMortagegesType = this.mortagegesTypes.length > 0 ? this.mortagegesTypes[0] : null;
     });
@@ -165,9 +169,7 @@ listIdOwnerOfmort:number[]=[]
       const MortagegeLevels = response ? (response as any)?.$values || response : [];
       if (Array.isArray(MortagegeLevels)) {
         this.listMortagegeLevels = MortagegeLevels;
-        console.log(this.listMortagegeLevels);
-
-      }
+            }
       else {
         this.listMortagegeLevels = [];
       }
@@ -178,14 +180,43 @@ listIdOwnerOfmort:number[]=[]
       this.listBanks = banks;
     });
 
+      this.srvOwner.GetOwnersByApartmentId(this.apartmentId).subscribe(response => {
 
-    this.srvOwner.GetOwnersByApartmentId(this.apartmentId).subscribe(response => {
 
       const tenants = this.resolveReferences(response);
       this.ownersTenant = tenants ? (tenants as any)?.$values || tenants : [];
       this.updateBorrowerOptions();
-    });
+    })
 
+
+
+    this.srvMortagege.hasMortgageInProcess(this.apartmentId).subscribe(response => {
+      this.hasMortgageInProcess = response
+    })
+
+    this.srvMortagege.GetAllMortgageBanksByApartment(this.apartmentId).subscribe(response => {
+
+      this.ListBanksForMortgages = response
+
+      const bankRequests = this.ListBanksForMortgages.map((bankId: number) =>
+        this.srvBank.GetBankById(bankId).subscribe(response => {
+          this.listBanksnameForMortgages.push(response);
+
+          this.listBankCertificate = this.listBanksnameForMortgages.map(() => ({
+            bankCertificatesId:0,
+            isDocumentApproved: false,
+            level: undefined,
+            isDocumentApprovedSource: false,
+            isDocumentApprovedValid: false,
+         // documentApproved?: string;  
+          }));
+        })
+      );
+      debugger
+   
+
+      
+    })
   }
 
   resolveReferences(obj: any): any {
@@ -202,19 +233,23 @@ listIdOwnerOfmort:number[]=[]
         for (const key in item) {
           if (item.hasOwnProperty(key)) {
             item[key] = resolve(item[key]);
+
           }
         }
       }
+
       return item;
     };
     return resolve(obj);
   }
+
+
   showAdditionalQuestion = false;
 
   onBorrowerChange(event: any): void {
     const selectedValue = event.value;
 
-    if (selectedValue.value !== 'all' && this.borrowerOptions.length > 2) {
+    if (selectedValue.value !== -1 && this.borrowerOptions.length > 2) {
       this.showAdditionalQuestion = true;
     } else {
       this.showAdditionalQuestion = false;
@@ -227,17 +262,18 @@ listIdOwnerOfmort:number[]=[]
       return;
     }
     this.borrowerOptions = [
-      { label: 'כל בעלי זכויות', value: 'all' },
+      { label: 'כל בעלי זכויות', value: -1 },
       ...this.ownersTenant.map(tenant => ({
         label: `${tenant.firstName || ''} ${tenant.lastName || ''}`,
-        value: tenant.tenantId !== undefined ? tenant.tenantId.toString() : ''
+
+        value: tenant.tenantId !== undefined ? tenant.tenantId : -1
       }))
     ];
   }
 
   generateIrrevocableInstructions() {
     if (this.mortgageForm.get('levelMortagege')?.value == null) {
-      this.displayErrorDialog = true; 
+      this.displayErrorDialog = true;
       this.errorDialogMessage = 'לא ניתן להפיק טופס הוראות בלתי חוזרות כיון שלא נבחרה דרגה למשכנתא';
     } else {
       // Add logic to generate irrevocable instructions content
@@ -265,9 +301,11 @@ listIdOwnerOfmort:number[]=[]
       const formValue = this.mortgageForm.value;
       formValue.mortagegesType = this.mortgageForm.get('mortagegesType')?.value.mortagegesTypeId
       formValue.toTheBank = this.mortgageForm.get('toTheBank')?.value.bankId
-        this.srvMortagege.CreateMortagege(formValue).subscribe(response => {
+      this.srvMortagege.CreateMortagege(formValue).subscribe(response => {
         this.MortagegeId = response.id
-        console.log('Mortgage created successfully:', response);
+
+
+
       }, error => {
         this.MortagegeId = error
         console.error('Error creating mortgage:', error);
@@ -279,42 +317,129 @@ listIdOwnerOfmort:number[]=[]
   }
 
   saveAll() {
-
-    const formValue = this.mortgageForm.value;
+     const formValue = this.mortgageForm.value;
     formValue.mortagegesType = this.mortgageForm.get('mortagegesType')?.value.mortagegesTypeId
     formValue.toTheBank = this.mortgageForm.get('toTheBank')?.value.bankId
-    formValue.levelMortagege = this.mortgageForm.get('levelMortagege')?.value
-    formValue.amountType = this.mortgageForm.get('amountType')?.value
+    formValue.levelMortagege = this.mortgageForm.get('levelMortagege')?.value?.mortagegeLevelId
+    formValue.amountType = this.mortgageForm.get('amountType')?.value?.currencyTypeId
     let borrowerValue: number[];
+    debugger
 
-    // בדיקה האם נבחר "all" או דייר ספציפי
-    if (formValue.TeanantId.value !== 'all') {
-      // אם נבחר דייר ספציפי, המרה למספר והכנסתו לרשימה
+    if (formValue.TeanantId.value !== -1) {
       const singleValue = Number(formValue.TeanantId.value);
       if (!isNaN(singleValue)) {
-        borrowerValue = [singleValue]; // הכנס ערך בודד לתוך רשימה
+        borrowerValue = [singleValue];
       } else {
-        console.error('Invalid TeanantId value:', formValue.TeanantId.value);
-        borrowerValue = []; // במקרה של שגיאה, החזר רשימה ריקה
+
+        borrowerValue = [];
       }
-    } else {
-      // אם נבחר "all", החזר את כל בעלי הזכויות כרשימה
+    }
+    else {
+      debugger
       borrowerValue = this.ownersTenant.map(owner => owner.tenantId);
     }
-
+    this.mortgageForm.patchValue({
+      TeanantId: borrowerValue,
+    });
     formValue.TeanantId = borrowerValue;
+
     if (this.selectedunlimitedAmount?.value == "NoAmountLimit") {
-         formValue.amountType = -1;
+      formValue.amountType = -1;
     }
 
-    this.srvMortagege.savedFullMortagege(formValue, this.MortagegeId).subscribe(
-      (response: any) => {
-        console.log('Mortgage created successfully:', response);
-      },
-      (error: any) => {
-        console.error('Error creating mortgage:', error);
-      });
+    this.srvMortagege.savedFullMortagege(formValue, this.MortagegeId).subscribe();
+    this.saveBankCertificate();
+    if(this.mortgageForm.get('mortagegesType')?.value.mortagegesTypeId === 2){
+    this.updateListBankCertificate();
+    }
+  }
+
+  saveBankCertificate() {
+
+    this.srvOwner.GetAllOwnersByTenants(this.mortgageForm.get('TeanantId')?.value).subscribe((owners: Owner[]) => {
+
+
+
+      this.listIdOwnerOfmort = owners
+        .map(owner => owner.ownerId)
+        .filter((id): id is number => id !== undefined);
+      if (this.listIdOwnerOfmort.length != 0) {
+        debugger
+        this.listIdOwnerOfmort.forEach(ownerId => {
+          const bankCertificate: BankCertificate = {
+            bankCertificatesId: 0,
+            mortgageId: this.MortagegeId,
+            ownerId: ownerId,
+            bankApproved: this.mortgageForm.get('toTheBank')?.value.bankId
+          };
+
+          this.srvMortagege.createBankCertificate(bankCertificate).subscribe( )
+                   
+        })
+
+      }
+      else {
+        debugger
+        const bankCertificate: BankCertificate = {
+          bankCertificatesId: 0, // Or some default value if appropriate
+          mortgageId: this.MortagegeId,
+          ownerId: this.listIdOwnerOfmort[0],
+          bankApproved: this.mortgageForm.get('toTheBank')?.value.bankId
+        };
+
+
+        this.srvMortagege.createBankCertificate(bankCertificate).subscribe(
+
+          (id: number) => {
+            if (this.listIdOwnerOfmort.length != 0) {
+              this.listIdOwnerOfmort.forEach(ownerId => {
+                const bankCertificate: BankCertificate = {
+                  bankCertificatesId: 0,
+                  mortgageId: this.MortagegeId,
+                  ownerId: ownerId,
+                  bankApproved: this.mortgageForm.get('toTheBank')?.value.bankId
+                };
+
+                this.srvMortagege.createBankCertificate(bankCertificate).subscribe()})
+                   }                       
+            else {
+
+              const bankCertificate: BankCertificate = {
+                bankCertificatesId: 0, // Or some default value if appropriate
+                mortgageId: this.MortagegeId,
+                ownerId: this.listIdOwnerOfmort[0],
+                bankApproved: this.mortgageForm.get('toTheBank')?.value.bankId
+              };
+
+
+              this.srvMortagege.createBankCertificate(bankCertificate).subscribe( )
+
+                          
+
+
+
+
+            }
+          },
+          error => {
+            console.error('Error creating bank certificate for ownerId:', error);
+          }
+) } });
+}
+        
+
+  updateListBankCertificate(): void {
+ 
+  
+    console.log('Updated listBankCertificate:', this.listBankCertificate);
+
+         this.srvMortagege.updateBankCertificates(this.listBankCertificate,this.MortagegeId,this.listIdOwnerOfmort).subscribe(
+       response=>{
+
+       }
+     )
 
   }
 
 }
+

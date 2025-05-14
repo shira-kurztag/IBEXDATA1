@@ -18,9 +18,8 @@ export class AdminApprovalService {
   getAdmins(): Observable<User[]> {
     return this.http.get<User[]>(this.BASE_URL_USER+'/GetAllAdmin');
   }
-  // https://localhost:5178/api/AdminApproval
-
-   addAdminApproval(adminApproval: AdminApproval): Observable<void> {
+ 
+  addAdminApproval(adminApproval: AdminApproval): Observable<void> {
       return this.http.post<any>(this.BASE_URL, adminApproval);
     }
     

@@ -50,8 +50,9 @@
     <div class="selected-mortgage-type" *ngIf="MortagegeId!=-0">
 
       {{ mortgageForm.get('mortagegesType')?.value.mortagegesTypeText }}
-   
-
+      <div *ngIf= hasMortgageInProcess class="p-col-12 p-md-6 contractor-detail">
+        <span class="detail-title">לדיעתך,לא תוכל/י לסיים הליך משכנתא זה מבלי לסיים הליך שנמצא בתהליך קודם</span>
+      </div>
       <div class="p-col-12 p-md-6 contractor-detail">
         <span class="detail-title">:סטטוס</span>
         <span class="status-box">
@@ -118,22 +119,25 @@
       <span class="detail-title">?האם יש הערות/התניות למשכנתא</span>
       <textarea formControlName="noteOrConditioning" class="notes-input"></textarea>
     </div>
-
-    <div *ngIf="mortgageForm.get('selectedMortgageType')?.value?.mortgageTypeId === 2">
+<!-- ///למשכנתא מסוג  2 ו 4 -->
+<div *ngFor="let Bank of listBanksnameForMortgages; let i = index">
+    <div *ngIf=" listBankCertificate[i] && (mortgageForm.get('mortagegesType')?.value.mortagegesTypeId == 2 ||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 4)">
       <div class="p-col-12 p-md-6 contractor-detail">
-        <span class="detail-title">האם הומצא מסמך אישור מבנק:</span>
+        <span class="detail-title">האם הומצא מסמך אישור מבנק:{{Bank.bankText}}</span>
+
         <div class="card flex justify-center gap-4">
-          <p-toggleswitch formControlName="isDocumentApproved">
+          <p-toggleswitch [(ngModel)]="listBankCertificate[i].isDocumentApproved" [ngModelOptions]="{standalone: true}" >
             <ng-template #handle let-checked="checked">
               <span [ngClass]="['!text-xs']">{{ checked ? 'כן' : 'לא' }}</span>
             </ng-template>
           </p-toggleswitch>
         </div>
       </div>
-      <div *ngIf="mortgageForm.get('IsDocumentApproved')?.value">
+      <div *ngIf="listBankCertificate[i].isDocumentApproved"> 
+     
         <div class="p-col-12 p-md-6 contractor-detail">
           <span class="detail-title">מאיזו דרגה?</span>
-          <p-dropdown [options]="listMortagegeLevels" formControlName="LevelMortagege" optionLabel="mortagegeLevelText"
+          <p-dropdown [options]="listMortagegeLevels"  [(ngModel)]="listBankCertificate[i].level" [ngModelOptions]="{standalone: true}" optionLabel="mortagegeLevelText"
             optionValue="mortagegeLevelId">
             <ng-template let-selectedRank pTemplate="selectedItem">
               <div class="contractor-item">
@@ -151,7 +155,7 @@
         <div class="p-col-12 p-md-6 contractor-detail">
           <span class="detail-title">האם מקור?</span>
           <div class="card flex justify-center gap-4">
-            <p-toggleswitch formControlName="sourceDocument">
+            <p-toggleswitch [(ngModel)]="listBankCertificate[i].isDocumentApprovedSource" [ngModelOptions]="{standalone: true}">
               <ng-template #handle let-checked="checked">
                 <span [ngClass]="['!text-xs']">{{ checked ? 'כן' : 'לא' }}</span>
               </ng-template>
@@ -161,7 +165,7 @@
         <div class="p-col-12 p-md-6 contractor-detail">
           <span class="detail-title">האם תקין?</span>
           <div class="card flex justify-center gap-4">
-            <p-toggleswitch formControlName="isValidDocument">
+            <p-toggleswitch [(ngModel)]="listBankCertificate[i].isDocumentApprovedValid" [ngModelOptions]="{standalone: true}">
               <ng-template #handle let-checked="checked">
                 <span [ngClass]="['!text-xs']">{{ checked ? 'כן' : 'לא' }}</span>
               </ng-template>
@@ -172,8 +176,11 @@
         </div>
       </div>
     </div>
-
+    </div>
+<!--  סוף משכנתא מסוג 2 ו 4///// -->
+  
     <div class="p-col-12 p-md-6 contractor-detail">
+
       <span class="detail-title">מאיזו דרגה?</span>
       <p-dropdown [options]="listMortagegeLevels" formControlName="levelMortagege" optionLabel="mortagegeLevelText">
         <ng-template let-selectedRank pTemplate="selectedItem">
@@ -191,10 +198,10 @@
     </div>
     <div class="p-col-12 p-md-6 contractor-detail">
       <span class="detail-title">האם נחתמו הוראות בלתי חוזרות?</span>
-      <p-checkbox formControlName="irrevocableInstructions" binary="true" label="כן"></p-checkbox>
-      <button pButton type="button" label="הפק תוכן הוראות בלתי חוזרות" class="p-button" (click)="generateIrrevocableInstructions()"></button>
+         <button pButton type="button" label="הפק תוכן הוראות בלתי חוזרות" class="p-button" (click)="generateIrrevocableInstructions()"></button>
     </div>
 
+    <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 1 || mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 2">
     <div class="p-col-12 p-md-6 contractor-detail">
       <span class="detail-title">אישור החברה:</span>
       <div class="card flex justify-center gap-4">
@@ -205,14 +212,35 @@
         </p-toggleswitch>
       </div>
     </div>
-
+  </div>
+ <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 3||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 4||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 6">
+    <div class="p-col-12 p-md-6 contractor-detail">
+      <span class="detail-title">האם שולם עבור ההתחייבות סך:</span>
+      <div class="card flex justify-center gap-4">
+         <!-- ///change -->
+        <p-toggleswitch formControlName="isApprovalCompany">
+           <ng-template #handle let-checked="checked">
+            <span [ngClass]="['!text-xs']">{{ checked ? 'כן' : 'לא' }}</span>
+          </ng-template>
+        </p-toggleswitch>
+      </div>
+    </div>
+  </div>
+  
     <div class="p-col-12 p-md-6 contractor-detail">
       <app-comment [objectId]="MortagegeId"></app-comment>
     </div>
-   
+    <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 3||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 4||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 6">
+    <div class="p-col-12 p-md-6 contractor-detail">
+      <span class="detail-title">טופס התחיבות</span>
+         <button pButton type="button" label="הפק טופס ההתחייבות" class="p-button"></button>
+    </div>
+</div>
    <div class="p-col-12 p-md-6 contractor-detail"> 
-      
+      <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 1||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 2">
       <button pButton type="submit" label="שמור והעבר לאישור מנהל" (click)="saveAndSend()" class="p-button"></button>
+    </div>
+
       <button pButton type="submit" label="שמור" class="p-button" (click)="saveAll()"></button>
    
     </div>

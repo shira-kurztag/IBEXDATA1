@@ -12,13 +12,16 @@ export class OwnerService {
   constructor() { }
   BASE_URL = 'https://localhost:5178/api/Owner';
 
-  GetOwnersByApartmentId(id:number): Observable<Tenant[]> {
+  GetOwnersByApartmentId(id:number): Observable<any[]> {
 
-       return this.http.get<Tenant[]>(`${this.BASE_URL}/GetOwnersByApartmentId/${id}`);
+       return this.http.get<any[]>(`${this.BASE_URL}/GetOwnersByApartmentId/${id}`);
   }
-  // https://localhost:5178/api/Owner/GetAllOwnersByTenants
+
   GetAllOwnersByTenants(tenants: number[]): Observable<Owner[]> {
-    return this.http.post<Owner[]>(`${this.BASE_URL}/GetAllOwnersByTenants`, tenants);
+    const tenantsArray = Array.isArray(tenants) ? tenants : [tenants];
+
+    return this.http.post<Owner[]>(`${this.BASE_URL}/GetAllOwnersByTenants`, tenantsArray);
   }
 
+ 
 }

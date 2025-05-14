@@ -28,7 +28,7 @@ export class BankService {
     return this.https.get<Bank[]>(`${this.BASE_URL}/GetBanks`);
   }
 
-  deleteBank(id: number): Observable<void> { // שינוי סוג ההחזרה ל-void
+  deleteBank(id: number): Observable<void> { 
     return this.https.delete<void>(`${this.BASE_URL}/${id}`);
   }
 
@@ -37,15 +37,18 @@ export class BankService {
   }
 
   addBank(item: Bank): Observable<Bank[]> {
-    console.log('Sending POST request with item:', item); // לוג נוסף לבדיקת הנתונים הנשלחים לשרת
+  
     return this.https.post<Bank[]>(this.BASE_URL, item);
   }
+  // https://localhost:5178/api/Bank/GetBankById/74
+  GetBankById(bankId: number): Observable<Bank> {
+    return this.https.get<Bank>(`${this.BASE_URL}/GetBankById/${bankId}`);
+}
+
+
 
 }
-  // GetByGift(name: string): Observable<Gift[]>{
-  //   console.log(`${this.BASE_URL}GetByName`, name);
-  //   return this.http.get<Gift[]>(`${this.BASE_URL}/GetByName?name=${name}`);
-  // }
+  
 
 
 
