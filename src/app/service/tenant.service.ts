@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Tenant } from '../Models/Tenant.model';
 import { TenantDTO } from '../Models/TenantDTO.model';
 import { TenantDTO2 } from '../Models/TenantDTO2.model';
@@ -13,7 +13,6 @@ export class TenantService {
   constructor() { }
 
   BASE_URL = '  https://localhost:5178/api/Tenant';
-
 
   http: HttpClient = inject(HttpClient);
 
@@ -46,5 +45,20 @@ export class TenantService {
     return this.http.delete(`${this.BASE_URL}/${TenantId}`, );
   }
 
- 
+   
+
+  // setSelectedApartmentId(id: number) {
+  //   console.log("הסרביר קיבל "+id);
+    
+  //   this.selectedApartmentId = id;
+  //    console.log("הסרביר עדכן "+ this.selectedApartmentId);
+  // }
+
+  // getSelectedApartmentId(): number  {
+  //       console.log("הסרביר שולח "+this.selectedApartmentId);
+
+  //   return this.selectedApartmentId;
+  // }
+
+   
 }

@@ -28,7 +28,9 @@ export class MainTenantComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private TenantService :TenantService
+    
   ) {
     this.tenantForm = this.fb.group({
       tenants: this.fb.array([]),
@@ -149,7 +151,8 @@ export class MainTenantComponent implements OnInit {
     }
   }
   
-  
+
+
   toggleEdit(): void {
     this.editMode = true; // מעבר למצב עריכה
   }
@@ -172,5 +175,10 @@ export class MainTenantComponent implements OnInit {
 
   setActiveComponent(componentName: string): void {
     this.activeComponent = componentName;
+  }
+
+  AddTenant() {
+    console.log("אני שולחת "+this.apartmentId);
+    this.router.navigate(['/addtenant']); // בלי פרמטר ב-URL
   }
 }

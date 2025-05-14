@@ -122,13 +122,13 @@
           <input class="detail-content" *ngIf="editMode" formControlName="IsReported" type="checkbox" />
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail"*ngIf="ownerForm.get('IsReported')?.value">
+        <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('IsReported')?.value">
           <label class="detail-title"> קובץ</label>
           <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('ReporteFile')?.value }}</span>
           <input class="detail-content" *ngIf="editMode" formControlName="ReporteFile" type="text" />
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail"*ngIf="ownerForm.get('IsReported')?.value">
+        <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('IsReported')?.value">
           <label class="detail-title">האם התקבל אישור על הצהרת הדיווח?</label>
           <span class="detail-content" *ngIf="!editMode">
             <i *ngIf="ownerForm.get('IsConfirmationReporting')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
@@ -137,7 +137,7 @@
           <input class="detail-content" *ngIf="editMode" formControlName="IsConfirmationReporting" type="checkbox" />
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail"*ngIf="ownerForm.get('IsReported')?.value">
+        <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('IsReported')?.value">
           <label class="detail-title"> מספר שומה </label>
           <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('IncumbentNumber')?.value }}</span>
           <input class="detail-content" *ngIf="editMode" formControlName="IncumbentNumber" type="text" />
@@ -152,7 +152,7 @@
           <input class="detail-content" *ngIf="editMode" formControlName="IsCorrectLackPurchaseTaxBalance" type="checkbox" />
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail"*ngIf="ownerForm.get('IsCorrectLackPurchaseTaxBalance')?.value">
+        <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('IsCorrectLackPurchaseTaxBalance')?.value">
           <label class="detail-title"> קובץ</label>
           <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('ReportedApproved')?.value }}</span>
           <input class="detail-content" *ngIf="editMode" formControlName="ReportedApproved" type="text" />
@@ -177,7 +177,7 @@
           <input class="detail-content" *ngIf="editMode" formControlName="PowerOfAttorneyFile" type="text" />
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail"*ngIf="ownerForm.get('HavePowerOfAttorney')?.value">
+        <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('HavePowerOfAttorney')?.value">
           <label class="detail-title">האם תקין:</label>
           <span class="detail-content" *ngIf="!editMode">
             <span [ngClass]="ownerForm.get('IsCorrectPowerOfAttorney')?.value ">
@@ -232,7 +232,7 @@
             type="checkbox" />
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail">
+        <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('IsSignedTofesHearot')?.value">
           <label class="detail-title"> קובץ</label>
           <!-- חסר לי הקובץ הזה  -->
           <!-- <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('PowerOfAttorneyFile')?.value }}</span>
@@ -250,7 +250,7 @@
           <input class="detail-content" *ngIf="editMode" formControlName="IsProducedHachira" type="checkbox" />
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail" >
+        <div class="p-col-12 p-md-6 owner-detail"  *ngIf="ownerForm.get('IsProducedHachira')?.value">
           <label class="detail-title"> מספר חוזה חכירה?</label>
           <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('LeaseNumberString')?.value }}</span>
           <input class="detail-content" *ngIf="editMode" formControlName="LeaseNumberString" type="text" />

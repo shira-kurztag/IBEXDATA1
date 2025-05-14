@@ -13,12 +13,19 @@
       </div>
       <button class="tenant-button" type="submit">שמור שינויים</button>
     </div>
-    
+
     <div class="tenant-box1" *ngIf="editMode">
       <div class="icon-box">
         <i class="pi pi-times"></i>
       </div>
       <button class="tenant-button" type="button" (click)="cancelEdit()">ביטול</button>
+    </div>
+
+    <div class="tenant-box3" >
+      <div class="icon-box">
+        <i class="pi pi-times"></i>
+      </div>
+      <button class="tenant-button" type="button" (click)="AddTenant()">הוספת דיירים</button>
     </div>
 
     <div class="t">
@@ -35,8 +42,8 @@
                 {{ getTenantStatusString(tenant.get('tenantStatus')?.value) }}
               </span>
               <button *ngIf="!editMode" type="button" icon="pi pi-trash" class="  p-button p-button-danger "
-                        (click)="deleteTenant( tenant.get('tenantId')?.value  )"> מחיקת דייר</button>
-            
+                (click)="deleteTenant( tenant.get('tenantId')?.value  )"> מחיקת דייר</button>
+
             </div>
 
             <!-- פרטים אישיים -->
@@ -45,34 +52,19 @@
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('firstName')?.value }}
 
-               
+
               </span>
-              <input
-                class="detail-content"
-                formControlName="firstName"
-                *ngIf="editMode"
-                required
-              />
+              <input class="detail-content" formControlName="firstName" *ngIf="editMode" required />
               <label class="detail-title">משפחה:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('lastName')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="lastName"
-                *ngIf="editMode"
-                required
-              />
+              <input class="detail-content" formControlName="lastName" *ngIf="editMode" required />
               <label class="detail-title">מספר תעודה:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('tenantIdentity')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="tenantIdentity"
-                *ngIf="editMode"
-                required
-              />
+              <input class="detail-content" formControlName="tenantIdentity" *ngIf="editMode" required />
             </div>
 
             <!-- חלק בנכס -->
@@ -81,26 +73,19 @@
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('partAsset')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="partAsset"
-                *ngIf="editMode"
-                type="number"
-                required
-              />
-          
+              <input class="detail-content" formControlName="partAsset" *ngIf="editMode" type="number" required />
 
-            <!-- האם חתם באמצעות יפוי כוח -->
+
+              <!-- האם חתם באמצעות יפוי כוח -->
               <span class="detail-title">האם חתם באמצעות יפוי כוח:</span>
               <div class="contractor-detail" *ngIf="!editMode">
-                <i *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-                <i *ngIf="!tenant.get('isSignatureByPowerOfAttorney')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+                <i *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value" class="pi pi-check"
+                  style="font-size: 1rem;"></i>
+                <i *ngIf="!tenant.get('isSignatureByPowerOfAttorney')?.value" class="pi pi-times"
+                  style="font-size: 1rem;"></i>
               </div>
               <div *ngIf="editMode">
-                <input
-                  type="checkbox"
-                  formControlName="isSignatureByPowerOfAttorney"
-                />
+                <input type="checkbox" formControlName="isSignatureByPowerOfAttorney" />
                 <span *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value"> </span>
                 <span *ngIf="!tenant.get('isSignatureByPowerOfAttorney')?.value"></span>
               </div>
@@ -112,59 +97,35 @@
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('firstNamePower')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="firstNamePower"
-                *ngIf="editMode"
-              />
+              <input class="detail-content" formControlName="firstNamePower" *ngIf="editMode" />
               <label class="detail-title">משפחה:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('lastNamePower')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="lastNamePower"
-                *ngIf="editMode"
-              />
+              <input class="detail-content" formControlName="lastNamePower" *ngIf="editMode" />
               <label class="detail-title">מספר ת.ז/דרכון:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('tenantIdentity')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="tenantIdentity"
-                *ngIf="editMode"
-              />
-              </div>
-              <div class="p-col-12 p-md-6 tenant-detail" *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value">
+              <input class="detail-content" formControlName="tenantIdentity" *ngIf="editMode" />
+            </div>
+            <div class="p-col-12 p-md-6 tenant-detail" *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value">
 
               <label class="detail-title">כתובת:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('address')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="address"
-                *ngIf="editMode"
-              />
+              <input class="detail-content" formControlName="address" *ngIf="editMode" />
               <label class="detail-title">טלפון:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('numberPhone')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="numberPhone"
-                *ngIf="editMode"
-              />
+              <input class="detail-content" formControlName="numberPhone" *ngIf="editMode" />
               <label class="detail-title">טלפון:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('numberPhone2')?.value }}
               </span>
-              <input
-                class="detail-content"
-                formControlName="numberPhone2"
-                *ngIf="editMode"
-              />
+              <input class="detail-content" formControlName="numberPhone2" *ngIf="editMode" />
             </div>
           </div>
         </div>
@@ -182,22 +143,16 @@
 
 <div class="contractor1">
   <div class="contractor-header1">
-   
-   <div class="contractor-button1">
-       <!-- הוספת תנאי [ngClass] כדי להוסיף מחלקה לכפתור שנלחץ -->
-       <button 
-           pButton 
-           type="button" 
-           (click)="setActiveComponent('ownerdetails')" 
-           [ngClass]="{'active-button1': activeComponent === 'OwnerdetailsComponent'}" 
-           label="פרטי בעליים" 
-     
 
-           class="p-button owner-details-button1">
-       פרטי בעליים
-       </button>
+    <div class="contractor-button1">
+      <!-- הוספת תנאי [ngClass] כדי להוסיף מחלקה לכפתור שנלחץ -->
+      <button pButton type="button" (click)="setActiveComponent('ownerdetails')"
+        [ngClass]="{'active-button1': activeComponent === 'OwnerdetailsComponent'}" label="פרטי בעליים"
+        class="p-button owner-details-button1">
+        פרטי בעליים
+      </button>
 
-       <!-- <button 
+      <!-- <button 
            pButton 
            type="button" 
            (click)="setActiveComponent('apartmentDetailsByTenant')" 
@@ -207,7 +162,7 @@
            פרטי דירה
        </button> -->
 
-       <!-- <button 
+      <!-- <button 
            pButton 
            type="button" 
            (click)="setActiveComponent('maintenant')" 
@@ -217,7 +172,7 @@
            רשימת דיירים
        </button> -->
 
-       <!-- <button 
+      <!-- <button 
            pButton 
            type="button" 
            (click)="setActiveComponent('apartmentHomePage')" 
@@ -226,18 +181,16 @@
            class="p-button owner-details-button1">
            דף הבית
        </button> -->
-   </div>
- </div>
- <div class="contractor-content1">
+    </div>
+  </div>
+  <div class="contractor-content1">
 
-   <div class="content-content1"> 
-       <!-- הצגת קומפוננטות הילדים -->
-       <app-owner-details *ngIf="activeComponent === 'ownerdetails'"    [apartmentID]="apartmentID"></app-owner-details>
-       <!-- <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
+    <div class="content-content1">
+      <!-- הצגת קומפוננטות הילדים -->
+      <app-owner-details *ngIf="activeComponent === 'ownerdetails'" [apartmentID]="apartmentID"></app-owner-details>
+      <!-- <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
        <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant> -->
-       <!-- <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant> -->
-   </div>
+      <!-- <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant> -->
+    </div>
+  </div>
 </div>
-</div>
-
-

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -31,7 +31,6 @@ export class AddTenantComponent implements OnInit {
   srvTenant: TenantService = inject(TenantService);
   srvApartment: ApartmentService = inject(ApartmentService);
   clickCount = 0; // מונה לחיצות על כפתור הוספת דייר
-
   errorMessage: string = '';
   isSaved: boolean = false;
   isAdd: boolean = false;
@@ -39,7 +38,8 @@ export class AddTenantComponent implements OnInit {
 
   router: Router = inject(Router);  // errorMessage: string;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,private TenantService: TenantService) { }
+   @Input() apartmentId!: number;
 
   ngOnInit(): void {
     this.identityTypes = [
@@ -58,24 +58,10 @@ export class AddTenantComponent implements OnInit {
       { label: 'נוטריוני ', value: 5 },
       { label: 'קונטרולר', value: 6 },
     ];
+    
+    console.log('ID שקיבלתי:', this.apartmentId);
     this.TenantDTO.forEach(tenantForm => this.listenToPowerOfAttorneyChanges(tenantForm));
-
-    // this.TenantDTO.forEach(tenantForm => {
-    //   const isSignatureControl = tenantForm.get('IsSignatureByPowerOfAttorney');
-    //   if (isSignatureControl) {
-    //     isSignatureControl.valueChanges.subscribe((newValue: boolean) => {
-    //       if (newValue === true) {
-    //         this.CopyofPowerOfAttorneyDetails();
-    //       }
-    //     });
-    //   }
-    // });
-
   }
-
-
-
-
 
   createTenantForm(): void {
     this.isAdd = true;
@@ -292,6 +278,7 @@ export class AddTenantComponent implements OnInit {
       this.buttonText = 'הוסף בעלים';
     }
   }
+
   private listenToPowerOfAttorneyChanges(tenantForm: FormGroup): void {
     const isSignatureControl = tenantForm.get('IsSignatureByPowerOfAttorney');
     if (isSignatureControl) {
@@ -302,4 +289,5 @@ export class AddTenantComponent implements OnInit {
       });
     }
   }
+
 }
