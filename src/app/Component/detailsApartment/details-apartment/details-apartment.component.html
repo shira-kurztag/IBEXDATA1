@@ -6,8 +6,8 @@
         <button 
             pButton 
             type="button" 
-            (click)="setActiveComponent('rightsConfirmation')" 
-            [ngClass]="{'active-button': activeComponent === 'rightsConfirmation'}" 
+            (click)="setActiveComponent('rightsApproval')" 
+            [ngClass]="{'active-button': activeComponent === 'rightsApproval'}" 
             label="אישור זכויות" 
             class="p-button owner-details-button">
             אישור זכויות
@@ -48,7 +48,7 @@
 
     <div class="content-content"> 
         <!-- הצגת קומפוננטות הילדים -->
-        <app-rights-confirmation *ngIf="activeComponent === 'rightsConfirmation'"></app-rights-confirmation>
+        <app-rights-approval *ngIf="activeComponent === 'rightsApproval'"></app-rights-approval>
         <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
         <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant>
         <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant>
