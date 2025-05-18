@@ -73,4 +73,5 @@ export class AddContractorComponent {
     const isValid = this.srvContractor.isIsraeliIdNumber(control.value);
     return isValid ? null : { invalidId: true };
   }
+  
 }  

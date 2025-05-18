@@ -1,53 +1,56 @@
-
-<div class="section-left" *ngIf="!IsGetFirst">
-  <div class="button-container">
-    <div class="contractor-box-container">
-
-      <div class="contractor-box">
-        <div class="icon-box">
-          <i class="pi pi-pencil"></i>
+<div class="main-layout">
+  <div class="section-left">
+    <div class="button-container">
+      <div class="contractor-box-container">
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-pencil"></i>
+          </div>
+          <button class="contractor-button" (click)="lookingForBuilding()">חפש</button>
         </div>
-        <button class="contractor-button" (click)="lookingForBuilding()">חפש</button>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-pencil"></i>
+          </div>
+          <button class="contractor-button" (click)="update()">ערוך בניין</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-plus"></i>
+          </div>
+          <button class="contractor-button" (click)="addApartment()">הוסף דירה</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-align-justify"></i>
+          </div>
+          <button class="contractor-button" (click)="getDeleteBuildings()">בנינים שנמחקו</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-plus"></i>
+          </div>
+          <button class="contractor-button" (click)="moveMangerBulding()">העברה למנהל</button>
+        </div>
       </div>
-
-      <div class="contractor-box">
-        <div class="icon-box">
-          <i class="pi pi-pencil"></i>
-        </div>
-        <button class="contractor-button" (click)="update()"> ערוך בניין </button>
-      </div>
-      <div class="contractor-box">
-        <div class="icon-box">
-          <i class="pi pi-plus"></i>
-        </div>
-        <button class="contractor-button" (click)="addBuilding()"> הוסף בניין</button>
-      </div>
-      <div class="contractor-box" >
-        <div class="icon-box" dir="ltr">
-          <i class="pi pi-align-justify"></i>
-        </div>
-        <button class="contractor-button"  (click)="()">רשימת דירות</button>
-        <div *ngIf="flagList" >
-          <select (change)="onBuildSelect($event)" >
-            <option *ngFor="let p of BuildingActive"  [value]="p.buildingNumber">{{ p.buildingNumber }}</option>
-          </select>
-        </div>
-      </div>
-      <div class="contractor-box">
-        <div class="icon-box">
-          <i class="pi pi-align-justify"></i>
-        </div>
-        <button class="contractor-button" (click)="getDeleteBuildings()"> בנינים שנמחקו </button>
-   
-      </div>
-
-      <div class="contractor-box">
-        <div class="icon-box">
-          <i class="pi pi-plus"></i>
-        </div>
-        <button class="contractor-button" (click)="moveMangerBulding()"> העברה למנהל </button>
-      </div>
-
     </div>
+  </div>
+  <div class="section-right">
+    <h1>פרטי בניין</h1>
+    <div class="info-box"><strong>סטטוס בניין :</strong> {{ building[0].buildingStatus ? 'פעיל':'לא פעיל' }}</div>
+    <div class="info-box"><strong>מספר בניין :</strong> {{ building[0].buildingNumber || 'לא זמין' }}</div>
+    <div class="info-box"><strong>מספר קומות:</strong> {{ building[0].floorsNumber || 'לא זמין' }}</div>
+    <div class="info-box"><strong>האם יש מעלית:</strong> {{ building[0].isElevator ? 'כן' : 'לא' }}</div>
+    <div class="info-box"><strong>כתובת עירונית ומספר בניין:</strong> {{ building[0].addressAndNumberOfMunicipal  || 'לא זמין' }}</div>
+    <div class="info-box"><strong>ניתן היתר בניה:</strong> {{ building[0].isBuildingPermit ? 'כן' : 'לא' }}</div>
+    <div class="info-box"><strong>ניתן טופס 4:</strong> {{ building[0].is4Form  ? 'כן' : 'לא' }}</div>
+    <div class="info-box"><strong>זיהוי נכס מלא לפני פרצלציה:</strong> {{ project.fullAssetIdentificationBeforePerselasia  || 'לא זמין' }}</div>
+    <div class="info-box"><strong>זיהוי נוסף:</strong> {{ building[0].anotherIdentification   || 'לא זמין' }}</div>
+    <div class="info-box"><strong>האם בוצעה פרצלציה:</strong> {{ project. isPerselasia  ? 'כן' : 'לא' }}</div>
+    <div class="info-box"><strong>זיהוי נכס מלא לאחר פרצלציה:</strong> {{ project.fullAssetIdentificationAfterPerselasia  || 'לא זמין' }}</div>
+    <div class="info-box"><strong>זיהוי בניין לאחר פרצלציה:</strong> {{ building[0].fullAssetIdentificationAfterPerselasia   ? 'כן' : 'לא' }}</div>
+    <div class="info-box"><strong>גוש:   </strong> {{ project.bloc || 'לא זמין' }} <strong >חלקה:    </strong> {{ project.smooth || 'לא זמין' }}   <strong >    שטח החלקה:    </strong> {{ project.smothArea || 'לא זמין' }}</div>
+    <!-- <div class="info-box"></div> -->
+    <div class="info-box"><strong>תשריט העמדה של בניין:</strong> {{ building[0]. smooth || 'לא זמין' }}</div>
   </div>
 </div>

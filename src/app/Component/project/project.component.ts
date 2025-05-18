@@ -37,19 +37,8 @@ import { LandOwnerShip } from '../../Models/LandOwnerShip.model';
 import { FilesComponent } from '../files/files.component';
 import { BuildingService } from '../../service/building.service'; // ייבוא השירות החדש
 import { BuildingDTO } from '../../Models/BuildingDTO.model';
- 
-import { FilesService } from '../../service/files.service';
-import { CommentComponent } from '../comment/comment.component'; 
-// interface Column {
-//   field: string;
-//   header: string;
-//   customExportHeader?: string;
-// }
-
-// interface ExportColumn {
-//   title: string;
-//   dataKey: string;
-// }
+import { Observable } from 'rxjs';
+import { Building } from '../../Models/Building.model';
 
 @Component({
   selector: 'app-project-component',
@@ -76,8 +65,7 @@ import { CommentComponent } from '../comment/comment.component';
     CalendarModule,
     CheckboxModule,
     HttpClientModule,
-    FilesComponent,
-    CommentComponent
+    FilesComponent
   ],
   providers: [MessageService, ConfirmationService],
   styles: [
@@ -89,7 +77,7 @@ import { CommentComponent } from '../comment/comment.component';
   ],
   styleUrls: ['./project.component.css']
 })
- 
+
 export class ProjectComponent implements OnInit {
   productDialog: boolean = false;
   submitted: boolean = false;
@@ -97,66 +85,47 @@ export class ProjectComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
   isWarningDialogVisible: boolean = false;
   isIf: boolean = true; // או false בהתאם ללוגיקה שלך
-  companyId: number=0
+  companyId: number = 0
   comNames: Contractor = new Contractor()
-  comNamesString : string | undefined
-  lendingBankName : string =""
-  bankId : number=0
-  companyId: number = 0;
-  comNames: Contractor = new Contractor();
-  comNamesString: string | undefined;
-  lendingBankName: string = '';
-  bankId: number = 0;
+  comNamesString: string | undefined
+  lendingBankName: string = ""
+  bankId: number = 0
   allBanks: Bank[] = [];
   project: Project = new Project();
-  projectName: string = '';
+  projectName: string = "";
   banks: BankNamesDTO[] = [];
   bank!: BankNamesDTO;
-  filteredBanks: BankNamesDTO[] = [];
+  filteredBanks: BankNamesDTO[] = []
   allContractors: Contractor[] = [];
   lendingContractorName: string = '';
   contractors: Contractor[] = [];
-  contractorId: number | undefined;
+  contractorId: number | undefined; // אתחול לא null
   filteredContractors: Contractor[] = [];
   isNumberValid: boolean = true;
   degelUp: boolean = false;
-  IsGetFirst: boolean = true;
-  flagUpdate: boolean = false;
-  IsGetSecond: boolean = false;
+  IsGetFirst: boolean = true// הוספה
+  flagUpdate: boolean = false
+  IsGetSecond: boolean = false// הצגה
   showAdditionalFields: boolean = false;
-  nameBank: string | undefined;
-  flagAddGet!: string;
+  nameBank: string | undefined
+  flagAddGet!: string
   degelUpdate: boolean = false;
   isEdit: boolean = false;
   comment: Comment = new Comment()
-  commentsArr: Comment[]=[]
-  commentPrev: Comment= new Comment()
-  commentsPrev: Comment[]=[]
+  commentsArr: Comment[] = []
+  commentPrev: Comment = new Comment()
+  commentsPrev: Comment[] = []
   commentFlag: boolean = false
-  idAfter: number=0
-  commentsList: Comment[] =[]
-  filteredcomment: Comment[]=[]
-  comment$: Comment[]=[]
-  landOwnerShips : LandOwnerShip[] = []
-  landOwnerShipName: string =""
-  namelandOwnerShip : string | undefined
-  LandOwnerShipId: number =0
-  buildingNumber?: string =""
-  flagBuild! : boolean
+  idAfter: number = 0
+  commentsList: Comment[] = []
+  filteredcomment: Comment[] = []
+  comment$: Comment[] = []
+  landOwnerShips: LandOwnerShip[] = []
+  landOwnerShipName: string = ""
+  namelandOwnerShip: string | undefined
+  LandOwnerShipId: number = 0
+  buildingNumber: string = ""
 
-  comment: Comment = new Comment();
-  commentsArr: Comment[] = [];
-  commentPrev: Comment = new Comment();
-  commentsPrev: Comment[] = [];
-  commentFlag: boolean = false;
-  idAfter: number = 0;
-  commentsList: Comment[] = [];
-  filteredcomment: Comment[] = [];
-  comment$: Comment[] = [];
-  landOwnerShips: LandOwnerShip[] = [];
-  landOwnerShipName: string = '';
-  namelandOwnerShip: string | undefined;
-  LandOwnerShipId: number = 0;
   selectedFileNames: string[] = []; // רשימת שמות הקבצים שנבחרו
   contractDevelopmentFileUniqId: string = ''; // UniqId לשדה קובץ חוזה בפיתוח
   @Output() filesSelected = new EventEmitter<string[]>(); // Output להעברת שמות הקבצים לקומפוננטה אחרת
@@ -170,72 +139,63 @@ export class ProjectComponent implements OnInit {
   errorMessage: string | undefined;
   projectId: any;
   BuildingActive: BuildingDTO[] = [];
-  flagList : boolean= false
-
+  flagList: boolean = false
+  flagBuild!: boolean
   contractor!: any;
- 
+
+
   // משתנים חדשים
   // buildings: any[] = []; // רשימת הבניינים שתוצג
   // showBuildings: boolean = false; // משתנה לבקרת הצגת הרשימה
- 
-  selectedFiles: FileList = new DataTransfer().files; // רשימת הקבצים בפועל
-  documentName: string = "";
-  currentFieldId: string = ''; // מזהה השדה הפעיל
-
-  @Output() filesSelected = new EventEmitter<FileList>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
-  @Output() contractorCodeChanged = new EventEmitter<number>(); // Output להעברת contractorCode
-  @Output() nameDoc = new EventEmitter<string>(); // Output להעברת רשימת הקבצים לקומפוננטה אחרת
-  @ViewChild(CommentComponent) commentComponent!: CommentComponent; // קישור לקומפוננטת הבן
-  
-  // נתונים לשדות חוזים
-  public fileData: { [key: string]: { uniqId: string; nameDoc: string } } = {};
 
   constructor(
     private route: ActivatedRoute,
-     private router: Router,
+    private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private cd: ChangeDetectorRef,
     private cd: ChangeDetectorRef,
     private projectService: ProjectService,
     private commentService: CommentService,
     private bankService: BankService,
     private buildingService: BuildingService // ייבוא השירות החדש
   ) { }
- 
+
   ngOnInit() {
+    
     this.getAllBanks()
     this.getBanks();
     this.getLandOwnerShip()
     this.getIdBank();
     this.getIdLandOwnerShip()
-   
-      this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
-     
-      if (this.flagAddGet === 'false') {
-        this.projectName = String(this.route.snapshot.paramMap.get('name'));
-        this.IsGetFirst = false;
-        this.IsGetSecond = true;
-        this.getProject()
-      }
-      this.companyId = Number(this.route.snapshot.paramMap.get('id'));
-      console.log("companyId",this.companyId);
-      this.IsGetFirst = true;
-      this.IsGetSecond = false;
-   
+
+    this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
+
+    if (this.flagAddGet === 'false') {
+      this.projectName = String(this.route.snapshot.paramMap.get('name'));
+      this.IsGetFirst = false;
+      this.IsGetSecond = true;
+      this.getProject()
+    }
+    this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log("companyId", this.companyId);
+    this.IsGetFirst = true;
+    this.IsGetSecond = false;
+
     this.getAllBanks()
     this.getCompanyName()
     this.getBanks();
     this.getLandOwnerShip()
     this.getIdBank();
     this.getIdLandOwnerShip()
- 
+
     if (this.isEdit) {
       this.updateProjectDatesForDisplay();
     }
   }
-  // פונקציה לניווט לקומפוננטת הבניינים
+  // פונקציה לניווט לקומפו
+  // ננטת הבניינים
   projectList() {
+    
     this.flagList = !this.flagList;
     console.log('projectList called, flagList:', this.flagList);
     if (this.flagList) {
@@ -243,6 +203,7 @@ export class ProjectComponent implements OnInit {
     }
   }
   getAllBuildings() {
+    
     this.buildingService.getBuildingsByProjectId(this.project.projectId).pipe(
       catchError(error => {
         console.error('Error fetching Buildings:', error); // הדפסת שגיאה
@@ -251,30 +212,38 @@ export class ProjectComponent implements OnInit {
     ).subscribe((buildings: BuildingDTO[]) => {
       console.log('Buildings received:', buildings);
       this.buildings = buildings;
- 
+
       // איפוס הרשימה הפעילה לפני מילוי מחדש
-      this.BuildingActive = [];
- 
-      for (let building of this.buildings) {
-        if (building.buildingStatus === 1) {
-          this.BuildingActive.push(building);
+      // this.BuildingActive = [];
+
+      for (let i = 0; i < this.buildings.length; i++) {
+        if (buildings[i].buildingStatus === 1) {
+          this.BuildingActive.push( this.buildings[i]);
         }
       }
- 
+
       console.log('Active Buildings:', this.BuildingActive);
     });
   }
-onBuildSelect(event: Event) {
-  const selectedBuildNumber = (event.target as HTMLSelectElement).value;
-  this.getBuild(selectedBuildNumber);
-}
- 
-getBuild(projectname: string) {
-  this.projectName = projectname;
-  this.flagBuild = false;
-  this.router.navigate(['/project', this.contractor.contractorId, this.projectName, String(this.flagBuild)]);
-}
- 
+
+  onBuildSelect(event: Event) {
+    const selectedBuildNumber = (event.target as HTMLSelectElement).value;
+    this.getBuild(selectedBuildNumber);
+  }
+
+  getBuild(buildingNumber: string) {
+    debugger;
+    this.buildingNumber = buildingNumber;
+    this.flagBuild = false;
+    // this.router.navigate(['/buildings', this.project.projectId, this.buildingNumber]);
+    // this.router.navigate(['/buildings'], { state: { project: this.project ,flag:true} });
+
+    this.router.navigate(
+      ['/buildings', this.project.projectId, this.buildingNumber], 
+      { state: { project: this.project ,flag:true} }
+    );
+  }
+
   // פונקציה לעדכון ה-ID של הפרויקט שהמשתמש בחר
   onProjectSelectionChange(projectId: number): void {
     this.selectedProjectId = projectId;
@@ -284,140 +253,27 @@ getBuild(projectname: string) {
     this.contractDevelopmentFileUniqId = uniqId; // שמירת ה-UniqId שנוצר
     this.project.contractDevelopmentFile = uniqId; // עדכון השדה בפרויקט
   }
- 
+
   onFilesSelected(event: Event): void {
-    private bankService: BankService,
-    private fileService: FilesService
-  ) {}
-
- // עדכון ל-ngOnInit()
-ngOnInit() {
-  this.getAllBanks();
-  this.getBanks();
-  this.getLandOwnerShip();
-  this.getIdBank();
-  this.getIdLandOwnerShip();
-
-  this.flagAddGet = String(this.route.snapshot.paramMap.get('flag'));
-
-  if (this.flagAddGet === 'false') {
-    this.projectName = String(this.route.snapshot.paramMap.get('name'));
-    this.IsGetFirst = false;
-    this.IsGetSecond = true;
-    this.getProject();
-  } else {
-    this.IsGetFirst = true;
-    this.IsGetSecond = false;
-  }
-
-  this.companyId = Number(this.route.snapshot.paramMap.get('id'));
-  console.log('companyId', this.companyId);
-
-  this.getCompanyName();
-
-  if (this.isEdit) {
-    this.updateProjectDatesForDisplay();
-  }
-
-  // אתחול נתונים עבור כל השדות
-  this.fileData['contractDevelopmentFile'] = { uniqId: '', nameDoc: '' };
-  this.fileData['hachiraContractFile'] = { uniqId: '', nameDoc: '' };
-  this.fileData['purchaseTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' };
-  this.fileData['appreciationTaxPaymentConfirmationFile'] = { uniqId: '', nameDoc: '' }; // שדה חדש
-}
-
-// עדכון ל-onUniqIdReceived
-onUniqIdReceived(uniqId: string): void {
-  if (this.currentFieldId && this.fileData[this.currentFieldId]?.nameDoc) {
-    const nameDoc = this.fileData[this.currentFieldId].nameDoc;
-
-    switch (nameDoc) {
-      case 'קובץ חוזה בפיתוח':
-        this.project.contractDevelopmentFile = uniqId;
-        console.log('Updated project.contractDevelopmentFile with uniqId:', uniqId);
-        break;
-
-      case 'קובץ חוזה חכירה':
-        this.project.hachiraContractFile = uniqId;
-        console.log('Updated project.hachiraContractFile with uniqId:', uniqId);
-        break;
-
-      case 'קובץ אישור תשלום מס רכישה':
-        this.project.purchaseTaxPaymentConfirmationFile = uniqId;
-        console.log('Updated project.purchaseTaxPaymentConfirmationFile with uniqId:', uniqId);
-        break;
-
-      case 'קובץ אישור תשלום מס שבח':
-        this.project.appreciationTaxPaymentConfirmationFile = uniqId;
-        console.log('Updated project.appreciationTaxPaymentConfirmationFile with uniqId:', uniqId);
-        break;
-
-      default:
-        console.warn('No matching field found for nameDoc:', nameDoc);
-    }
-  } else {
-    console.error('nameDoc is not defined or invalid. Unable to update project field with uniqId.');
-  }
-}
-
-  onNameDocReceived(nameDoc: string): void {
-    if (this.currentFieldId && this.fileData[this.currentFieldId]) {
-      this.fileData[this.currentFieldId].nameDoc = nameDoc;
-      console.log(`${this.currentFieldId} nameDoc:`, nameDoc);
-    }
-  }
-
-  // פונקציה לטיפול בקבצים שנבחרו
-  onFilesSelected(event: Event, fieldId: string): void {
-    this.currentFieldId = fieldId; // שמירת השדה הפעיל
     const input = event.target as HTMLInputElement;
     if (input.files) {
       const selectedFileNames = Array.from(input.files).map(file => file.name);
       this.selectedFileNames = [...selectedFileNames];
       console.log('Selected files in parent:', this.selectedFileNames);
-     // this.contractorCode = this.contractorId
+      // this.contractorCode = this.contractorId
       this.filesSelected.emit(this.selectedFileNames);
     }
   }
- 
-      this.selectedFiles = input.files;
-      this.selectedFileNames = Array.from(input.files).map(file => file.name);
-
-      console.log(`Selected files for ${fieldId}:`, this.selectedFileNames);
-    }
-  }
-
-  // פונקציה להחזרת טקסט מתוך label
-  getLabelText(labelForId: string): string {
-    console.log("Called getLabelText with ID:", labelForId);
-    const labels = Array.from(document.querySelectorAll('label'));
-    console.log("Available labels:", labels);
-    const labelElement = labels.find(label => label.getAttribute('for') === this.currentFieldId);
-    console.log("Found label element:", labelElement);
-    return labelElement ? labelElement.textContent?.replace(':', '').trim() || '' : '';
-  }
-
-  // onFilesSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files) {
-  //     const selectedFileNames = Array.from(input.files).map(file => file.name);
-  //     this.selectedFileNames = [...selectedFileNames];
-  //     console.log('Selected files in parent:', this.selectedFileNames);
-  //   //  this.contractorCode = this.contractorId ?? 0; // השתמש ב-0 כברירת מחדל אם contractorId הוא undefined
-  //     this.contractorCodeChanged.emit(this.contractorId); // שידור contractorCode
-  //     this.filesSelected.emit(this.selectedFileNames);
-  //   }
-  // }
 
   toggleAdditionalFields() {
     this.showAdditionalFields = !this.showAdditionalFields;
   }
- 
+
   getLandOwnerShip() {
     this.projectService.GetLandOwnerShip().pipe(
       tap((getLandOwnerShips: LandOwnerShip[]) => {
         this.landOwnerShips = getLandOwnerShips;
-        console.log('fetching names of landOwnerShips:',this.landOwnerShips);
+        console.log('fetching names of landOwnerShips:', this.landOwnerShips);
       }),
       catchError(error => {
         console.error('Error fetching names of landOwnerShips:', error);
@@ -425,23 +281,23 @@ onUniqIdReceived(uniqId: string): void {
       })
     ).subscribe();
   }
- 
-  async getIdLandOwnerShip(){
+
+  async getIdLandOwnerShip() {
     for (let i = 0; i < this.landOwnerShips.length; i++) {
       if (this.landOwnerShips[i].description == this.landOwnerShipName)
         this.LandOwnerShipId = this.landOwnerShips[i].id
       console.log("LandOwnerShipId", this.LandOwnerShipId);
     }
   }
- 
+
   async getIdBank(): Promise<void> {
     console.log("--------getIdBank------");
- 
+
     return new Promise<void>((resolve, reject) => {
-     
+
       try {
-        console.log("nameBank",this.lendingBankName);
-        console.log("allBanks",this.allBanks);
+        console.log("nameBank", this.lendingBankName);
+        console.log("allBanks", this.allBanks);
         for (let i = 0; i < this.allBanks.length; i++) {
           if (this.allBanks[i].bankText == this.lendingBankName) {
             this.bankId = this.allBanks[i].bankId;
@@ -456,7 +312,7 @@ onUniqIdReceived(uniqId: string): void {
       }
     });
   }
- 
+
   // getIdLandOwnerShip() {
   //   for (let i = 0; i < this.landOwnerShips.length; i++) {
   //     if (this.landOwnerShips[i].description == this.landOwnerShipName)
@@ -464,23 +320,23 @@ onUniqIdReceived(uniqId: string): void {
   //     console.log("LandOwnerShipId", this.LandOwnerShipId);
   //   }
   // }
- 
-  getNameLandOwnerShip(){
+
+  getNameLandOwnerShip() {
     console.log("---------getNameLandOwnerShip----------");
-   
+
     for (let i = 0; i < this.landOwnerShips.length; i++) {
       if (this.landOwnerShips[i].id == this.project.landOwnershipId)
         this.landOwnerShipName = this.landOwnerShips[i].description
- 
-      console.log("project",this.project);
+
+      console.log("project", this.project);
       console.log(" this.project.landOwnershipId", this.project.landOwnershipId);
       console.log(this.landOwnerShips[i].id == this.project.landOwnershipId);
-     
+
     }
-    console.log("landOwnerShipName",this.landOwnerShipName);
-   
+    console.log("landOwnerShipName", this.landOwnerShipName);
+
   }
- 
+
   getBanks() {
     console.log('Fetching  names of banks...');
     this.bankService.GetNames().pipe(
@@ -496,7 +352,7 @@ onUniqIdReceived(uniqId: string): void {
       })
     ).subscribe();
   }
- 
+
   getAllBanks() {
     console.log('Fetching  names of banks...');
     this.bankService.GetAll().pipe(
@@ -510,10 +366,10 @@ onUniqIdReceived(uniqId: string): void {
       })
     ).subscribe();
   }
- 
+
   // async getIdBank(): Promise<void> {
   //   console.log("--------getIdBank------");
- 
+
   //   // עוטפים את הלוגיקה בהבטחה כדי להפוך את הפונקציה לאסינכרונית
   //   // return new Promise<void>((resolve, reject) => {
   //     for (let i = 0; i < this.allBanks.length; i++) {
@@ -527,7 +383,7 @@ onUniqIdReceived(uniqId: string): void {
   // }
   // async getIdBank(): Promise<void> {
   //   console.log("--------getIdBank------");
- 
+
   //   // עוטפים את הלוגיקה בהבטחה כדי להפוך את הפונקציה לאסינכרונית
   //   return new Promise<void>((resolve, reject) => {
   //     for (let i = 0; i < this.allBanks.length; i++) {
@@ -535,38 +391,38 @@ onUniqIdReceived(uniqId: string): void {
   //         this.bankId = this.allBanks[i].bankId;
   //       console.log("bankId", this.bankId);
   //       console.log("====-0---------------============");
-       
+
   //     }
   //     resolve(); // מסיימים את ההבטחה כאשר הפעולה הסתיימה
   //   });
   // }
- 
- 
-  getNameBank(){
+
+
+  getNameBank() {
     for (let i = 0; i < this.allBanks.length; i++) {
       if (this.allBanks[i].bankId == this.project.lendingBank)
         this.nameBank = this.allBanks[i].bankText
-        console.log("name",this.nameBank);
+      console.log("name", this.nameBank);
     }
   }
- 
+
   GetContractor(contractorName: string) {
     console.log('Fetching contractors...');
     this.projectService.GetAll().pipe(
       tap((contractors: Contractor[]) => {
         console.log('Received contractors:', contractors);
         this.contractors = contractors;
- 
+
         // חיפוש הקבלן על פי השם שניתן
         const contractorFound = contractors.find(contractor => contractor.contractorName === contractorName);
         if (contractorFound) {
-            this.contractorId = contractorFound.contractorId // קבלת ה-ID של הקבלן
-            console.log('Contractor ID:', this.contractorId);
+          this.contractorId = contractorFound.contractorId // קבלת ה-ID של הקבלן
+          console.log('Contractor ID:', this.contractorId);
         } else {
-            console.log('Contractor not found');
-           // this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
+          console.log('Contractor not found');
+          // this.contractorId = null; // בשימוש במקרה ואין קבלן כזה
         }
- 
+
         this.cd.detectChanges();
       }),
       catchError(error => {
@@ -574,22 +430,22 @@ onUniqIdReceived(uniqId: string): void {
         return of([]);
       })
     ).subscribe();
-}
- 
+  }
+
   getIdContractor() {
     console.log('Fetching contractors...');
     this.projectService.GetAll().pipe(
       tap((contractors: Contractor[]) => {
         console.log('Received contractors:', contractors);
         this.allContractors = contractors; // מאחסנים את רשימת הקבלנים
- 
+
         for (let i = 0; i < this.allContractors.length; i++) {
           if (this.allContractors[i].contractorName === this.lendingContractorName) { // השוואה לשם הקבלן המבוקש
             this.contractorId = this.allContractors[i].contractorId; // שמירת ה-ID של הקבלן
             console.log("Contractor ID:", this.contractorId);
           }
         }
- 
+
         // this.cd.detectChanges(); // ניתן להשתמש אם יש צורך
       }),
       catchError(error => {
@@ -598,23 +454,23 @@ onUniqIdReceived(uniqId: string): void {
       })
     ).subscribe();
   }
- 
+
   getProject() {
     this.projectService.getProjectByName(this.projectName).subscribe(data => {
-    this.project = data;
-    this.getNameBank()
-    this.getNameLandOwnerShip()
-    console.log("project after get",this.project);
-    // לשלוף את שם הבעלות
-    this.IsGetSecond = true
-    this.IsGetFirst = false
-  }, error => {
-    console.error('Error fetching project', error);
-  });
+      this.project = data;
+      this.getNameBank()
+      this.getNameLandOwnerShip()
+      console.log("project after get", this.project);
+      // לשלוף את שם הבעלות
+      this.IsGetSecond = true
+      this.IsGetFirst = false
+    }, error => {
+      console.error('Error fetching project', error);
+    });
   }
- 
+
   getCompanyName() {
-   
+
     this.projectService.GetCompanyById(this.companyId).pipe(
       catchError(error => {
         console.error('Error fetching company name:', error);  // הדפס את השגיאה
@@ -624,15 +480,14 @@ onUniqIdReceived(uniqId: string): void {
       this.comNames = comNames;
       console.log('Company name:', comNames);
       this.comNamesString = this.comNames.contractorName;
-      this.contractorId = this.comNames.contractorId
       console.log('comNamesString name:', this.comNames.contractorName);
     });
   }
- 
-  cleanFile(){
+
+  cleanFile() {
     this.project = new Project()
   }
- 
+
   //   // קריאה לשירות לעדכון הפרויקט עם ה-ID
   //   this.projectService.Update(this.projId, this.project).subscribe({
   //     next: data => {
@@ -655,60 +510,59 @@ onUniqIdReceived(uniqId: string): void {
   //     }
   //   });
   // }
- 
- 
- 
+
+
+
   //update(id: number){
- 
-  delete(){
-  this.degelUp=true;
-   this.update();
+
+  delete() {
+    this.degelUp = true;
+    this.update();
   }
-   
+
   update() {
     this.IsGetFirst = true;
-    this.IsGetSecond= false;
+    this.IsGetSecond = false;
     this.isEdit = true;
     this.updateProjectDatesForDisplay();
   }
- 
-async update1() {
-  if (this.degelUp == true) {  // רוצה למחוק את הפרויקט
-    console.log("degelUp", this.degelUp);
- 
-    this.project.projectStatus = 0;
- 
-    console.log("סטטוס", this.project.projectStatus);
- 
-    this.projectService.Update(this.project.projectId, this.project).subscribe({
-      next: data => {
-        console.log("Data received:", data);
-        this.cleanFile();
-        
-      },
-      error: err => {
-        console.error("Error occurred:", err);
-      }
-    });
-  } else {
-    console.log("------------------update-----------------");
- 
-    await this.updateProjectDates();
-    await this.getIdBank();
-    await this.getIdLandOwnerShip();
- 
+
+  async update1() {
+    if (this.degelUp == true) {  // רוצה למחוק את הפרויקט
+      console.log("degelUp", this.degelUp);
+
+      this.project.projectStatus = 0;
+
+      console.log("סטטוס", this.project.projectStatus);
+
+      this.projectService.Update(this.project.projectId, this.project).subscribe({
+        next: data => {
+          console.log("Data received:", data);
+          this.cleanFile();
+        },
+        error: err => {
+          console.error("Error occurred:", err);
+        }
+      });
+    } else {
+      console.log("------------------update-----------------");
+
+      await this.updateProjectDates();
+      await this.getIdBank();
+      await this.getIdLandOwnerShip();
+
       this.project.lendingBank = this.bankId;
       this.project.projectStatus = 1;
       this.project.contractingCompanyId = this.companyId;
       this.project.landOwnershipId = this.LandOwnerShipId;
       console.log("project after func", this.project);
- 
+
       console.log("start update");
- 
+
       this.projectService.Update(this.project.projectId, this.project).subscribe({
         next: data => {
           console.log("Data received:", data);
-        ///  this.commentComponent.updateComment(data.projectId)
+          // this.cleanFile();
           this.IsGetFirst = false;
           this.IsGetSecond = true;
           this.getProject()
@@ -717,35 +571,31 @@ async update1() {
           console.error("Error occurred:", err);
         }
       });
+    }
   }
-}
- 
+
   async addProject() {
- 
+
     if (this.degelUpdate == true || this.isEdit == true) {
       await this.update1();
       return;
     }
- 
+
     await this.updateProjectDates();
     await this.getIdBank();
     await this.getIdLandOwnerShip();
- 
-      this.project.lendingBank = this.bankId;
-      this.project.projectStatus = 1;
-      this.project.contractingCompanyId = this.companyId;
-      this.project.landOwnershipId = this.LandOwnerShipId;
-      console.log("project after change",this.project);
-   
+
+    this.project.lendingBank = this.bankId;
+    this.project.projectStatus = 1;
+    this.project.contractingCompanyId = this.companyId;
+    this.project.landOwnershipId = this.LandOwnerShipId;
+    console.log("project after change", this.project);
+
     const data = await this.projectService.AddProject(this.project).subscribe({
       next: data => {
         console.log("Data received:", data);
-       // this.cleanFile();
-       debugger;
-       this.commentComponent.updateComment(data.projectId)
-        // this.updateComment(data.projectId);
-        
-
+        // this.cleanFile();
+        this.updateComment(data.projectId);
         this.IsGetFirst = false;
         this.IsGetSecond = true;
         this.getProject()
@@ -755,101 +605,75 @@ async update1() {
       }
     });
   }
- 
-  getComment(idAfter: bigint){
+
+  getComment(idAfter: bigint) {
     this.commentService.GetComment(idAfter).subscribe(
       data => {
-        console.log("comment after get",data);
+        console.log("comment after get", data);
         this.commentFlag = true
         this.commentPrev = data;
-        this.commentsPrev = [...this.commentsPrev,data]
-        this.commentsList = [...this.commentsList,data]
+        this.commentsPrev = [...this.commentsPrev, data]
+        this.commentsList = [...this.commentsList, data]
         console.log("commentsList", this.commentsList);
-       
+
       },
       error => {
         console.error('Error fetching project', error);
       }
     );
   }
- 
+
   async saveComment() {
-   if(this.comment.commentText !=""){
- 
-    try {
-      this.comment.id = BigInt(0).toString();
-      this.comment.objectId = this.project.projectId;
- 
-      const data = await this.commentService.AddComment(this.comment).toPromise();
-      console.log("Data received:", data);
-      if (data) {
-        // שליפת ההערה שנוצרה מהמסד
-        if (data.id !== undefined) {
- 
-          const idAfter = BigInt(data.id);
-          this.getComment(idAfter)
-         
-        } else {
-          console.error("ID is undefined in received data");
+    if (this.comment.commentText != "") {
+
+      try {
+        this.comment.id = BigInt(0).toString();
+        this.comment.objectId = this.project.projectId;
+
+        const data = await this.commentService.AddComment(this.comment).toPromise();
+        console.log("Data received:", data);
+        if (data) {
+          // שליפת ההערה שנוצרה מהמסד
+          if (data.id !== undefined) {
+
+            const idAfter = BigInt(data.id);
+            this.getComment(idAfter)
+
+          } else {
+            console.error("ID is undefined in received data");
+          }
+
+          this.comment = new Comment();
         }
- 
-        this.comment = new Comment();
+      } catch (err) {
+        console.error("Error occurred:", err);
       }
-    } catch (err) {
-      console.error("Error occurred:", err);
     }
   }
-  }
- 
-  async updateComment(idOfProj: number){
+
+  async updateComment(idOfProj: number) {
     for (let i = 0; i < this.commentsList.length; i++) {
-      if(this.comment.commentText !=""){
-      this.commentsList[i].objectId = idOfProj
- 
-      const id = this.commentsList[i].id ?? '0';
-      const idComment = BigInt(id);
-      console.log("idComment",idComment);
-      console.log("this.commentsList[i]",this.commentsList[i]);
-     
-     
-      // השתמשי ב-UpdateComment עם idComment
-      this.commentService.UpdateComment(idComment, this.commentsList[i]).subscribe(
-        data => {
-          console.log('Comment updated:', data);
-        },
-        error => {
-          console.error('Error updating comment', error);
-        }
-      );
+      if (this.comment.commentText != "") {
+        this.commentsList[i].objectId = idOfProj
+
+        const id = this.commentsList[i].id ?? '0';
+        const idComment = BigInt(id);
+        console.log("idComment", idComment);
+        console.log("this.commentsList[i]", this.commentsList[i]);
+
+
+        // השתמשי ב-UpdateComment עם idComment
+        this.commentService.UpdateComment(idComment, this.commentsList[i]).subscribe(
+          data => {
+            console.log('Comment updated:', data);
+          },
+          error => {
+            console.error('Error updating comment', error);
+          }
+        );
+      }
     }
   }
-  }
- 
-
-  // async updateComment(idOfProj: number){
-    
-  //   for (let i = 0; i < this.commentsList.length; i++) {
-  //     if(this.comment.commentText !=""){
-  //     this.commentsList[i].objectId = idOfProj
-
-  //     const id = this.commentsList[i].id ?? '0'; 
-  //     const idComment = BigInt(id);
-  //     console.log("idComment",idComment);
-  //     console.log("this.commentsList[i]",this.commentsList[i]);
-      
-      
-  //     // השתמשי ב-UpdateComment עם idComment
-  //     this.commentService.UpdateComment(idComment, this.commentsList[i]).subscribe(
-  //       data => {
-  //         console.log('Comment updated:', data);
-  //       },
-  //       error => {
-  //         console.error('Error updating comment', error);
-  //       }
-  //     );
-  //   }
-  // }
-  // }
 
   deleteCommentFromList(idComment: bigint) {
     for (let i = 0; i < this.commentsList.length; i++) {
@@ -858,14 +682,14 @@ async update1() {
         this.commentsList[i].commentText = "";
       }
     }
-    console.log("this.commentsList after delete",this.commentsList);
-   
+    console.log("this.commentsList after delete", this.commentsList);
+
   }
- 
+
   deleteComment(comment: Comment) {
     if (comment.id !== undefined && comment.id !== null) {
       const id = BigInt(comment.id);
- 
+
       this.commentService.DeleteComment((id)).subscribe(
         data => {
           console.log("Delete comment:", comment);
@@ -887,7 +711,7 @@ async update1() {
       console.error('Comment id is not a valid bigint:', comment.id);
     }
   }
- 
+
   private formatDate(date: any): string {
     if (!date) return ''; // בדיקה אם התאריך אינו תקף
     if (typeof date === 'string') {
@@ -897,13 +721,13 @@ async update1() {
     if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
     return date.toISOString().split('T')[0];
   }
- 
+
   private parseDate(dateString: string): Date | null {
     if (!dateString) return null;
     const [day, month, year] = dateString.split('-').map(Number);
     return new Date(year, month - 1, day);
   }
- 
+
   private updateProjectDates() {
     this.project.dateWinningTender = this.formatDate(this.project.dateWinningTenderDisplay);
     this.project.developmentPeriodEndDate = this.formatDate(this.project.developmentPeriodEndDateDisplay);
@@ -914,7 +738,7 @@ async update1() {
     this.project.updateDate = this.formatDate(new Date());
     this.project.hachiraContractEndDate = this.formatDate(this.project.hachiraContractEndDateDisplay);
   }
- 
+
   private updateProjectDatesForDisplay() {
     this.project.dateWinningTenderDisplay = this.parseDate(this.project.dateWinningTender);
     this.project.developmentPeriodEndDateDisplay = this.parseDate(this.project.developmentPeriodEndDate);
@@ -923,94 +747,109 @@ async update1() {
     this.project.collectionExpensesFrom3Display = this.parseDate(this.project.collectionExpensesFrom3);
     this.project.hachiraContractEndDateDisplay = this.parseDate(this.project.hachiraContractEndDate);
   }
- 
+
   onDateWinningTenderChange() {
     if (this.project.dateWinningTender === '') {
       this.project.dateWinningTenderDisplay = null;
     }
   }
- 
+
   onDevelopmentPeriodEndDateChange() {
     if (this.project.developmentPeriodEndDate === '') {
       this.project.developmentPeriodEndDateDisplay = null;
     }
   }
- 
+
   onCollectionExpensesFrom1Change() {
     if (this.project.collectionExpensesFrom1 === '') {
       this.project.collectionExpensesFrom1Display = null;
     }
   }
- 
+
   onCollectionExpensesFrom2Change() {
     if (this.project.collectionExpensesFrom2 === '') {
       this.project.collectionExpensesFrom2Display = null;
     }
   }
- 
+
   onCollectionExpensesFrom3Change() {
     if (this.project.collectionExpensesFrom3 === '') {
       this.project.collectionExpensesFrom3Display = null;
     }
   }
- 
+
   onHachiraContractEndDateChange() {
     if (this.project.hachiraContractEndDate === '') {
       this.project.hachiraContractEndDateDisplay = null;
     }
   }
- 
-  save(){
- 
+
+  save() {
+
   }
- 
-  addBuilding(){
-      this.flagBuild = true;
-      this.router.navigate(['/buildings', this.project.projectId,this.buildingNumber,String(this.flagBuild)]);
-      console.log("hhgghdfdgffffffffffffffffffffffffffffffffffffffffffffffff");
-      
+
+  addBuilding() {
+    
+    this.router.navigate(
+      ['/Addbuilding', this.project.projectId, this.buildingNumber], 
+      { state: { project: this.project ,flag:true} }
+    );  }
+
+  getBuildings() {
+
   }
- 
-  getBuildings(){
-   
+
+  // getDeleteBuildings(){
+  //     this.buildingService.getBuildingsByProjectId(this.project.projectId).pipe(
+  //         catchError(error => {
+  //             console.error('Error fetching Projects:', error);  // הדפס את השגיאה
+  //             return of([]);  // החזר מערך ריק במקרה של שגיאה
+  //         })
+  //     ).subscribe((buildings: Building[]) => {
+  //         console.log('Projects', buildings);
+  //         this.buildings = buildings;
+  //         for (let i = 0; i < this.buildings.length; i++) {
+  //         if(this.buildings[i].projectStatus == 0)
+  //           this. ProjectsDelete.push(this.buildings[i])
+  //       }
+  //       console.log("ProjectsDelete",this.ProjectsDelete);
+
+  //     });
+  //   }
+
+
+  moveManger() {
+
   }
- 
-  getDeleteBuildings(){
-   
+
+  moveMangerBulding() {
+
   }
- 
-  moveManger(){
- 
+
+  lookingFor() {
+
   }
- 
-  moveMangerBulding(){
- 
+
+  lookingForBuilding() {
+
   }
- 
-  lookingFor(){
- 
-  }
- 
-  lookingForBuilding(){
- 
-  }
- 
+
   exportCSV() {
     this.dt.exportCSV();
   }
- 
+
   onlyAllowNumbers(event: KeyboardEvent) {
     const charCode = event.charCode;
     if (charCode < 48 || charCode > 57) {
       event.preventDefault();
     }
   }
- 
+
   validateNumber(event: Event) {
     const input = event.target as HTMLInputElement;
     this.isNumberValid = /^[0-9]*$/.test(input.value);
   }
- 
+
   onModelChange(field: keyof ProjectDTO, value: any) {
     if (value === '0' || value === 0) {
       this.project = { ...this.project, [field]: null };
@@ -1018,26 +857,24 @@ async update1() {
       this.project = { ...this.project, [field]: value };
     }
   }
- 
+
   transformValue(value: number): string {
-  return value === 0 ? '' : value.toString();
+    return value === 0 ? '' : value.toString();
   }
- 
+
   hideDialog() {
     this.productDialog = true;
     this.submitted = true;
   }
- 
+
   showWarningDialog() {
     if (this.project.isPrepareWarningComment) {
       this.isWarningDialogVisible = true;
     }
   }
- 
+
   closeWarningDialog() {
     this.isWarningDialogVisible = false;
     this.project.isPrepareWarningComment = false;
   }
- 
- 
 }

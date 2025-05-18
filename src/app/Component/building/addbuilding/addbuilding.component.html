@@ -1,0 +1,212 @@
+<div class="main-layout">
+  <!-- צד שמאל: כפתורים -->
+  <div class="section-left">
+    <div class="button-container">
+      <div class="contractor-box-container">
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-pencil"></i>
+          </div>
+          <button class="contractor-button" (click)="lookingForBuilding()">חפש</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-plus"></i>
+          </div>
+          <button class="contractor-button" (click)="addBuildSave()">שמירה</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-align-justify"></i>
+          </div>
+          <button class="contractor-button" (click)="cleanFile()">מחיקה</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-align-justify"></i>
+          </div>
+          <button class="contractor-button" (click)="moveMangerBulding()">העברה למנהל</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- צד ימין: טופס -->
+  <div class="section-right">
+    <h1>הוספת בניין</h1>
+    <form (ngSubmit)="addBuildSave()">
+      <!-- שורה 1 -->
+      <div class="info-box">
+        <label for="buildingStatus"><strong>סטטוס בניין:</strong></label>
+        <select id="buildingStatus" [(ngModel)]="building.buildingStatus" name="buildingStatus" class="p-inputtext">
+          <option [ngValue]="1">פעיל</option>
+          <option [ngValue]="0">לא פעיל</option>
+        </select>
+      </div>
+
+      <!-- שורה 2 -->
+      <div class="info-box">
+        <label for="buildingNumber"><strong>מספר בניין:</strong></label>
+        <input id="buildingNumber" [(ngModel)]="building.buildingNumber" name="buildingNumber" class="p-inputtext"
+          type="text" />
+      </div>
+
+      <!-- שורה 3 -->
+      <div class="info-box">
+        <label for="floorsNumber"><strong>מספר קומות:</strong></label>
+        <input id="floorsNumber" [(ngModel)]="building.floorsNumber" name="floorsNumber" class="p-inputtext"
+          type="number" />
+      </div>
+
+      <!-- שורה 4 -->
+      <div class="info-box">
+        <label for="isElevator"><strong>האם יש מעלית:</strong></label>
+        <input id="isElevator" [(ngModel)]="building.isElevator" name="isElevator" type="checkbox" />
+      </div>
+
+      <!-- שורה 5 -->
+      <div class="info-box">
+        <label for="addressAndNumberOfMunicipal"><strong>כתובת עירונית ומספר בניין:</strong></label>
+        <input id="addressAndNumberOfMunicipal" [(ngModel)]="building.addressAndNumberOfMunicipal"
+          name="addressAndNumberOfMunicipal" class="p-inputtext" type="text" />
+      </div>
+
+      <!-- שורה 6 -->
+      <div class="info-box">
+        <label for="isBuildingPermit"><strong>ניתן היתר בניה:</strong></label>
+        <input id="isBuildingPermit" [(ngModel)]="building.isBuildingPermit" name="isBuildingPermit" type="checkbox" />
+      </div>
+
+      <!-- שורה 7 -->
+      <div class="info-box">
+        <label for="is4Form"><strong>ניתן טופס 4:</strong></label>
+        <input id="is4Form" [(ngModel)]="building.is4Form" name="is4Form" type="checkbox" />
+      </div>
+
+      <!-- שורה 8 -->
+      <div class="info-box">
+        <label><strong>זיהוי נכס מלא לפני פרצלציה:</strong></label>
+        <span>{{ project?.fullAssetIdentificationBeforePerselasia ? project.fullAssetIdentificationBeforePerselasia :
+          'לא זמין' }}</span>
+      </div>
+
+      <!-- שורה 9 -->
+      <div class="info-box">
+        <label for="anotherIdentification"><strong>זיהוי נוסף:</strong></label>
+        <input id="anotherIdentification" [(ngModel)]="building.anotherIdentification" name="anotherIdentification"
+          class="p-inputtext" type="text" />
+      </div>
+
+      <!-- שורה 10 -->
+      <div class="info-box">
+        <label><strong>האם בוצעה פרצלציה:</strong></label>
+        <span>{{ project?.isPerselasia ? 'כן' : 'לא' }}</span>
+      </div>
+
+      <!-- שורה 11 -->
+      <div class="info-box">
+        <label><strong>זיהוי נכס מלא לאחר פרצלציה:</strong></label>
+        <span>{{ project?.fullAssetIdentificationAfterPerselasia ? project.fullAssetIdentificationAfterPerselasia : 'לא
+          זמין' }}</span>
+      </div>
+
+      <!-- שורה 12 -->
+      <div class="info-box">
+        <label for="buildingFullAssetIdentificationAfterPerselasia"><strong>זיהוי בניין לאחר פרצלציה:</strong></label>
+        <input id="buildingFullAssetIdentificationAfterPerselasia"
+          [(ngModel)]="building.fullAssetIdentificationAfterPerselasia"
+          name="buildingFullAssetIdentificationAfterPerselasia" class="p-inputtext" type="text" />
+      </div>
+      <div class="info-box two-in-row">
+        <label><strong>גוש:</strong></label>
+        <span>{{ project?.bloc ?? 'לא זמין' }}</span>
+        <label style="margin-right:20px;"><strong>חלקה:</strong></label>
+        <span>{{ project?.smooth ?? 'לא זמין' }}</span>
+      </div>
+      <!-- שורה 15 -->
+      <div class="info-box">
+        <label for="smothArea"><strong>שטח החלקה:</strong></label>
+        <input id="smothArea" [(ngModel)]="building.smothArea" name="smothArea" class="p-inputtext" type="number" />
+      </div>
+
+      <!-- שורה 16 -->
+      <div class="info-box">
+        <label><strong>יש להכין ניירת להערת אזהרה:</strong></label>
+        <span>{{ project?.isPrepareWarningComment ? 'כן' : 'לא' }}</span>
+      </div>
+
+      <!-- שורה 17 -->
+      <div class="info-box">
+        <label><strong>האם החל רישום בית משותף?</strong></label>
+        <span>{{ project?.isStartingRishumBaitMeshutaf ? 'כן' : 'לא' }}</span>
+      </div>
+
+      <!-- שורה 18 -->
+      <div class="info-box">
+        <label><strong>האם נרשם בית משותף?</strong></label>
+        <span>{{ project?.isRishumBaitMeshutaf ? 'כן' : 'לא' }}</span>
+      </div>
+
+      <!-- שורה 19 -->
+      <div class="info-box">
+        <label for="isTookJointListingExpenses"><strong>האם נדרשו הוצאות רישום משותף:</strong></label>
+        <input id="isTookJointListingExpenses" [(ngModel)]="building.isTookJointListingExpenses"
+          name="isTookJointListingExpenses" type="checkbox" />
+      </div>
+
+      <!-- שורה 20–23: הוצאות גבייה (אם נדרש) -->
+      <div *ngIf="building.isTookJointListingExpenses">
+        <div class="info-box">
+          <label for="collectionExpensesFrom1"><strong>הוצאות גבייה מיום:</strong></label>
+          <input id="collectionExpensesFrom1" [(ngModel)]="building.collectionExpensesFrom1"
+            name="collectionExpensesFrom1" type="date" class="p-inputtext" />
+          <label for="collectionAmount1" style="margin-right:10px;"><strong>בסכום:</strong></label>
+          <input id="collectionAmount1" [(ngModel)]="building.collectionAmount1" name="collectionAmount1" type="number"
+            class="p-inputtext" />
+        </div>
+        <div class="info-box">
+          <label for="collectionExpensesFrom2"><strong>הוצאות גבייה מיום:</strong></label>
+          <input id="collectionExpensesFrom2" [(ngModel)]="building.collectionExpensesFrom2"
+            name="collectionExpensesFrom2" type="date" class="p-inputtext" />
+          <label for="collectionAmount2" style="margin-right:10px;"><strong>בסכום:</strong></label>
+          <input id="collectionAmount2" [(ngModel)]="building.collectionAmount2" name="collectionAmount2" type="number"
+            class="p-inputtext" />
+        </div>
+        <div class="info-box">
+          <label for="collectionExpensesFrom3"><strong>הוצאות גבייה מיום:</strong></label>
+          <input id="collectionExpensesFrom3" [(ngModel)]="building.collectionExpensesFrom3"
+            name="collectionExpensesFrom3" type="date" class="p-inputtext" />
+          <label for="collectionAmount3" style="margin-right:10px;"><strong>בסכום:</strong></label>
+          <input id="collectionAmount3" [(ngModel)]="building.collectionAmount3" name="collectionAmount3" type="number"
+            class="p-inputtext" />
+        </div>
+        <div class="info-box">
+          <label for="principalAmount"><strong>סכום קרן:</strong></label>
+          <input id="principalAmount" [(ngModel)]="building.principalAmount" name="principalAmount" type="number"
+            class="p-inputtext" />
+        </div>
+      </div>
+
+      <!-- שורה 24 -->
+      <div class="info-box">
+        <label for="buildingDrawingFile"><strong>תשריט העמדה של בניין:</strong></label>
+        <input id="buildingDrawingFile" [(ngModel)]="building.buildingDrawingFile" name="buildingDrawingFile"
+          class="p-inputtext" type="file" />
+        <app-files [fileNameShow]="selectedFileNames" [contractorCode]="0" [IsGet]="true" [uniqId]="0"
+          [labelText]="'תשריט העמדה של בניין'" (uniqIdGenerated)="onUniqIdReceived($event)">
+        </app-files>
+      </div>
+
+      <!-- שורה 25 -->
+      <div class="info-box">
+        <label for="note"><strong>הוסף הערה:</strong></label>
+        <textarea id="note" [(ngModel)]="building.note" name="note" class="p-inputtext"></textarea>
+      </div>
+
+
+    </form>
+    <button class="scroll-to-top" title="גלול למעלה" *ngIf="isShowScrollTop" (click)="scrollToTop()">
+     גלול למעלה ⬆️
+    </button>
+  </div>
+</div>

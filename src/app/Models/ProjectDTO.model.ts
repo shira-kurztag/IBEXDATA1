@@ -26,9 +26,9 @@ export class ProjectDTO {
     anotherIdentification: string = "";
     perselasiaFile: string = "";
     fullAssetIdentificationAfterPerselasia: string = "";
-    bloc: number = 0;
-    smooth: number = 0;
-    smothArea: number = 0;
+    bloc?: number;
+    smooth?: number;
+    smothArea?: number;
     isTookJointListingExpenses!: boolean;
     principalAmount: number = 0;
     collectionExpensesFrom1: Date = new Date();

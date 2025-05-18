@@ -1,7 +1,7 @@
 import { ApartmentDTO } from "./ApartmentDTO.model";
 import { Project } from "./Project.model";
  
-export class building{
+export class Building{
     buildingId: number | undefined;
     projectId?: number;
     buildingStatus?: number;

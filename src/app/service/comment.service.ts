@@ -24,7 +24,7 @@ export class CommentService {
   }
 
   UpdateComment(id: bigint, comment: Comment) {
-    debugger;
+    
     const url = `${this.BASE_URL}/${id}`;
     console.log("service comment", url, comment);
     return this.https.put<Comment>(url, comment);

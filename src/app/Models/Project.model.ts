@@ -25,8 +25,8 @@ export class Project {
   anotherIdentification: string = "";
   perselasiaFile: string = "";
   fullAssetIdentificationAfterPerselasia: string = "";
-  bloc: number = 0;
-  smooth: number = 0;
+  bloc?: number;
+  smooth?: number;
   isTookJointListingExpenses!: boolean;
   principalAmount: number = 0;
   collectionExpensesFrom1: string = ""; // שינוי מ-Date ל-string
@@ -54,8 +54,8 @@ export class Project {
   numberHakiraContract: string = "";
   projectDrawingFile: string = "";
   isHachiraContract: boolean = false;
-  smothArea: number = 0;
-
+  smothArea?: number;
+  isStartingRishumBaitMeshutaf:boolean=false;
   // שדות עזר להצגה בטופס
   dateWinningTenderDisplay?: Date | null;
   developmentPeriodEndDateDisplay?: Date | null;
