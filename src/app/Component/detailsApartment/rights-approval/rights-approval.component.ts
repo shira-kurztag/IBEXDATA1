@@ -33,7 +33,7 @@ export class RightsApprovalComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateLabels(); // עדכון ראשוני
-   this.filterFare('תשלום לאישור זכויות ')
+   this.filterFare("תשלום לאישור זכויות")
     this.RightsApprovalForm.valueChanges.subscribe(() => {
       this.updateLabels();
     });
@@ -59,7 +59,9 @@ export class RightsApprovalComponent implements OnInit {
   }
  filterFare(fareName: string) {
   this.fareService.filterFare(fareName).subscribe(
+    
     fares => {
+      debugger;
       if (fares.length > 0) {
        this. amount = fares[0].fareAmount; // או השדה הרלוונטי
         this.RightsApprovalForm.patchValue({ Paid: this.amount });

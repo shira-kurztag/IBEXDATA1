@@ -21,6 +21,8 @@ export class TenantService {
   }
   GetTenantByApartment(apartmentId: number): Observable<TenantDTO2[]> {
     // קריאה לשרת לקבלת רשימת הדיירים
+    console.log("hhh"+apartmentId);
+    
     return this.http.get<TenantDTO2[]>(`${this.BASE_URL}/GetTenantByApartment/${apartmentId}`);
   }
   

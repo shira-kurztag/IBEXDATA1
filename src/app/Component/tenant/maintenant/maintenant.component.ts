@@ -53,7 +53,7 @@ export class MainTenantComponent implements OnInit {
   createTenantGroup(tenant: any): FormGroup {
     return this.fb.group({
       tenantId: [tenant.tenantId|| 0], // מספר
-      ApartmentId: [this.apartmentID || 0], // מספר
+      ApartmentId: [this.apartmentId || 0], // מספר
       tenantStatus: [tenant.tenantStatus || 0], // מספר
       firstName: [tenant.firstName || ''], // מחרוזת
       lastName: [tenant.lastName || ''], // מחרוזת
@@ -83,7 +83,7 @@ export class MainTenantComponent implements OnInit {
   }
 
   getTenants(): void {
-    this.srvTenant.GetTenantByApartment(this.apartmentID).subscribe((tenant: any[]) => {
+    this.srvTenant.GetTenantByApartment(this.apartmentId).subscribe((tenant: any[]) => {
       if (tenant) {
         this.tenants.clear();
         tenant.forEach((t) => this.tenants.push(this.createTenantGroup(t)));

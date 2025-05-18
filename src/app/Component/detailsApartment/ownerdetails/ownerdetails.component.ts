@@ -43,34 +43,34 @@ export class OwnerdetailsComponent {
       addressAccordingToContract: [owner.addressAccordingToContract ], // מחרוזת
       addressAndNumberOfMunicipal: [owner.addressAndNumberOfMunicipal ], // מחרוזת
       mailingAddress: [owner.mailingAddress ], // מחרוזת
-      SecondAddress: [owner.secondAddress ], // מחרוזת
+      secondAddress: [owner.secondAddress ], // מחרוזת
       descriptionPhone1: [owner.descriptionPhone1 ], // מחרוזת
-      DescriptionPhone2: [owner.descriptionPhone2 ], // מחרוזת
-      DescriptionPhone3: [owner.descriptionPhone3 ], // מחרוזת
-      NumberStringPhone1: [owner.numberStringPhone1 ], // מחרוזת
-      NumberStringPhone2: [owner.numberStringPhone2 ], // מחרוזת
-      NumberStringPhone3: [owner.numberStringPhone3 ], // מחרוזת
-      Fax: [owner.Fax ], // מספר
-      Email: [owner.Email ], // מחרוזת
-      LawyerName: [owner.LawyerName ], // מחרוזת
-      DeadlineForReporting: [owner.DeadlineForReporting ], // תאריך
-      IsReported: [owner.IsReported ], // בוליאני
-      IsConfirmationReporting: [owner.IsConfirmationReporting ], // בוליאני
-      ReporteFile: [owner.ReporteFile], // מחרוזת
-      IsCorrectLackPurchaseTaxBalance: [owner.IsCorrectLackPurchaseTaxBalance ], // בוליאני
-      IncumbentNumber: [owner.IncumbentNumber ], // מחרוזת
-      HavePowerOfAttorney: [owner.HavePowerOfAttorney ], // בוליאני
-      IsCorrectPowerOfAttorney: [owner.IsCorrectPowerOfAttorney ], // בוליאני
-      PowerOfAttorneyFile: [owner.PowerOfAttorneyFile ], // מחרוזת
-      IsGivenVouchers: [owner.IsGivenVouchers ], // בוליאני
-      IsLegalExpensesPaid: [owner.IsLegalExpensesPaid ], // בוליאני
-      PaidNote: [owner.PaidNote ], // מחרוזת
-      IsSignedTofesHearot: [owner.IsSignedTofesHearot ], // בוליאני
-      IsProducedHachira: [owner.IsProducedHachira ], // בוליאני
-      IsFormSignedIrrevocableInstructions: [owner.IsFormSignedIrrevocableInstructions ], // בוליאני
-      SignedIrrevocableInstructionsFile: [owner.SignedIrrevocableInstructionsFile ], // מחרוזת
-      IsFurthermoreLackOfApproval: [owner.IsFurthermoreLackOfApproval ], // בוליאני
-      LeaseNumberString: [owner.LeaseNumberString ], // מחרוזת
+      descriptionPhone2: [owner.descriptionPhone2 ], // מחרוזת
+      descriptionPhone3: [owner.descriptionPhone3 ], // מחרוזת
+      numberStringPhone1: [owner.numberStringPhone1 ], // מחרוזת
+      numberStringPhone2: [owner.numberStringPhone2 ], // מחרוזת
+      numberStringPhone3: [owner.numberStringPhone3 ], // מחרוזת
+      fax: [owner.fax ], // מספר
+      email: [owner.email ], // מחרוזת
+      lawyerName: [owner.lawyerName ], // מחרוזת
+      deadlineForReporting: [owner.deadlineForReporting ], // תאריך
+      isReported: [owner.isReported ], // בוליאני
+      isConfirmationReporting: [owner.isConfirmationReporting ], // בוליאני
+      reporteFile: [owner.reporteFile], // מחרוזת
+      isCorrectLackPurchaseTaxBalance: [owner.isCorrectLackPurchaseTaxBalance ], // בוליאני
+      incumbentNumber: [owner.incumbentNumber ], // מחרוזת
+      havePowerOfAttorney: [owner.havePowerOfAttorney ], // בוליאני
+      isCorrectPowerOfAttorney: [owner.isCorrectPowerOfAttorney ], // בוליאני
+      powerOfAttorneyFile: [owner.powerOfAttorneyFile ], // מחרוזת
+      isGivenVouchers: [owner.isGivenVouchers ], // בוליאני
+      isLegalExpensesPaid: [owner.isLegalExpensesPaid ], // בוליאני
+      paidNote: [owner.paidNote ], // מחרוזת
+      isSignedTofesHearot: [owner.isSignedTofesHearot ], // בוליאני
+      isProducedHachira: [owner.isProducedHachira ], // בוליאני
+      isFormSignedIrrevocableInstructions: [owner.isFormSignedIrrevocableInstructions ], // בוליאני
+      signedIrrevocableInstructionsFile: [owner.signedIrrevocableInstructionsFile ], // מחרוזת
+      isFurthermoreLackOfApproval: [owner.isFurthermoreLackOfApproval ], // בוליאני
+      leaseNumberString: [owner.leaseNumberString ], // מחרוזת
     });
   }
 
