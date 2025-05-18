@@ -19,6 +19,7 @@ import { getTenantStatusString, TenantStatus } from '../../../Models/TenantStatu
 @Component({
   selector: 'app-addtenant',
   imports: [ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, CommonModule, RadioButtonModule, ToggleSwitchModule, DropdownModule, HttpClientModule],
+  standalone: true,    // חייב להיות true
   templateUrl: './addtenant.component.html',
   styleUrl: './addtenant.component.css',
   providers: [TenantService, ApartmentService]
@@ -35,11 +36,13 @@ export class AddTenantComponent implements OnInit {
   isSaved: boolean = false;
   isAdd: boolean = false;
   buttonText: string = 'הוסף בעלים';
+  apartmentId!: number;
+  powerDetailsCopied :boolean = false;
 
-  router: Router = inject(Router);  // errorMessage: string;
 
-  constructor(private fb: FormBuilder,private TenantService: TenantService) { }
-   @Input() apartmentId!: number;
+
+  constructor(private fb: FormBuilder, private TenantService: TenantService, private router: Router) { }
+
 
   ngOnInit(): void {
     this.identityTypes = [
@@ -58,47 +61,54 @@ export class AddTenantComponent implements OnInit {
       { label: 'נוטריוני ', value: 5 },
       { label: 'קונטרולר', value: 6 },
     ];
-    
-    console.log('ID שקיבלתי:', this.apartmentId);
+
+
     this.TenantDTO.forEach(tenantForm => this.listenToPowerOfAttorneyChanges(tenantForm));
+    const raw = localStorage.getItem('apartmentId');
+    if (raw !== null) {
+      const apartmentId: number = parseInt(raw, 10);
+      console.log('ID שהתקבל:', apartmentId);
+    }
+      localStorage.removeItem('apartmentId');
+
   }
 
-  createTenantForm(): void {
-    this.isAdd = true;
-    const tenantForm = this.fb.group({
-      LastName: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
-      FirstName: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
-      TenantIdentity: ['',[ Validators.pattern(/^[a-zA-Z0-9]+$/)]],
-      IdentityType: [null],
-      TenantStatus: [1],
-      IdFileName: [''],
-      IdentityFromCountry: [''],
-      USName: [''],
-      PreviousTenantId: [0],
-      IdentityTypePrevious: [Number],
-      TenantIdentityPrevious: [''],
-      OtherPrevious: [''],
-      IsSignatureByPowerOfAttorney: [false],
-      PowerOfAttorneyId: [''],
-      LastNamePower: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
-      FirstNamePower: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
-      IdFileNamePower: [''],
-      PowerOfAttorneyType: [null],
-      FromDate: [null],
-      FileName: [''],
-      Address: [''],
-      NumberPhone: ['',[Validators.pattern(/^[0-9]{7,10}$/)]],
-      NumberPhone2: ['',[Validators.pattern(/^[0-9]{7,10}$/)]],
-      PartAsset: [null,[ Validators.min(0), Validators.max(100)]],
-      ApartmentId: [10032],
-    });
-    this.TenantDTO.push(tenantForm);
-    this.listenToPowerOfAttorneyChanges(tenantForm);
+    createTenantForm(): void {
+      this.isAdd = true;
+      const tenantForm = this.fb.group({
+        LastName: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
+        FirstName: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
+        TenantIdentity: ['', [Validators.pattern(/^[a-zA-Z0-9]+$/)]],
+        IdentityType: [null],
+        TenantStatus: [1],
+        IdFileName: [''],
+        IdentityFromCountry: [''],
+        USName: [''],
+        PreviousTenantId: [0],
+        IdentityTypePrevious: [Number],
+        TenantIdentityPrevious: [''],
+        OtherPrevious: [''],
+        IsSignatureByPowerOfAttorney: [false],
+        PowerOfAttorneyId: [''],
+        LastNamePower: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
+        FirstNamePower: ['', [Validators.pattern(/^[א-תa-zA-Z]+$/)]],
+        IdFileNamePower: [''],
+        PowerOfAttorneyType: [null],
+        FromDate: [null],
+        FileName: [''],
+        Address: [''],
+        NumberPhone: ['', [Validators.pattern(/^[0-9]{7,10}$/)]],
+        NumberPhone2: ['', [Validators.pattern(/^[0-9]{7,10}$/)]],
+        PartAsset: [null, [Validators.min(0), Validators.max(100)]],
+        ApartmentId: [10032],
+      });
+      this.TenantDTO.push(tenantForm);
+      this.listenToPowerOfAttorneyChanges(tenantForm);
 
-    if (
-      this.TenantDTO.length >= 2 && // רק מהפעם השנייה
-      this.TenantDTO[0]?.get('IsSignatureByPowerOfAttorney')?.value === true && // התנאי הראשון (טופס ראשון)
-      this.TenantDTO[this.TenantDTO.length - 1]?.get('IsSignatureByPowerOfAttorney')?.value === true // התנאי השני (טופס אחרון)
+      if(
+        this.TenantDTO.length >= 2 && // רק מהפעם השנייה
+          this.TenantDTO[0]?.get('IsSignatureByPowerOfAttorney')?.value === true && // התנאי הראשון (טופס ראשון)
+          this.TenantDTO[this.TenantDTO.length - 1]?.get('IsSignatureByPowerOfAttorney')?.value === true // התנאי השני (טופס אחרון)
     ) {
       this.CopyofPowerOfAttorneyDetails();
     }
@@ -227,6 +237,11 @@ export class AddTenantComponent implements OnInit {
   cancel(): void {
     this.TenantDTO.forEach(form => form.reset());
     this.toggleButtonText();
+      this.router.navigate(
+    ['/detailsApartment'],
+
+  );
+    
   }
 
   getTenantStatusString(status: TenantStatus): string {
@@ -237,11 +252,11 @@ export class AddTenantComponent implements OnInit {
       this.TenantDTO[this.TenantDTO.length - 1].get('IsSignatureByPowerOfAttorney')?.value === true && // הטופס האחרון
       this.TenantDTO.length >= 2 // חייבים לפחות שני טפסים
     ) {
-      if (this.TenantDTO[0].get('IsSignatureByPowerOfAttorney')?.value === true) { 
+      if (this.TenantDTO[0].get('IsSignatureByPowerOfAttorney')?.value === true) {
         const firstTenant = this.TenantDTO[0]; // קבלת הטופס הראשון במערך
         const firstName = firstTenant.get('FirstName')?.value || '';
         const lastName = firstTenant.get('LastName')?.value || '';
-        
+
         // הצגת ההודעה עם שם הדייר
         const userResponse = window.confirm(
           `בדייר ${firstName} ${lastName} הוזנו פרטי מיופה כח. האם מיופה הכח הוא גם עבור הדייר הזה?`
@@ -266,6 +281,8 @@ export class AddTenantComponent implements OnInit {
 
           // הדפסת הנתונים בקונסול לבדיקה
           console.log('נוטריון הועתק לטופס האחרון:', lastTenantForm.value);
+           this.powerDetailsCopied = true;           // נדע ש”העתקנו”
+  this.setPowerFieldsDisabled(true);
         }
       }
     }
@@ -289,5 +306,38 @@ export class AddTenantComponent implements OnInit {
       });
     }
   }
+
+
+
+
+private setPowerFieldsDisabled(disabled: boolean) {
+  // נניח שהטפסים שלך הם מערך formGroups בשם TenantDTO
+  const lastForm = this.TenantDTO[this.TenantDTO.length - 1];
+
+  // הרשימה של כל השדות שרוצים לנעול
+  const fields = [
+    'PowerOfAttorneyId',
+    'FirstNamePower',
+    'LastNamePower',
+    'IdFileNamePower',
+    'PowerOfAttorneyType',
+    'FromDate',
+    'FileName',
+    'Address',
+    'NumberPhone',
+    'NumberPhone2'
+  ];
+
+  for (const name of fields) {
+    const ctrl = lastForm.get(name);
+    if (disabled) ctrl?.disable({ emitEvent: false });
+    else          ctrl?.enable({ emitEvent: false });
+  }
+}
+releasePowerOfAttorneyDetails() {
+  this.powerDetailsCopied = false;          // סימון שלא נעול
+  this.setPowerFieldsDisabled(false);       // פותח חזרה את השדות
+}
+
 
 }

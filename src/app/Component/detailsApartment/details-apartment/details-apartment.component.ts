@@ -19,6 +19,7 @@ import { RightsApprovalComponent } from '../rights-approval/rights-approval.comp
 })
 export class DetailsApartmentComponent {
   activeComponent: string = ''; // מצב ברירת מחדל - לא מוצגת קומפוננטה
+  apartmentId: number = 9987;  // <-- שונה מ-apartmentID ל-apartmentId
 
   setActiveComponent(componentName: string): void {
     this.activeComponent = componentName;

@@ -10,7 +10,7 @@ export class FareService {
 
   BASE_URL = 'https://localhost:5178/api/Fare';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getFares(): Observable<Fare[]> {
     return this.http.get<Fare[]>(`${this.BASE_URL}/GetFare`);
@@ -27,5 +27,12 @@ export class FareService {
 
   updateFareAmount(fareId: number, fareAmount: number): Observable<Fare[]> {
     return this.http.put<Fare[]>(`${this.BASE_URL}/${fareId}/amount`, { fareAmount });
+  }
+
+
+  filterFare(name: string): Observable<Fare[]> {
+    return this.http.get<Fare[]>(`${this.BASE_URL}/GetFilter`, {
+      params: { FareName: name }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-apartment-home-page',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './apartment-home-page.component.css'
 })
 export class ApartmentHomePageComponent {
-
+  @Input() apartmentId!: number;
 }

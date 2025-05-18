@@ -17,15 +17,15 @@ import { OwnerdetailsComponent } from '../../detailsApartment/ownerdetails/owner
 })
 export class MainTenantComponent implements OnInit {
   tenantForm: FormGroup; // טופס ריאקטיבי
-  apartmentId!: number;
+  apartmentID!: number;
   partAsset: number = 0;
   Message: boolean = false;
   editMode: boolean = false; // מצב עריכה - ברירת מחדל: תצוגה בלבד
   activeComponent: string = ''; // מצב ברירת מחדל - לא מוצגת קומפוננטה
 
-  @Input() apartmentID!: number;
-
-  constructor(
+  @Input() apartmentId!: number;
+   ////////// אני צרכה לעביר לקומפוננטה אבא 
+   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -40,7 +40,9 @@ export class MainTenantComponent implements OnInit {
   srvTenant: TenantService = inject(TenantService);
 
   ngOnInit(): void {
-    this.apartmentId = 9987; // מזהה דירה זמני
+    console.log(this.apartmentId);
+    
+    // this.apartmentID = 9987; // מזהה דירה זמני
     this.getTenants();
   }
 
@@ -51,7 +53,7 @@ export class MainTenantComponent implements OnInit {
   createTenantGroup(tenant: any): FormGroup {
     return this.fb.group({
       tenantId: [tenant.tenantId|| 0], // מספר
-      ApartmentId: [this.apartmentId || 0], // מספר
+      ApartmentId: [this.apartmentID || 0], // מספר
       tenantStatus: [tenant.tenantStatus || 0], // מספר
       firstName: [tenant.firstName || ''], // מחרוזת
       lastName: [tenant.lastName || ''], // מחרוזת
@@ -81,7 +83,7 @@ export class MainTenantComponent implements OnInit {
   }
 
   getTenants(): void {
-    this.srvTenant.GetTenantByApartment(this.apartmentId).subscribe((tenant: any[]) => {
+    this.srvTenant.GetTenantByApartment(this.apartmentID).subscribe((tenant: any[]) => {
       if (tenant) {
         this.tenants.clear();
         tenant.forEach((t) => this.tenants.push(this.createTenantGroup(t)));
@@ -127,9 +129,6 @@ export class MainTenantComponent implements OnInit {
   }
 
 
-  //פונקציה שבודקת את את חלק בנכס/ 
-  // אם הוא גדול מ-100
-
   deleteTenant(id: number): void {
     console.log(id);
 
@@ -150,9 +149,6 @@ export class MainTenantComponent implements OnInit {
       console.log('המשתמש ביטל את המחיקה.');
     }
   }
-  
-
-
   toggleEdit(): void {
     this.editMode = true; // מעבר למצב עריכה
   }
@@ -177,8 +173,17 @@ export class MainTenantComponent implements OnInit {
     this.activeComponent = componentName;
   }
 
-  AddTenant() {
-    console.log("אני שולחת "+this.apartmentId);
-    this.router.navigate(['/addtenant']); // בלי פרמטר ב-URL
-  }
+ AddTenant() {
+  console.log( this.apartmentId );
+  localStorage.removeItem('apartmentId');
+  console.log("נמחק");
+
+  localStorage.setItem('apartmentId', this.apartmentId.toString());
+
+  this.router.navigate(
+    ['/addtenant'],
+
+  );
+}
+  
 }

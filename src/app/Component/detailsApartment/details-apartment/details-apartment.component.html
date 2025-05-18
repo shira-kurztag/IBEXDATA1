@@ -9,7 +9,9 @@
             (click)="setActiveComponent('rightsApproval')" 
             [ngClass]="{'active-button': activeComponent === 'rightsApproval'}" 
             label="אישור זכויות" 
-            class="p-button owner-details-button">
+            class="p-button owner-details-button"
+         >
+
             אישור זכויות
         </button>
 
@@ -47,11 +49,16 @@
   <div class="contractor-content">
 
     <div class="content-content"> 
-        <!-- הצגת קומפוננטות הילדים -->
-        <app-rights-approval *ngIf="activeComponent === 'rightsApproval'"></app-rights-approval>
-        <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
-        <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant>
-        <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant>
+     <app-rights-approval [apartmentId]="apartmentId"        *ngIf="activeComponent === 'rightsApproval'"
+></app-rights-approval>
+<app-apartment-home-page [apartmentId]="apartmentId"        *ngIf="activeComponent === 'apartmentHomePage'"
+></app-apartment-home-page>
+<app-apartment-details-by-tenant [apartmentId]="apartmentId"        *ngIf="activeComponent === 'apartmentDetailsByTenant'"
+></app-apartment-details-by-tenant>
+<app-tenant [apartmentId]="apartmentId"        *ngIf="activeComponent === 'maintenant'"
+></app-tenant>
+
+
     </div>
 </div>
 </div>

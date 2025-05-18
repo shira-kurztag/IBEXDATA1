@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-apartment-details-by-tenant',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './apartment-details-by-tenant.component.css'
 })
 export class ApartmentDetailsByTenantComponent {
+  @Input() apartmentId!: number;
 
 }

@@ -11,7 +11,6 @@ import { MortagegeComponent } from "./Component/mortagege/mortagege.component";
 import { AddTenantComponent } from "./Component/tenant/addtenant/addtenant.component";
 import { MainTenantComponent } from "./Component/tenant/maintenant/maintenant.component";
 import { DetailsApartmentComponent } from "./Component/detailsApartment/details-apartment/details-apartment.component";
-import { RightsConfirmationComponent } from "./Component/detailsApartment/rights-confirmation/rights-confirmation.component";
 import { ApartmentHomePageComponent } from "./Component/detailsApartment/apartment-home-page/apartment-home-page.component";
 import { ApartmentDetailsByTenantComponent } from "./Component/detailsApartment/apartment-details-by-tenant/apartment-details-by-tenant.component";
 

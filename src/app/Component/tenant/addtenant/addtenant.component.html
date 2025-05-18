@@ -16,7 +16,7 @@
                             {{ getTenantStatusString(1) }}
                         </span>
                         <button pButton type="button" icon="pi pi-trash" class="p-button-danger"
-                        (click)="deleteTenantForm(i)"></button>
+                            (click)="deleteTenantForm(i)"></button>
                     </div>
 
                     <!-- שדות של שם פרטי ושם משפחה -->
@@ -95,13 +95,15 @@
                                 style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                         </div>
                     </div>
-
+                    
                     <!-- שדה האם חתם באמצעות ייפוי כוח -->
                     <div class="p-col-12 p-md-6 contractor-detail">
                         <label for="IsSignatureByPowerOfAttorney" class="labelStyle">האם חתם באמצעות ייפוי כוח?</label>
                         <div class="card flex justify-center">
                             <p-toggleswitch formControlName="IsSignatureByPowerOfAttorney"></p-toggleswitch>
                         </div>
+                        <button *ngIf="powerDetailsCopied" type="button" (click)="releasePowerOfAttorneyDetails()">
+                        ייפוי כח מועתק. לביטול לחץ כאן </button>
                     </div>
 
                     <!-- פרטי המיופה כוח -->

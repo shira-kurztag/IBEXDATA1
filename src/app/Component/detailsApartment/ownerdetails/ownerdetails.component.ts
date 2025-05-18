@@ -13,7 +13,7 @@ import { OwnerService } from '../../../service/owner.service';
    providers: [OwnerService]
 })
 export class OwnerdetailsComponent {
-  @Input() apartmentID!: number;
+  @Input() apartmentId!: number;
 
   editMode: boolean = false; // מצב עריכה - ברירת מחדל: תצוגה בלבד
   srvOwnerService: OwnerService = inject(OwnerService);
@@ -28,8 +28,11 @@ export class OwnerdetailsComponent {
   }
   
   ngOnInit(): void {
-      this.apartmentID = 9987; // מזהה דירה זמני
-      this.GetOwner(this.apartmentID)
+      console.log( this.apartmentId);
+      // this.apartmentId = 9987; // מזהה דירה זמני
+      console.log( this.apartmentId);
+      this.GetOwner(this.apartmentId)
+      
    }
   
    createOwnerGroup(owner: any): FormGroup {
@@ -98,25 +101,25 @@ export class OwnerdetailsComponent {
             if (owner) {
               this.ownerForm.patchValue(owner);
               console.log("העדכון הצליח:", owner);
-              this.GetOwner(this.apartmentID);
+              this.GetOwner(this.apartmentId);
             }
           },
           error: (err) => {
             console.error("שגיאה במהלך שמירת השינויים:", err);
-            this.GetOwner(this.apartmentID);
+            this.GetOwner(this.apartmentId);
           }
         });
     
       } catch (error) {
         console.error("שגיאה כללית בפונקציה saveOwnerChanges:", error);
-        this.GetOwner(this.apartmentID);
+        this.GetOwner(this.apartmentId);
       }
     }
     
     cancelEdit(): void {
       this.editMode = false;
       this.ownerForm.reset(); // לאפס את הטופס או להחזיר ערכים ברירת מחדל
-      this.GetOwner(this.apartmentID); // להטעין מחדש את הנתונים
+      this.GetOwner(this.apartmentId); // להטעין מחדש את הנתונים
     }
     toggleEdit(): void {
       this.editMode = true; // מעבר למצב עריכה
