@@ -1,17 +1,23 @@
-<form [formGroup]="AdminApprovalForm" >
+<form [formGroup]="AdminApprovalForm">
 <div class="form-container">
     <div class="form-group">
       <label for="action-type">סוג הפעולה:</label>
-      <select id="action-type" formControlName="messageType" >
+      <select id="action-type" formControlName="messageType" (change)="onMortgageTypeChange($event)">
         <option *ngFor="let type of AllMortagegesTypes" [value]="type.typeMessageId" >{{ type.typeMessageName }}</option>
       </select>
     </div>
+    <div class="form-group">
+    <div *ngIf="selectedMortgageTypeId === 3">
+      <label>מסמך:</label>
+    </div>
+</div>
+
     <div class="form-group">
       <label for="manager">בחר מנהל:</label>
       <select id="manager" formControlName="reciverId" >
         <option value="0">כל המנהלים</option>
         <option *ngFor="let admin of listAdmins" [value]="admin.userId">
-          {{ admin.firstName }} {{ admin.lastName }}
+          {{admin.firstName}} {{admin.lastName}}
         </option>
       </select>
     </div>

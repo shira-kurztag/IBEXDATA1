@@ -24,22 +24,18 @@ export class AdminApprovalComponent {
   @Input() apartmentId = 0
   @Input() comment = "";
   @Input() ownerId: number[] = [];
-
+  @Input() mortagegeId:number=0;
   @Output() close = new EventEmitter<void>();
-
+  selectedMortgageTypeId: number=0;
   ngOnInit(): void {
     this.initializeForm();
 
   
     this.srvMortagege.GetAllTypeMessages().subscribe(response => {
-
-
       this.AllMortagegesTypes = response ? (response as any)?.$values || response : []
     })
 
     this.srvAdminApproval.getAdmins().subscribe(response => {
-
-
       this.listAdmins = response ? (response as any).$values || response : []
     })
     console.log("ownerId" + this.ownerId);
@@ -53,6 +49,7 @@ export class AdminApprovalComponent {
       ownerId: [this.ownerId],
       reciverId: this.fb.control([]),
       apartmentId: [this.apartmentId],
+      objectID:[this.mortagegeId]
     });
   }
 
@@ -87,22 +84,32 @@ export class AdminApprovalComponent {
     const ownerIds = this.AdminApprovalForm.value.ownerId || [];
     ownerIds.forEach((ownerId: number) => {
       const formData: AdminApproval = {
-        ...this.AdminApprovalForm.value, // כל שאר הערכים מהפורם
-        ownerId: ownerId, // עדכון ownerId לערך הנוכחי
+        ...this.AdminApprovalForm.value,
+        ownerId: ownerId, 
       };
 
-
-      this.srvAdminApproval.addAdminApproval(formData).subscribe({
-        next: () => {
-          alert('הנתונים נשמרו בהצלחה!');
-          this.AdminApprovalForm.reset();
-          this.close.emit();
-        },
-        error: (err) => {
-          console.error(err);
-          alert('אירעה שגיאה בעת שמירת הנתונים.');
-        },
+      this.AdminApprovalForm.patchValue({
+        objectID: this.mortagegeId,
       });
+  
+          this.srvAdminApproval.addAdminApproval(formData).subscribe({
+        
+      });
+
     })
+    
   }
+
+
+
+  onMortgageTypeChange(event: Event) {
+
+    const selectElement = event.target as HTMLSelectElement;
+    this.selectedMortgageTypeId = Number(selectElement.value);
+
+  
+  
+}
+
+
 }

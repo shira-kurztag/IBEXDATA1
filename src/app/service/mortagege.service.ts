@@ -63,5 +63,17 @@ hasMortgageInProcess(apartmentId: number): Observable<boolean> {
       return this.http.get<number[]>(`${this.BASE_URL}/GetAllMortgageBanksByApartment/${apartmentId}`);
     }
 
-    
+    // https://localhost:5178/api/Mortagege/GetAllIdMortgageByTeant/9803
+  // Function to get all mortgages by tenant ID
+  getAllIdMortgageByTenant(tenantId: number): Observable<number[]> {
+    return this.http.get<number[]>(`${this.BASE_URL}/GetAllIdMortgageByTeant/${tenantId}`);
+  }
+
+  // Function to get a mortgage by ID
+  
+    // https://localhost:5178/api/Mortagege/GetMortgageById/9803
+     getMortgageById(mortgageId: number): Observable<Mortagege> {
+
+    return this.http.get<Mortagege>(`${this.BASE_URL}/GetMortgageById/${mortgageId}`);
+  }
 }

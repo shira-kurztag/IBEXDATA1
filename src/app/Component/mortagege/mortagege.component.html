@@ -1,21 +1,21 @@
 <form [formGroup]="mortgageForm" >
  
-  <div class="contractors-container">
+  <div class="mortageges-container">
    
        <div class="p-grid" *ngIf="MortagegeId == 0">
-      <div class="p-col-12 p-md-6 contractor-detail">
+      <div class="p-col-12 p-md-6 mortagege-detail">
         <label for="mortgageType" class="detail-title">:נא בחר/י את סוג המשכנתא שברצונך להוסיף</label>
         <p-dropdown id="mortgageType" class="MortagegesType-select" [options]="mortagegesTypes" formControlName="mortagegesType" >
            
           <ng-template let-selectedMortgageType pTemplate="selectedItem">
-            <div class="contractor-item">
+            <div class="mortgage-item">
               {{selectedMortgageType?.mortagegesTypeText }}
              </div>
           </ng-template>
           <ng-template let-mortgageType pTemplate="item">
-            <div class="contractor-item">
-              {{mortgageType.mortagegesTypeText
-              }}
+            <div class="mortgage-item">
+              {{mortgageType.mortagegesTypeText}}
+              
             </div>
           </ng-template>
         </p-dropdown>
@@ -23,16 +23,16 @@
           <small class="p-error">יש לבחור סוג משכנתא</small>
         </div>
       </div>
-      <div class="p-col-12 p-md-6 contractor-detail">
+      <div class="p-col-12 p-md-6 mortagege-detail">
         <label for="bankName" class="detail-title">?לטובת איזה בנק תינתן ההתחייבות</label>
         <p-dropdown id="bankName" class="MortagegesType-select" [options]="listBanks" formControlName="toTheBank"   >
           <ng-template let-selectedBank pTemplate="selectedItem">
-            <div class="contractor-item">
+            <div class="mortagege-item">
               {{selectedBank?.bankText}}
             </div>
           </ng-template>
           <ng-template let-bank pTemplate="item">
-            <div class="contractor-item">
+            <div class="mortagege-item">
               {{bank.bankText}}
             </div>
           </ng-template>
@@ -42,29 +42,30 @@
         </div>
       </div>
 
-      <div class="p-col-12 p-md-6 contractor-detail">
+      <div class="p-col-12 p-md-6 mortagege-detail">
         <button pButton type="button" label="שמור" class="p-button" (click)="save()"> </button>
         <button pButton type="button" label="ביטול" class="p-button" (click)="cancel()"> </button>
       </div>
     </div>
     <div class="selected-mortgage-type" *ngIf="MortagegeId!=-0">
-
+<div class="mortagegesType">
       {{ mortgageForm.get('mortagegesType')?.value.mortagegesTypeText }}
-      <div *ngIf= hasMortgageInProcess class="p-col-12 p-md-6 contractor-detail">
-        <span class="detail-title">לדיעתך,לא תוכל/י לסיים הליך משכנתא זה מבלי לסיים הליך שנמצא בתהליך קודם</span>
       </div>
-      <div class="p-col-12 p-md-6 contractor-detail">
+      <div *ngIf= hasMortgageInProcess class="p-col-12 p-md-6 mortagege-detail">
+        <span class="detail-title-red">לדיעתך,לא תוכל/י לסיים הליך משכנתא זה מבלי לסיים הליך שנמצא בתהליך קודם</span>
+      </div>
+      <div class="p-col-12 p-md-6 mortagege-detail">
         <span class="detail-title">:סטטוס</span>
         <span class="status-box">
           {{ getStatusDescription(mortgageForm.get('mortagegeStatus')?.value) }}
         </span>
       </div>
 
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <span class="detail-title">?לטובת איזה בנק תינתן ההתחייבות</span> {{mortgageForm.get('toTheBank')?.value.bankText}}
     </div>
 
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <label for="borrowerName" class="detail-title">מי נוטל המשכנתא?</label>
       <p-dropdown id="borrowerName" [options]="borrowerOptions" formControlName="TeanantId" optionLabel="label" (onChange)="onBorrowerChange($event)"></p-dropdown>
 
@@ -81,16 +82,16 @@
 </div>
     </div>
 
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <span class="detail-title">סכום ההתחייבות:</span>
       <p-dropdown class="unlimitedAmount-select" [options]="unlimitedAmountOptions"  optionLabel="label" [(ngModel)]="selectedunlimitedAmount" [ngModelOptions]="{standalone: true}">
               <ng-template let-selectedunlimitedAmount pTemplate="selectedItem">
-          <div class="contractor-item">
+          <div class="mortgage-item">
             {{selectedunlimitedAmount?.label}}
           </div>
         </ng-template>
         <ng-template let-option pTemplate="item">
-          <div class="contractor-item">
+          <div class="mortagege-item">
             {{option.label}}
           </div>
         </ng-template>
@@ -100,29 +101,30 @@
         <p-dropdown class="currencyType-select" [options]="listCurrencyType" formControlName="amountType" optionLabel="currencyTypeText">
        
           <ng-template let-selectedCurrencyType pTemplate="selectedItem">
-            <div class="contractor-item">
+            <div class="mortagege-item">
               {{selectedCurrencyType?.currencyTypeText}}
             </div>
           </ng-template>
           <ng-template let-currencyType pTemplate="item">
-            <div class="contractor-item">
+            <div class="mortgage-item">
               {{currencyType.currencyTypeText}}
             </div>
           </ng-template>
         </p-dropdown>
-        <span class="detail-title">סכום:</span>
+        
+        <span class="detail-title">:סכום</span>
         <input type="number" formControlName="amount" class="commitment-input" />
       </div>
     </div>
 
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <span class="detail-title">?האם יש הערות/התניות למשכנתא</span>
       <textarea formControlName="noteOrConditioning" class="notes-input"></textarea>
     </div>
 <!-- ///למשכנתא מסוג  2 ו 4 -->
 <div *ngFor="let Bank of listBanksnameForMortgages; let i = index">
     <div *ngIf=" listBankCertificate[i] && (mortgageForm.get('mortagegesType')?.value.mortagegesTypeId == 2 ||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 4)">
-      <div class="p-col-12 p-md-6 contractor-detail">
+      <div class="p-col-12 p-md-6 mortagege-detail">
         <span class="detail-title">האם הומצא מסמך אישור מבנק:{{Bank.bankText}}</span>
 
         <div class="card flex justify-center gap-4">
@@ -135,24 +137,24 @@
       </div>
       <div *ngIf="listBankCertificate[i].isDocumentApproved"> 
      
-        <div class="p-col-12 p-md-6 contractor-detail">
+        <div class="p-col-12 p-md-6 mortagege-detail">
           <span class="detail-title">מאיזו דרגה?</span>
           <p-dropdown [options]="listMortagegeLevels"  [(ngModel)]="listBankCertificate[i].level" [ngModelOptions]="{standalone: true}" optionLabel="mortagegeLevelText"
             optionValue="mortagegeLevelId">
             <ng-template let-selectedRank pTemplate="selectedItem">
-              <div class="contractor-item">
+              <div class="mortagege-item">
                 {{selectedRank?.mortagegeLevelText}}
               </div>
             </ng-template>
             <ng-template let-rankOption pTemplate="item">
-              <div class="contractor-item">
+              <div class="mortagege-item">
                 {{rankOption.mortagegeLevelText}}
               </div>
             </ng-template>
           </p-dropdown>
           <span *ngIf="!mortgageForm.get('selectedRank')?.value && showErrors" class="error-message">יש לבחור דרגה</span>
         </div>
-        <div class="p-col-12 p-md-6 contractor-detail">
+        <div class="p-col-12 p-md-6 mortagege-detail">
           <span class="detail-title">האם מקור?</span>
           <div class="card flex justify-center gap-4">
             <p-toggleswitch [(ngModel)]="listBankCertificate[i].isDocumentApprovedSource" [ngModelOptions]="{standalone: true}">
@@ -162,7 +164,7 @@
             </p-toggleswitch>
           </div>
         </div>
-        <div class="p-col-12 p-md-6 contractor-detail">
+        <div class="p-col-12 p-md-6 mortagege-detail">
           <span class="detail-title">האם תקין?</span>
           <div class="card flex justify-center gap-4">
             <p-toggleswitch [(ngModel)]="listBankCertificate[i].isDocumentApprovedValid" [ngModelOptions]="{standalone: true}">
@@ -179,42 +181,42 @@
     </div>
 <!--  סוף משכנתא מסוג 2 ו 4///// -->
   
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
 
       <span class="detail-title">מאיזו דרגה?</span>
       <p-dropdown [options]="listMortagegeLevels" formControlName="levelMortagege" optionLabel="mortagegeLevelText">
         <ng-template let-selectedRank pTemplate="selectedItem">
-          <div class="contractor-item">
+          <div class="mortagege-item">
             {{selectedRank?.mortagegeLevelText}}
           </div>
         </ng-template>
         <ng-template let-rankOption pTemplate="item">
-          <div class="contractor-item">
+          <div class="mortagege-item">
             {{rankOption.mortagegeLevelText}}
           </div>
         </ng-template>
       </p-dropdown>
       <span *ngIf="!mortgageForm.get('selectedRank')?.value && showErrors" class="error-message">יש לבחור דרגה</span>
     </div>
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <span class="detail-title">האם נחתמו הוראות בלתי חוזרות?</span>
          <button pButton type="button" label="הפק תוכן הוראות בלתי חוזרות" class="p-button" (click)="generateIrrevocableInstructions()"></button>
     </div>
 
     <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 1 || mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 2">
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <span class="detail-title">אישור החברה:</span>
       <div class="card flex justify-center gap-4">
         <p-toggleswitch formControlName="isApprovalCompany">
           <ng-template #handle let-checked="checked">
-            <span [ngClass]="['!text-xs']">{{ checked ? 'כן' : 'לא' }}</span>
+            <span [ngClass]="['!text-xs']">{{ checked ?'כן' : 'לא' }}</span>
           </ng-template>
         </p-toggleswitch>
       </div>
     </div>
   </div>
  <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 3||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 4||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 6">
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <span class="detail-title">האם שולם עבור ההתחייבות סך:</span>
       <div class="card flex justify-center gap-4">
          <!-- ///change -->
@@ -227,16 +229,16 @@
     </div>
   </div>
   
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <app-comment [objectId]="MortagegeId"></app-comment>
     </div>
     <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 3||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 4||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 6">
-    <div class="p-col-12 p-md-6 contractor-detail">
+    <div class="p-col-12 p-md-6 mortagege-detail">
       <span class="detail-title">טופס התחיבות</span>
          <button pButton type="button" label="הפק טופס ההתחייבות" class="p-button"></button>
     </div>
 </div>
-   <div class="p-col-12 p-md-6 contractor-detail"> 
+   <div class="p-col-12 p-md-6 mortagege-detail"> 
       <div *ngIf="mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 1||mortgageForm.get('mortagegesType')?.value?.mortagegesTypeId === 2">
       <button pButton type="submit" label="שמור והעבר לאישור מנהל" (click)="saveAndSend()" class="p-button"></button>
     </div>
@@ -252,10 +254,11 @@
     [closable]="false" 
     [blockScroll]="true">
     <app-admin-approval 
+    [mortagegeId]="MortagegeId"
      [ownerId]="listIdOwnerOfmort"
      [apartmentId]="apartmentId"
       [comment]="commentText" 
-      (close)="closeAdminApprovalDialog()">
+    (close)="closeAdminApprovalDialog()">
     </app-admin-approval>
    </p-dialog>
  </div>

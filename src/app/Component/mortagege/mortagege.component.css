@@ -3,7 +3,7 @@ body {
     direction: rtl; /* Set the direction to right-to-left */
 }
 
-.contractor-detail {
+.mortagege-detail {
     background: #e8f6f6;
     padding: 10px;
     margin-bottom: 5px;
@@ -12,17 +12,15 @@ body {
     flex-direction: row-reverse; /* Ensure the text starts from the right */
     align-items: center;
     justify-content: flex-start; /* Ensure the text starts from the right */
-    margin-left: 20%; /* Adjust margin to align properly */
-    margin-right: 25%; /* Adjust margin to align properly */
-    text-align: right; /* Ensure text starts from the right */
+     text-align: right; /* Ensure text starts from the right */
+    margin-bottom: 5px; /* ריווח בין השדות */
+    width: 150%;
+    height: 53px;
+    flex-basis: 100%;
+    min-width: 150%;
 }
 
-.detail-title {
-    line-height: 53px;
-    font-weight: bold;
-    color: #0aa3a1;
-    margin-left: 5px; /* Ensure proper spacing for RTL */
-}
+
 
 .detail-content {
     color: #000;
@@ -79,15 +77,15 @@ body {
   }
   
   .detail-title {
+    font-weight: 700;
     display: block;
     font-size: 16px; /* גודל טקסט מותאם */
     margin-bottom: 5px; /* ריווח בין השאלה לכפתור */
-    color: #333;
+   font-family: inherit;
+    color: #0aa3a1; /* צבע הטקסט */
   }
   
-  .contractor-detail {
-    margin-bottom: 20px; /* ריווח בין השדות */
-  }
+
   .switch-container {
     display: flex;
     flex-direction: column;
@@ -131,3 +129,80 @@ body .ui-widget-overlay {
   background-color: rgba(0, 0, 0, 0.5) !important;
   z-index: 1000 !important;
 }
+
+/* טקסט אדום עבור הודעות חשובות */
+.detail-title-red {
+  color:#a94442; /* צבע הטקסט */
+  font-family: inherit; /* סוג הכתב */
+}
+
+/* עיצוב הכפתורים */
+.p-button {
+   background-color: #0aa3a1; /* צבע רקע */
+    color: white; /* צבע טקסט */
+    margin-left: 6px; /* ריווח בין הכפתורים */
+    padding: 9px 18px; /* גודל הכפתור */
+    border-radius: 8px; /* קצוות מעוגלים */
+    font-size: 16px; /* גודל טקסט לכפתור */
+    font-family: inherit; /* סוג הכתב */
+    border: none; /* הסרת גבול ברירת מחדל */
+    cursor: pointer; /* סמן של יד */
+}
+.p-button:hover {
+  background-color: #088f8d; /* צבע רקע בעת מעבר עכבר */
+  color: white; /* צבע טקסט */
+}
+
+
+ .mortagege-item {
+  font-family: inherit; /* סוג הכתב */
+}
+
+.mortageges-container {
+  display: flex;
+  justify-content: center; /* מרכז אופקית */
+  align-items: flex-start; /* שמירה על מיקום אנכי */
+  flex-direction: column; /* כיוון אנכי */
+  
+ }
+/* סגנון למרכז הטפסים */
+.p-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* מרכז את כל הרכיבים */
+  
+}
+
+.MortagegesType-select .p-dropdown {
+  background-color: white; /* צבע הרקע כאשר הוא סגור */
+  border: 1px solid #ccc; /* גבול דק סביב הדרופדאון */
+  border-radius: 4px; /* קצוות מעוגלים */
+}
+
+.MortagegesType-select .p-dropdown-panel {
+  background-color: white; /* צבע הרקע כאשר הדרופדאון פתוח */
+  border: 1px solid #ccc; /* גבול דק סביב רשימת האפשרויות */
+}
+
+
+
+.MortagegesType-select .p-dropdown-label {
+  color: #000; /* צבע טקסט, תוכל לשנות כפי שמתאים לך */
+}
+
+/* אם רוצים להוסיף קצת מרווח במלבן הסגור */
+.MortagegesType-select .p-dropdown {
+ 
+  width: 100%; /* מגדיל את המלבנים לרוחב מלא */
+  background-color: white; /* צבע רקע כשסגור */
+  border: 1px solid #ccc; /* גבול */
+  border-radius: 4px; /* קצוות מעוגלים */
+}
+
+.MortagegesType-select {
+  width: 100%; /* רוחב מלא */
+}
+
+
+
+

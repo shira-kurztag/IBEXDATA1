@@ -1,0 +1,102 @@
+<div class="container" *ngIf="!selectedMortgage">
+  <div *ngFor="let mortgage of mortgageDetails" class="mortgage-box" [ngStyle]="{
+    'border': mortgage.mortagegeStatus === 3 ? '2px solid greenyellow' : '2px solid #0AA3A1'  }">
+        <table>
+      <tr>
+           <td>
+          <span class="status-box" (click)="toggleMortgageDetails(mortgage)" style="cursor: pointer" 
+                [ngStyle]="{
+                  'background-color': mortgage.mortagegeStatus === 1 ? '#FCC008' : 
+                                      mortgage.mortagegeStatus === 2 ? '#5cb85c' : 
+                                      mortgage.mortagegeStatus === 3 ? '#747774' : '',
+                  'color': mortgage.mortagegeStatus === 3 ? 'gold' : 'inherit'
+                }">
+            {{ getStatusDescription(mortgage.mortagegeStatus ?? 0) }}</span>:סטטוס המשכנתא 
+        </td>
+      </tr>
+      <tr>
+        <td>{{ mortgage.toTheBank || ' ' }} :התחייבות ניתנה לטובת בנק</td>
+      </tr>
+      <tr>
+          <td>{{ mortgage.amount || '0.0' }}:סכום התחייבות</td>
+      </tr>
+      <tr>
+         <td>{{ mortgage.dateCommitment || '' }}:תאריך ההתחייבות</td>
+      </tr>
+      <tr>
+          <td>{{ mortgage.levelMortagege || '' }}:מאיזו דרגה</td>
+      </tr>
+      <tr>
+        <td>{{ mortgage.teanantId || ' ' }}:על זכויות מי</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+  <div *ngIf="selectedMortgage" class="detailed-view"> 
+    {{ selectedMortgage.mortagegesType}}
+    <div 
+    [ngClass]="{
+        'status-1': selectedMortgage.mortagegeStatus === 1, 
+        'status-2': selectedMortgage.mortagegeStatus === 2  }" 
+       class="p-col-12 p-md-6 mortagege-detail">
+   
+   <strong>סטטוס המשכנתא:</strong> <span class="status-box" [ngStyle]="{
+    'background-color': selectedMortgage.mortagegeStatus === 1 ? '#FCC008' : 
+    selectedMortgage.mortagegeStatus === 2 ? '#5cb85c' : 
+    selectedMortgage.mortagegeStatus === 3 ? '#747774' : '',
+    'color': selectedMortgage.mortagegeStatus === 3 ? 'gold' : 'inherit'
+  }">{{getStatusDescription(selectedMortgage.mortagegeStatus ?? 0)}}</span>
+  </div>
+  <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
+    
+  </div>
+    <!-- <p><strong>מי נוטל המשכנתא?</strong> {{ getTenantIdsString(selectedMortgage?.teanantId) }}<strong>האם התקבלו אישורים מכל הבעלים?</strong>selectedMortgage.IsAllTenantlpprovat</p> -->
+    <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
+    
+           <strong>סכום ההתחייבות?</strong> {{ selectedMortgage?.amount || '0.0' }} 
+  </div>
+  <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
+    
+       <strong>האם יש הערות/התניות למשכנתא?</strong> {{ selectedMortgage.noteOrConditioning || '' }}
+      </div>
+      <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
+       <strong>מאיזו דרגה?</strong> {{ selectedMortgage.levelMortagege || '' }}
+  </div>
+    <!-- <p><strong>האם נחתמו הוראות בלתי חוזרות?</strong> {{ selectedMortgage.isIrrevocable ? 'כן' : 'לא' }}</p> -->
+    <!-- <p><strong>האם טופס ההוראות בלתי חוזרות התקבל חתום ומאומת כדין?</strong> {{ selectedMortgage.isIrrevocableSigned ? 'כן' : 'לא' }}</p> -->
+    <!-- <p><strong>האם טופס ההוראות בלתי חוזרות התקבל מקור?</strong> {{ selectedMortgage.isIrrevocableOriginal ? 'כן' : 'לא' }}</p> -->
+    <!-- <p><strong>תאריך חתימה על הוראות בלתי חוזרות?</strong> {{ selectedMortgage.irrevocableSigningDate | date:'shortDate' || 'לא זמין' }}</p> -->
+    <!-- <p><strong>תאריך פקיעת הוראות בלתי חוזרות?</strong> {{ selectedMortgage.irrevocableExpiryDate | date:'shortDate' || 'לא זמין' }}</p> -->
+    <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
+    
+    <strong>תאריך ההתחייבות:</strong> {{ selectedMortgage.dateCommitment  ||'' }}
+  </div>
+    <!-- <p><strong>טופס התחייבות:</strong> {{ selectedMortgage.commitmentForm || 'לא זמין' }}</p> -->
+    <!-- <p><strong>האם שולם עבור ההתחייבות סך:</strong> {{ selectedMortgage.amountPaid || '0.0' }}</p>  -->
+    <!-- <p><strong>הערה: </strong> {{ selectedMortgage.note || 'לא זמין' }}</p> --> 
+    <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
+    
+    <app-comment [objectId]="selectedMortgage.mortagegeId||0"></app-comment>
+  </div>
+  <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
+        <button pButton type="submit" label="עבר לאישור מנהל" (click)="Send()" class="p-button"></button>
+  </div>
+  <!-- <div *ngIf="boolSave">
+    <p-dialog 
+      [modal]="true" 
+      [(visible)]="visible" 
+      [style]="{ width: '25rem', top: '10px' }" 
+      [closable]="false" 
+      [blockScroll]="true">
+      <app-admin-approval 
+      [mortagegeId]="MortagegeId"
+       [ownerId]="listIdOwnerOfmort"
+       [apartmentId]="apartmentId"
+        [comment]="commentText" 
+      (close)="closeAdminApprovalDialog()">
+      </app-admin-approval>
+     </p-dialog>
+   </div> -->
+  </div>
+

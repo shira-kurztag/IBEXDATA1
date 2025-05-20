@@ -11,6 +11,7 @@ import { MortagegeComponent } from "./Component/mortagege/mortagege.component";
 import { AddTenantComponent } from "./Component/tenant/addtenant/addtenant.component";
 import { MainTenantComponent } from "./Component/tenant/maintenant/maintenant.component";
 import { AddingApartmentComponent } from "./Component/adding-apartment/adding-apartment.component";
+import { MortagegeViewComponent } from "./Component/mortagege-view/mortagege-view.component";
 
 
 export const routes: Routes = [
@@ -26,8 +27,8 @@ export const routes: Routes = [
     { path:'contractor/:id', component:MaincontractorComponent},
     { path:'AddContractors', component:AddContractorComponent},
     { path: 'mortagege', component: MortagegeComponent },
-    { path: 'AddingApartmentComponent', component: AddingApartmentComponent }
- 
+    { path: 'AddingApartmentComponent', component: AddingApartmentComponent },
+    { path: 'MortagegeViewComponent', component: MortagegeViewComponent }
     // { path: 'contractor', component: ContractorComponent, children:[
     //    // {path:'', redirectTo: 'list', pathMatch:'full'},
     //     {path:'listcontractor', component:ListContractorsComponent},

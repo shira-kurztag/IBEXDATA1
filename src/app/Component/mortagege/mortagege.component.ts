@@ -2,8 +2,6 @@ import { Mortagege } from '../../Models/Mortagege.model';
 import { Component, inject, numberAttribute, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SelectModule } from 'primeng/select';
-import { PanelModule } from 'primeng/panel';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToggleSwitch, ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -20,7 +18,7 @@ import { ButtonModule } from 'primeng/button';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { Tenant } from '../../Models/Tenant.model';
 import { OwnerService } from '../../service/owner.service';
-import { getMortgageStatusString, MortgageStatus } from '../../Models/MortgageStatus.enum';
+import { getMortgageStatusString} from '../../Models/MortgageStatus.enum';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { AdminApprovalComponent } from '../admin-approval/admin-approval.component';
 import { CommentComponent } from '../comment/comment.component';
@@ -41,7 +39,6 @@ import { BankCertificate } from '../../Models/BankCertificate.model';
     DialogModule,
     AdminApprovalComponent,
     CommentComponent
-
   ],
 
   templateUrl: './mortagege.component.html',
@@ -87,36 +84,23 @@ export class MortagegeComponent {
   router: Router = inject(Router);
   displayErrorDialog: boolean = false;
   errorDialogMessage: string = '';
-
-
   isDocumentApproved: boolean = false; // האם מסמך מאושר
-  
- // documentApproved//בהמשך נתעסק עם קבצים
- ///2-4
-  // IsDocumentApprovedSource: boolean = false
-  // IsDocumentApprovedValid: boolean = false
-  //   level?: number
-  ///
-  listBankCertificate:BankCertificate[]=[]
-    /////
+   listBankCertificate:BankCertificate[]=[]
   ListBanksForMortgages: number[] = []
   listBanksnameForMortgages: Bank[] = []
-  initializeForm() {
-    this.mortgageForm = this.fb.group({
+   initializeForm() {
+      this.mortgageForm = this.fb.group({
       mortagegeStatus: [-1],
       mortagegesType: [null, Validators.required], // סוג המשכנתא
       toTheBank: [null, Validators.required], // שם הבנק
       TeanantId: [[]], // מי נוטל המשכנתא
       amountType: [1], // סוג המטבע
-      amount: [null, Validators.min(0)], // סכום המשכנתאcommitmentAmount 
+      amount: [null, Validators.min(0)], // סכום המשכנתא
       noteOrConditioning: [null], // הערות או התניות
-      isValidDocument: [false], // האם המסמך תקין
-      sourceDocument: [false], // האם מדובר במסמך מקור
       levelMortagege: [null], // מאיזו דרגה
-      irrevocableInstructions: [false], // האם נחתמו הוראות בלתי חוזרות
-      isApprovalCompany: [false], // אישור החברה
+      isApprovalCompany: [false], ///חייב// אישור החברה
       // note: [null] ,// הערות נוספות,
-      isAllTenantlpprovat: [false]
+      isAllTenantlpprovat: [false]///חייב
     });
   }
 
@@ -139,12 +123,9 @@ export class MortagegeComponent {
   closeAdminApprovalDialog() {
     this.boolSave = false;
   }
-
-  
   ngOnInit(): void {
 
-   
-    this.initializeForm();
+       this.initializeForm();
     this.srvMortagege.GetAllMortagegesTypes().subscribe(response => {
       const mortagegesTypes = response ? (response as any)?.$values || response : [];
       this.mortagegesTypes = mortagegesTypes;
@@ -188,8 +169,6 @@ export class MortagegeComponent {
       this.updateBorrowerOptions();
     })
 
-
-
     this.srvMortagege.hasMortgageInProcess(this.apartmentId).subscribe(response => {
       this.hasMortgageInProcess = response
     })
@@ -197,11 +176,9 @@ export class MortagegeComponent {
     this.srvMortagege.GetAllMortgageBanksByApartment(this.apartmentId).subscribe(response => {
 
       this.ListBanksForMortgages = response
-
       const bankRequests = this.ListBanksForMortgages.map((bankId: number) =>
         this.srvBank.GetBankById(bankId).subscribe(response => {
           this.listBanksnameForMortgages.push(response);
-
           this.listBankCertificate = this.listBanksnameForMortgages.map(() => ({
             bankCertificatesId:0,
             isDocumentApproved: false,
@@ -212,10 +189,6 @@ export class MortagegeComponent {
           }));
         })
       );
-      debugger
-   
-
-      
     })
   }
 
@@ -233,7 +206,6 @@ export class MortagegeComponent {
         for (const key in item) {
           if (item.hasOwnProperty(key)) {
             item[key] = resolve(item[key]);
-
           }
         }
       }
@@ -289,8 +261,7 @@ export class MortagegeComponent {
   }
 
   cancel() {
-    // this.router.navigate(['/parent-page']);
-    // יש לעבור לקומפוננטת האב
+    this.router.navigate(['/MortagegeViewComponent']);
   }
 
   save() {
@@ -303,13 +274,7 @@ export class MortagegeComponent {
       formValue.toTheBank = this.mortgageForm.get('toTheBank')?.value.bankId
       this.srvMortagege.CreateMortagege(formValue).subscribe(response => {
         this.MortagegeId = response.id
-
-
-
-      }, error => {
-        this.MortagegeId = error
-        console.error('Error creating mortgage:', error);
-      });
+         });
     }
     else {
       this.showErrors = true;
@@ -357,9 +322,6 @@ export class MortagegeComponent {
   saveBankCertificate() {
 
     this.srvOwner.GetAllOwnersByTenants(this.mortgageForm.get('TeanantId')?.value).subscribe((owners: Owner[]) => {
-
-
-
       this.listIdOwnerOfmort = owners
         .map(owner => owner.ownerId)
         .filter((id): id is number => id !== undefined);
@@ -374,12 +336,11 @@ export class MortagegeComponent {
           };
 
           this.srvMortagege.createBankCertificate(bankCertificate).subscribe( )
-                   
+                
         })
 
       }
       else {
-        debugger
         const bankCertificate: BankCertificate = {
           bankCertificatesId: 0, // Or some default value if appropriate
           mortgageId: this.MortagegeId,
@@ -411,13 +372,7 @@ export class MortagegeComponent {
                 bankApproved: this.mortgageForm.get('toTheBank')?.value.bankId
               };
 
-
               this.srvMortagege.createBankCertificate(bankCertificate).subscribe( )
-
-                          
-
-
-
 
             }
           },
@@ -426,20 +381,11 @@ export class MortagegeComponent {
           }
 ) } });
 }
-        
-
-  updateListBankCertificate(): void {
- 
   
-    console.log('Updated listBankCertificate:', this.listBankCertificate);
-
-         this.srvMortagege.updateBankCertificates(this.listBankCertificate,this.MortagegeId,this.listIdOwnerOfmort).subscribe(
-       response=>{
-
-       }
-     )
-
-  }
-
+  updateListBankCertificate(): void {
+         this.srvMortagege.updateBankCertificates(this.listBankCertificate,this.MortagegeId,this.listIdOwnerOfmort).subscribe()
+ 
 }
+       
+ }
 

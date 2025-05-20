@@ -11,6 +11,7 @@ export class Mortagege {
     amountType?: number;
     levelMortagege?: number;
     noteOrConditioning?: string; // האם יש הערות/התניות למשכנתא?
+    dateCommitment?:Date;
 }
 
 
