@@ -10,11 +10,10 @@ import { AddContractorComponent } from "./Component/contractor_/addcontractor/ad
 import { MortagegeComponent } from "./Component/mortagege/mortagege.component";
 import { AddTenantComponent } from "./Component/tenant/addtenant/addtenant.component";
 import { MainTenantComponent } from "./Component/tenant/maintenant/maintenant.component";
-import { AddingApartmentComponent } from "./Component/adding-apartment/adding-apartment.component";
 import { BuildingComponent } from "./Component/building/building.component";
 import { AddbuildingComponent } from "./Component/building/addbuilding/addbuilding.component";
- 
- 
+import { AddingApartmentComponent } from "./Component/adding-apartment/adding-apartment.component";
+
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'bank', component: BankComponent },
@@ -24,14 +23,14 @@ export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'addtenant', component: AddTenantComponent },
     { path: 'maintenant', component: MainTenantComponent },
-    { path:'listcontractor', component:ListContractorsComponent},
-    { path:'contractor/:id', component:MaincontractorComponent},
-    { path:'AddContractors', component:AddContractorComponent},
+    { path: 'listcontractor', component: ListContractorsComponent },
+    { path: 'contractor/:id', component: MaincontractorComponent },
+    { path: 'AddContractors', component: AddContractorComponent },
     { path: 'mortagege', component: MortagegeComponent },
-    { path: 'AddingApartmentComponent', component: AddingApartmentComponent },
-    { path: 'buildings/:id//:flag', component: BuildingComponent }, // נתיב לבניינים
+    { path: 'AddbuildingComponent', component: AddbuildingComponent },
+    { path: 'buildings/:id/:number/:flag', component: BuildingComponent }, // נתיב לבניינים
     { path: 'project/:projectId', component: ProjectComponent },
-    { path: 'Addbuilding/:id', component: AddbuildingComponent }
- 
- 
-]
+    { path: 'Addbuilding/:id', component: AddbuildingComponent },
+    // זה הנתיב שהיית צריך!
+    { path: 'addapartment/:id', component: AddingApartmentComponent }
+];

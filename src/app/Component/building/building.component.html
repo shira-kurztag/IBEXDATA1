@@ -1,234 +1,243 @@
-<div>
-  <button (click)="goBack()">חזרה לרשימת בניינים</button>
-  <h2>פרטי בניין</h2>
-  <p><strong>מספר בניין:</strong> {{ building?.buildingNumber }}</p>
-  <p><strong>מספר קומות:</strong> {{ building?.floors }}</p>
-  <p><strong>מספר דירות:</strong> {{ building?.apartments }}</p>
-  <p><strong>תיאור:</strong> {{ building?.description }}</p>
-</div>
+<div class="main-layout">
+  <div class="section-left">
+    <div class="button-container">
+      <div class="contractor-box-container">
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-pencil"></i>
+          </div>
+          <button class="contractor-button" (click)="lookingForBuilding()">חפש</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-pencil"></i>
+          </div>
+          <div class="contractor-box">
+            <div class="icon-box">
+              <i class="pi pi-plus"></i>
+            </div>
+            <button type="submit" class="contractor-button" (click)="save()"> שמירה </button>
+          </div>
 
-
-<div class="grid grid-cols-2 gap-4">
-  <div class="flex flex-col gap-6">
-
-    <label for="buildingStatus" class="block font-bold">סטטוס בניין: </label>
-    <button pButton type="submit" label="פעיל" class="p-button-primary w-full"></button>
+          <button class="contractor-button" (click)="update()">ערוך בניין</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-plus"></i>
+          </div>
+          <button class="contractor-button" (click)="addApartment()">הוסף דירה</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-align-justify"></i>
+          </div>
+          <button class="contractor-button" (click)="getDeleteBuildings()">בנינים שנמחקו</button>
+        </div>
+        <div class="contractor-box">
+          <div class="icon-box">
+            <i class="pi pi-plus"></i>
+          </div>
+          <button class="contractor-button" (click)="moveMangerBulding()">העברה למנהל</button>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="section-right">
+ 
 
-  <div>
-    <label for="buildingNumber" class="block font-bold">מספר בניין : {{ BuildingNumber}}</label>
-    <input type="number" pInputText id="buildingNumber" [(ngModel)]="building.buildingNumber" class="p-inputtext" />
+<!-- הצגת פרטי הבניין שנבחר -->
+<div *ngIf="building!=null">
+  <h1>פרטי בניין</h1>
+  <!-- <p><strong>מזהה בניין:</strong> {{ building[0].buildingId || 'לא זמין' }}</p> -->
+  <!-- <p><strong>מספר בניין:</strong> {{ building[0].buildingNumber || 'לא זמין' }}</p> -->
+  <!-- <p *ngIf="!isEdit"><strong>סטטוס בניין :</strong> {{ building.buildingStatus ? 'פעיל':'לא פעיל' }}</p>
+  <p *ngIf="isEdit"><strong>סטטוס בניין :</strong> <input id="buildingStatus" [(ngModel)]="building.buildingStatus"
+   class="form-control" /></p> -->
+  <!-- <p><strong>סטטוס בניין :</strong> {{ building[0].buildingStatus ? 'פעיל':'לא פעיל' }}</p> -->
+  <!-- <p *ngIf="!isEdit"><strong> מספר בניין :</strong> {{ building.buildingNumber || 'לא זמין' }}</p>
+  <p *ngIf="isEdit"><strong> <input id="buildingNumber" [(ngModel)]="building.buildingNumber"
+    class="form-control" /></p> -->
 
-  </div>
+  <!-- <p *ngIf="!isEdit"><strong>מספר קומות:</strong> {{ building.floorsNumber || 'לא זמין' }}</p>
+  <p *ngIf="isEdit"><strong>  <input id="floorsNumber" [(ngModel)]="building.floorsNumber"
+    class="form-control" /></p>
+  <p *ngIf="!isEdit"><strong>האם יש מעלית:</strong> {{ building.isElevator ? 'כן' : 'לא' }}</p>
+  <p *ngIf="isEdit"><strong> <input id="isElevator" [(ngModel)]="building.isElevator"
+    class="form-control" /></p>
+  <p *ngIf="!isEdit"><strong> כתובת עירונית ומספר בניין:  </strong> {{ building.addressAndNumberOfMunicipal  || 'לא זמין'}}</p>
+  <p *ngIf="isEdit"><strong> <input id="addressAndNumberOfMunicipal" [(ngModel)]="building.addressAndNumberOfMunicipal"
+    class="form-control" /></p>
 
+  <p *ngIf="!isEdit"><strong> ניתן היתר בניה:  </strong> {{ building.isBuildingPermit ? 'כן' : 'לא'}}</p>
+  <p *ngIf="isEdit"><strong> <input id="isBuildingPermit" [(ngModel)]="building.isBuildingPermit"
+    class="form-control" /></p>
+
+  <p  *ngIf="!isEdit"><strong>  ניתן טופס 4:  </strong> {{ building.is4Form  ? 'כן' : 'לא'}}</p>
+  <p  *ngIf="isEdit"><strong>  <input id="is4Form" [(ngModel)]="building.is4Form"
+    class="form-control" /></p>
+
+  <p  *ngIf="!isEdit"><strong>  זיהוי נכס מלא לפני פרצלציה::  </strong> {{ building.fullAssetIdentificationBeforePerselasia  || 'לא זמין'}}</p>
+  <p  *ngIf="isEdit"><strong>  <input id="fullAssetIdentificationBeforePerselasia" [(ngModel)]="building.fullAssetIdentificationBeforePerselasia"
+    class="form-control" /></p>
+
+  <p *ngIf="!isEdit"><strong>  זיהוי נוסף:  </strong> {{ building.anotherIdentification   || 'לא זמין'}}</p>
+  <p *ngIf="isEdit"><strong>  <input id="anotherIdentification" [(ngModel)]="building.anotherIdentification"
+    class="form-control" /></p>
+
+  <p *ngIf="!isEdit"><strong>  האם בוצעה פרצלציה: </strong> {{ building.isPerselasia  ? 'כן' : 'לא'}}</p>
+  <p *ngIf="isEdit"><strong>  <input id="isPerselasia" [(ngModel)]="building.isPerselasia"
+    class="form-control" /></p>
+
+  <p *ngIf="!isEdit"><strong>  זיהוי נכס מלא לאחר פרצלציה: </strong> {{ building.fullAssetIdentificationAfterPerselasia  || 'לא זמין'}}</p>
+  <p *ngIf="isEdit"><strong>  <input id="fullAssetIdentificationAfterPerselasia" [(ngModel)]="building.fullAssetIdentificationAfterPerselasia"
+    class="form-control" /></p> -->
+
+  <!-- <p *ngIf="!isEdit"><strong>  זיהוי בניין לאחר פרצלציה: </strong> {{ building.fullAssetIdentificationAfterPerselasia   ? 'כן' : 'לא'}}</p>
+  <p *ngIf="isEdit"><strong> <input id="fullAssetIdentificationAfterPerselasia" [(ngModel)]="building.fullAssetIdentificationAfterPerselasia"
+    class="form-control" /></p> -->
+  <!-- <p *ngIf="!isEdit"><strong>    גוש: </strong> {{ building. bloc || 'לא זמין'}}</p>
+  <p *ngIf="isEdit"><strong>   <input id="bloc" [(ngModel)]="building.bloc"
+    class="form-control" /></p>
+
+  <p *ngIf="!isEdit"><strong>    חלקה: </strong> {{ building. smooth || 'לא זמין'}}</p>
+  <p *ngIf="isEdit"><strong>   <input id="smooth" [(ngModel)]="building.smooth"
+    class="form-control" /></p> -->
+  <!-- <p><strong>    תת חלקה: </strong> {{ building[0].  || 'לא זמין'}}</p> -->
+  <!-- <p><strong>    שטח הבית המשותף לרישום: </strong> {{ building[0].  || 'לא זמין'}}</p> -->
+  <!-- <p><strong> יש להכין ניירת להערת אזהרה: </strong> {{ building[0].  || 'לא זמין'}}</p> -->
+  <!-- <p><strong> תשריט העמדה של בניין: </strong> {{ building[0].  || 'לא זמין'}}</p> -->
+  <!-- <p *ngIf="!isEdit"><strong> תשריט העמדה של בניין: </strong> {{ building. smooth || 'לא זמין'}}</p>
+  <p *ngIf="isEdit"><strong><input id="smooth" [(ngModel)]="building.smooth"
+    class="form-control" /></p> -->
+
+  <!-- <p><strong> הוסף הערה : </strong> {{ building[0].  || 'לא זמין'}}</p> -->
+  <p *ngIf="!isEdit">
+    <strong>סטטוס בניין :</strong>
+    {{ building.buildingStatus ? 'פעיל' : 'לא פעיל' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>סטטוס בניין :</strong>
+    <input id="buildingStatus" [(ngModel)]="building.buildingStatus" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>מספר בניין :</strong>
+    {{ building.buildingNumber || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>מספר בניין :</strong>
+    <input id="buildingNumber" [(ngModel)]="building.buildingNumber" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>מספר קומות:</strong>
+    {{ building.floorsNumber || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>מספר קומות:</strong>
+    <input id="floorsNumber" [(ngModel)]="building.floorsNumber" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>האם יש מעלית:</strong>
+    {{ building.isElevator ? 'כן' : 'לא' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>האם יש מעלית:</strong>
+    <input id="isElevator" [(ngModel)]="building.isElevator" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>כתובת עירונית ומספר בניין:</strong>
+    {{ building.addressAndNumberOfMunicipal || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>כתובת עירונית ומספר בניין:</strong>
+    <input id="addressAndNumberOfMunicipal" [(ngModel)]="building.addressAndNumberOfMunicipal" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>ניתן היתר בניה:</strong>
+    {{ building.isBuildingPermit ? 'כן' : 'לא' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>ניתן היתר בניה:</strong>
+    <input id="isBuildingPermit" [(ngModel)]="building.isBuildingPermit" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>ניתן טופס 4:</strong>
+    {{ building.is4Form ? 'כן' : 'לא' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>ניתן טופס 4:</strong>
+    <input id="is4Form" [(ngModel)]="building.is4Form" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>זיהוי נכס מלא לפני פרצלציה:</strong>
+    {{ building.fullAssetIdentificationBeforePerselasia || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>זיהוי נכס מלא לפני פרצלציה:</strong>
+    <input id="fullAssetIdentificationBeforePerselasia" [(ngModel)]="building.fullAssetIdentificationBeforePerselasia" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>זיהוי נוסף:</strong>
+    {{ building.anotherIdentification || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>זיהוי נוסף:</strong>
+    <input id="anotherIdentification" [(ngModel)]="building.anotherIdentification" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>האם בוצעה פרצלציה:</strong>
+    {{ building.isPerselasia ? 'כן' : 'לא' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>האם בוצעה פרצלציה:</strong>
+    <input id="isPerselasia" [(ngModel)]="building.isPerselasia" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>זיהוי נכס מלא לאחר פרצלציה:</strong>
+    {{ building.fullAssetIdentificationAfterPerselasia || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>זיהוי נכס מלא לאחר פרצלציה:</strong>
+    <input id="fullAssetIdentificationAfterPerselasia" [(ngModel)]="building.fullAssetIdentificationAfterPerselasia" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>גוש:</strong>
+    {{ building.bloc || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>גוש:</strong>
+    <input id="bloc" [(ngModel)]="building.bloc" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>חלקה:</strong>
+    {{ building.smooth || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>חלקה:</strong>
+    <input id="smooth" [(ngModel)]="building.smooth" class="form-control" />
+  </p>
+  
+  <p *ngIf="!isEdit">
+    <strong>תשריט העמדה של בניין:</strong>
+    {{ building.smooth || 'לא זמין' }}
+  </p>
+  <p *ngIf="isEdit">
+    <strong>תשריט העמדה של בניין:</strong>
+    <input id="smooth" [(ngModel)]="building.smooth" class="form-control" />
+  </p>
 </div>
-<div class="col-span-2">
-  <label for=" floorsNumber" class="block font-bold"> מספר קומות: </label>
-  <input type="number" pInputText id=" floorsNumber" [(ngModel)]="building.floorsNumber" class="w-full" />
+ 
+<div *ngIf="!buildings || building.length === 0">
+  <p>לא נמצאו נתונים עבור הבניין. נא לבדוק שוב.</p>
 </div>
-<div>
-  <label for="isElevator" class="block font-bold">מעלית: </label>
-  <input type="text" pInputText id="isElevator" [(ngModel)]="building.isElevator" class="p-inputtext" />
-
-</div>
-
-<label for="addressAndNumberOfMunicipal" class="block font-bold"> כתובת עירונית ומספר בניין : </label>
-<input type="text" pInputText id="addressAndNumberOfMunicipal" [(ngModel)]="building.addressAndNumberOfMunicipal"
-  class="p-inputtext" />
-</div>
-
-<!-- <div>
-  <label for="isBuildingPermit" class="block font-bold">   ניתן היתר בנייה : </label>
-  <input type="text" pInputText id="isBuildingPermit" [(ngModel)]="building.isBuildingPermit" class="p-inputtext" />
-
-</div> -->
-
-</div>
-<div class="col-span-2">
-  <label for=" buildingPermitFile" class="block font-bold"> קובץ היתר בנייה: </label>
-  <input type="text" pInputText id=" buildingPermitFile" [(ngModel)]="building.buildingPermitFile" class="w-full" />
-</div>
-<div>
-  <label for="is4Form" class="block font-bold">ניתן טופס 4: </label>
-  <input type="text" pInputText id="is4Form" [(ngModel)]="building.is4Form" class="p-inputtext" />
-
-</div>
-
-<!-- <div>
-  <label for="_4formFile" class="block font-bold"> ggf : {{ _4formFile}}</label>
-  <input type="number" pInputText id="_4formFile" [(ngModel)]="building._4formFile" class="p-inputtext" />
-
-</div> -->
-
-</div>
-<div class="col-span-2">
-  <label for=" isPerselasia" class="block font-bold"> האם בוצעה פרצלציה: </label>
-  <input type="text" pInputText id="isPerselasia" [(ngModel)]="building.isPerselasia" class="w-full" />
-</div>
-<div>
-  <label for="fullAssetIdentificationBeforePerselasia" class="block font-bold"> זיהוי נכס מלא לפני פרצלציה: </label>
-  <input type="text" pInputText id="fullAssetIdentificationBeforePerselasia"
-    [(ngModel)]="building.fullAssetIdentificationBeforePerselasia" class="p-inputtext" />
-
-</div>
-
-<label for="anotherIdentification" class="block font-bold"> זיהוי נוסף : </label>
-<input type="text" pInputText id="anotherIdentification" [(ngModel)]="building.anotherIdentification"
-  class="p-inputtext" />
-</div>
-
-<div>
-  <label for="bloc" class="block font-bold"> גוש :</label>
-  <input type="number" pInputText id="bloc" [(ngModel)]="building.bloc" class="p-inputtext" />
-
-</div>
-
-</div>
-<div class="col-span-2">
-  <label for="smooth" class="block font-bold"> חלקה : </label>
-  <input type="number" pInputText id="smooth" [(ngModel)]="building.smooth" class="w-full" />
-</div>
-<div>
-  <label for="isTookJointListingExpenses" class="block font-bold">הוצאות רישום משותף של: </label>
-  <input type="text" pInputText id="isTookJointListingExpenses" [(ngModel)]="building.isTookJointListingExpenses"
-    class="p-inputtext" />
-
-</div>
-
-<div>
-  <label for="principalAmount" class="block font-bold"> סכום קרן : </label>
-  <input type="text" pInputText id="principalAmount" [(ngModel)]="building.principalAmount" class="p-inputtext" />
-
-</div>
-
-</div>
-<div class="col-span-2">
-  <label for=" collectionExpensesFrom1" class="block font-bold"> הוצאות מאוסף : </label>
-  <input type="date" pInputText id=" collectionExpensesFrom1" [(ngModel)]="building.collectionExpensesFrom1"
-    class="w-full" />
-</div>
-<div>
-  <label for="collectionAmount1" class="block font-bold">סכום אוסף: </label>
-  <input type="number" pInputText id="collectionAmount1" [(ngModel)]="building.collectionAmount1" class="p-inputtext" />
-
-</div>
-
-<div>
-  <label for="collectionExpensesFrom2" class="block font-bold"> הוצאות אוסף מ-2 : </label>
-  <input type="date" pInputText id="collectionExpensesFrom2" [(ngModel)]="building.collectionExpensesFrom2"
-    class="p-inputtext" />
-
-</div>
-
-</div>
-<div class="col-span-2">
-  <label for="collectionAmount2" class="block font-bold"> סכום אוסף2: </label>
-  <input type="number" pInputText id="collectionAmount2" [(ngModel)]="building.collectionAmount2" class="w-full" />
-</div>
-<div>
-  <label for="collectionExpensesFrom3" class="block font-bold">הוצאות אוסף מ-3 : </label>
-  <input type="date" pInputText id="collectionExpensesFrom3" [(ngModel)]="building.collectionExpensesFrom3"
-    class="p-inputtext" />
-
-</div>
-
-<label for="collectionAmount3" class="block font-bold"> סכום אוסף3 : </label>
-<input type="number" pInputText id="collectionAmount3" [(ngModel)]="building.collectionAmount3" class="p-inputtext" />
-</div>
-
-<div>
-  <label for="note" class="block font-bold"> הערה :</label>
-  <input type="text" pInputText id="note" [(ngModel)]="building.note" class="p-inputtext" />
-
-</div>
-
-</div>
-<div class="col-span-2">
-  <label for="noteStatus" class="block font-bold"> הערה סטטוס : </label>
-  <input type="text" pInputText id="noteStatus" [(ngModel)]="building.noteStatus" class="w-full" />
-</div>
-<div>
-  <label for="insertDate" class="block font-bold"> תאריך הכנס: </label>
-  <input type="date" pInputText id="insertDate" [(ngModel)]="building.insertDate" class="p-inputtext" />
-
-</div>
-
-<div class="col-span-2">
-  <label for="updateDate" class="block font-bold"> תאריך עדכון : </label>
-  <input type="date" pInputText id="updateDate" [(ngModel)]="building.updateDate" class="w-full" />
-</div>
-<div>
-  <label for="deleteReson" class="block font-bold"> מחיקת רזון: </label>
-  <input type="text" pInputText id="deleteReson" [(ngModel)]="building.deleteReson" class="p-inputtext" />
-
-</div>
-
-<div>
-  <label for="noteEdit" class="block font-bold"> הערה עריכה : </label>
-  <input type="text" pInputText id="noteEdit" [(ngModel)]="building.noteEdit" class="p-inputtext" />
-
-</div>
-
-</div>
-<div class="col-span-2">
-  <label for=" noteEditStatus" class="block font-bold"> הערה עריכה סטטוס: </label>
-  <input type="text" pInputText id=" noteEditStatus" [(ngModel)]="building.noteEditStatus" class="w-full" />
-</div>
-<div>
-  <label for="noteApprovalRights" class="block font-bold"> הערה זכויות אישור: </label>
-  <input type="text" pInputText id="noteApprovalRights" [(ngModel)]="building.noteApprovalRights" class="p-inputtext" />
-
-</div>
-
-<div>
-  <label for="noteEsitApprovalRights" class="block font-bold"> הערה זכויות אישור : </label>
-  <input type="text" pInputText id="noteEsitApprovalRights" [(ngModel)]="building.noteEsitApprovalRights"
-    class="p-inputtext" />
-
-</div>
-
-</div>
-<div class="col-span-2">
-  <label for="buildingDrawingFile" class="block font-bold"> קובץ ציור בניין: </label>
-  <input type="text" pInputText id="buildingDrawingFile" [(ngModel)]="building.buildingDrawingFile" class="w-full" />
-</div>
-<div>
-  <label for="parkingDrawingFile" class="block font-bold"> קובץ ציור חניה : </label>
-  <input type="text" pInputText id="parkingDrawingFile" [(ngModel)]="building.parkingDrawingFile" class="p-inputtext" />
-
-</div>
-
-<label for="warehauseDrawingFile" class="block font-bold"> קובץ ציור מחסן : </label>
-<input type="text" pInputText id="warehauseDrawingFile" [(ngModel)]="building.warehauseDrawingFile"
-  class="p-inputtext" />
-</div>
-
-<div>
-  <label for="fullAssetIdentificationAfterPerselasia" class="block font-bold"> זיהוי נכס מלא לאחר פרצלציה :</label>
-  <input type="text" pInputText id="fullAssetIdentificationAfterPerselasia"
-    [(ngModel)]="building.fullAssetIdentificationAfterPerselasia" class="p-inputtext" />
-
-</div>
-
-
-<div class="col-span-2">
-  <label for="isStartingRishumBaitMeshutaf" class="block font-bold"> מתחיל רישום בייט משותף : </label>
-  <input type="text" pInputText id="isStartingRishumBaitMeshutaf" [(ngModel)]="building.isStartingRishumBaitMeshutaf"
-    class="w-full" />
-</div>
-<div>
-  <label for="isPrepareWarningComment" class="block font-bold"> אזהרה של הכנה: </label>
-  <input type="date" pInputText id="isPrepareWarningComment" [(ngModel)]="building.isPrepareWarningComment"
-    class="p-inputtext" />
-
-</div>
-
-<div class="col-span-2">
-  <label for="isRishumBaitMeshutaf" class="block font-bold"> שטח הבית המשותף לרישום : </label>
-  <input type="text" pInputText id="isRishumBaitMeshutaf" [(ngModel)]="building.isRishumBaitMeshutaf" class="w-full" />
-</div>
-<!-- <div>
-  <label for="smothArea" class="block font-bold">0 : </label>
-  <input type="number" pInputText id="smothArea" [(ngModel)]="building.smothArea" class="p-inputtext" />
-
-</div> -->

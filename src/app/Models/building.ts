@@ -46,6 +46,8 @@ export class building{
     smothArea?: number;
     apartments: ApartmentDTO[] = [];
     project?: Project;
+ // developmentPeriodEndDateDisplay: Date | null;
+ // dateWinningTenderDisplay: Date | null;
 
 
 }

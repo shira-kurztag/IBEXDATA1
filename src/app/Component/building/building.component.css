@@ -1,0 +1,142 @@
+body {
+    background-color: #F8F7EB;
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans Hebrew', 'Open Sans', sans-serif, arial;
+  }
+   
+  .main-layout {
+    display: flex;
+    flex-direction: row; /* שמאלה: כפתורים, ימינה: פרטים */
+    height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+   
+  .section-left {
+    width: 287px;
+    min-width: 180px;
+    background: transparent;
+    display: flex
+  ;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    padding: 96px 0 53px 89px;
+    /* box-sizing: border-box; */
+    height: 100vh;
+    border-right: -10px #e8f6f6;
+  }
+   
+  .button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+   
+  .contractor-box-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+  }
+   
+  .contractor-box {
+    display: flex;
+    align-items: center;
+    background-color: #0aa3a1;
+    border-radius: 5px;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 5px;
+    box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s;
+  }
+   
+  .contractor-box:hover {
+    box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.12);
+  }
+   
+  .icon-box {
+    width: 50px;
+    height: 100%;
+    background-color: #1f4b4b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px 0 0 5px;
+  }
+   
+  .icon-box i {
+    color: white;
+    font-size: 1.5em;
+  }
+   
+  .contractor-button {
+    border: none;
+    background: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: right;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    transition: background 0.2s, color 0.2s;
+  }
+  .contractor-button:hover, .contractor-button:focus {
+    background-color: #178a88;
+    color: #e8f6f6;
+  }
+   
+  .section-right {
+    flex: 0.5 1 0;
+    /* padding: 38px 27px 58px 73px; */
+    /* box-sizing: border-box; */
+    /* text-align: initial; */
+    /* display: flex
+  ; */
+    flex-direction: column;
+    left: 46px;
+    margin-left: 86px;
+    /* padding: 109px; */
+  }
+   
+  h1 {
+    color: #0aa3a1;
+    font-size: 27px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    text-align: right;
+    width: 100%;
+  }
+   
+  p {
+    color: #1f4b4b;
+    font-size: 1.1em;
+    line-height: 1.6;
+    text-align: right;
+    width: 100%;
+  }
+   
+  strong {
+    color: #0aa3a1;
+  }
+  .info-box {
+    display: flex;
+    align-items: center;
+    background-color: #a7dbda;
+    border-radius: 2px;
+    color: rgb(0, 0, 0);
+    font-size: 1.1em;
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.05);
+    width: 100%;
+    /* שמירה על ימין-שמאל */
+    direction: rtl;
+  }
+  .info-box strong {
+    color: #349292;
+    margin-left: 7px;
+  }
