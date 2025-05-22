@@ -10,7 +10,7 @@
     margin: 10px; /* Adds spacing between boxes */
     flex-shrink: 0; /* Prevents the boxes from shrinking */
     box-sizing: border-box; /* Ensures padding and borders are included in the width */
-    width: 35% !important;
+    width: 31% !important;
 
 }
 
@@ -66,3 +66,19 @@ table tr td {
     padding: 1px;
     width: 271px;
 }
+
+.p-button {
+    background-color: #0aa3a1; /* צבע רקע */
+     color: white; /* צבע טקסט */
+     margin-left: 6px; /* ריווח בין הכפתורים */
+     padding: 9px 18px; /* גודל הכפתור */
+     border-radius: 8px; /* קצוות מעוגלים */
+     font-size: 16px; /* גודל טקסט לכפתור */
+     font-family: inherit; /* סוג הכתב */
+     border: none; /* הסרת גבול ברירת מחדל */
+     cursor: pointer; /* סמן של יד */
+ }
+ .p-button:hover {
+   background-color: #088f8d; /* צבע רקע בעת מעבר עכבר */
+   color: white; /* צבע טקסט */
+ }

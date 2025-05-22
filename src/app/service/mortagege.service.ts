@@ -9,6 +9,7 @@ import { Tenant } from '../Models/Tenant.model';
 import { Mortagege } from '../Models/Mortagege.model';
 import { TypeMessage } from '../Models/TypeMessage.model';
 import { BankCertificate } from '../Models/BankCertificate.model';
+import { MortagegeDTO } from '../Models/MortagegeDTO.model';
 
 @Injectable({
   providedIn: 'root'
@@ -72,8 +73,8 @@ hasMortgageInProcess(apartmentId: number): Observable<boolean> {
   // Function to get a mortgage by ID
   
     // https://localhost:5178/api/Mortagege/GetMortgageById/9803
-     getMortgageById(mortgageId: number): Observable<Mortagege> {
+     getMortgageById(mortgageId: number): Observable<MortagegeDTO> {
 
-    return this.http.get<Mortagege>(`${this.BASE_URL}/GetMortgageById/${mortgageId}`);
+    return this.http.get<MortagegeDTO>(`${this.BASE_URL}/GetMortgageById/${mortgageId}`);
   }
 }

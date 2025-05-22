@@ -6,22 +6,26 @@ import { getMortgageStatusString } from '../../Models/MortgageStatus.enum';
 import { BankService } from '../../service/bank.service';
 import { CommentComponent } from '../comment/comment.component';
 import { AdminApprovalComponent } from '../admin-approval/admin-approval.component';
+import { MortagegeDTO } from '../../Models/MortagegeDTO.model';
+import { DialogModule } from 'primeng/dialog';
 
 
 @Component({
   selector: 'app-mortagege-view',
   imports: [
-    CommonModule,CommentComponent,AdminApprovalComponent],
+    CommonModule,CommentComponent,AdminApprovalComponent,DialogModule],
   templateUrl: './mortagege-view.component.html',
   styleUrl: './mortagege-view.component.css'
 })
 export class MortagegeViewComponent {
   mortgageIds: number[] = [];
-  mortgageDetails: Mortagege[]=[];
-  @Input() tenantId: number = 9845;///יקבל מהאבא
+  mortgageDetails: MortagegeDTO[]=[];
+  @Input() tenantId: number = 9845;///יקבל מהאבאלשאול האם מקבל owner/teants
+  @Input() ownerId: number[] = [9268];///יקבל מהאבאלשאול האם מקבל owner/teants
+  @Input() apartmentId: number = 9986;///יקבל מהאבא
   srvMortagege: MortagegeService = inject(MortagegeService);
    srvBank: BankService = inject(BankService);
-   selectedMortgage: Mortagege | null = null; 
+   selectedMortgage: MortagegeDTO | null = null; 
    commentText: string = "";
  ngOnInit(): void {
  this.loadMortgages(); 
@@ -44,13 +48,11 @@ this.mortgageDetails=[]
   this.mortgageIds.forEach(mortgageId => {
     this.srvMortagege.getMortgageById(mortgageId).subscribe(
       data => {
-        this.srvBank.GetBankById(data.toTheBank||0).subscribe((res)=>{
-
-        }
-
-        )
+   
         this.mortgageDetails.push(data); // Store the details in an array
           });
+          console.log( this.mortgageDetails);
+          
 })
 
 }
@@ -58,7 +60,7 @@ this.mortgageDetails=[]
      return getMortgageStatusString(status);
    }
 
-   toggleMortgageDetails(mortgage: Mortagege): void {
+   toggleMortgageDetails(mortgage: MortagegeDTO): void {
     console.log("toggleMortgageDetails");
     
     if (this.selectedMortgage === mortgage) {

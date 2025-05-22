@@ -36,8 +36,7 @@ import { BankCertificate } from '../../Models/BankCertificate.model';
     DialogModule,
     Dialog, ButtonModule
     , FormsModule, ToggleSwitch, InputSwitchModule,
-    DialogModule,
-    AdminApprovalComponent,
+       AdminApprovalComponent,
     CommentComponent
   ],
 
@@ -51,7 +50,7 @@ export class MortagegeComponent {
   MortagegeId: number = 0;
   selectedMortagegesType: MortagegesTypes | null = null;
   mortagegesTypes: MortagegesTypes[] = [];
-  apartmentId: number = 9983; // לשנות מקבל מקומפוננטה האבא ב url 
+  apartmentId: number = 9986; // לשנות מקבל מקומפוננטה האבא ב url 
   borrowerOptions: { label: string, value: number }[] = [
     { label: 'כל בעלי זכויות', value: -1 }
   ];
@@ -112,10 +111,40 @@ export class MortagegeComponent {
 
   saveAndSend() {
     this.saveAll();
+
+    const fieldNameMapping = {
+      TeanantId: "מי נוטל המשכנתא",
+      amountType: "סוג המטבע",
+      amount: "סכום המשכנתא",
+      noteOrConditioning: "הערות או התניות",
+      levelMortagege: "מאיזו דרגה",
+      isApprovalCompany: "אישור החברה",
+      isAllTenantlpprovat: "אישור כל הדיירים"
+    };
+
+
+    const untouchedFields: any[] = [];
+    Object.keys(this.mortgageForm.controls).forEach(fieldName => {
+      const control = this.mortgageForm.get(fieldName);
+      if (control && !control.touched) {
+        // Use the Hebrew field name from the mapping
+        untouchedFields.push(fieldNameMapping[fieldName as keyof typeof fieldNameMapping] || fieldName);
+      }
+    });
+   
+    // Add untouched fields to the comment text
+    if (untouchedFields.length > 0) {
+      this.commentText += ` השדות הבאים לא שונו: ${untouchedFields.join(", ")}. `;
+    }
+
+
+
+
        if (this.hasMortgageInProcess) {
       this.commentText = "קיים תהליך קודם לנטילת משכנתא יש לסיימו או לבטלו בכדי לסיים הליך זה.";
     }
     this.commentText += "בקשה לאישור יצירת משכנתא";
+
     this.visible = true;
     this.boolSave = true;
   }

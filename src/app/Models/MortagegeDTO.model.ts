@@ -1,23 +1,15 @@
-export class Mortagege {
-    selectedMortgage?: number;
-    mortagegesType?: number;
-    toTheBank?: number;
+export class MortagegeDTO {
+    mortagegeId?: number;
+    mortagegesType?: string;
+    toTheBank?: string;
     mortagegeStatus?: number;
     ///update
     amount?: number;
-    teanantId?: number[];
+    teanantNames?: string[];
     isApprovalCompany: boolean = false;
     note?: string;
-    amountType?: number;
-    levelMortagege?: number;
+    amountType?: string;
+    levelMortagege?: string;
     noteOrConditioning?: string; // האם יש הערות/התניות למשכנתא?
     dateCommitment?:Date;
 }
-
-
-
-
-
-
-
-
