@@ -1,5 +1,6 @@
 <div class="container" *ngIf="!selectedMortgage">
-  <div *ngFor="let mortgage of mortgageDetails" class="mortgage-box" [ngStyle]="{
+  <ng-container *ngFor="let mortgage of mortgageDetails">
+  <div  *ngIf="mortgage.mortagegeStatus !== 3" class="mortgage-box" [ngStyle]="{
     'border': mortgage.mortagegeStatus === 3 ? '2px solid greenyellow' : '2px solid #0AA3A1'  }">
         <table>
       <tr>
@@ -32,6 +33,42 @@
       </tr>
     </table>
   </div>
+</ng-container>
+
+<span>משכנתאות בהיסטוריה</span>
+<ng-container *ngFor="let mortgage of mortgageDetails">
+  <div  *ngIf="mortgage.mortagegeStatus === 3" class="mortgage-box" [ngStyle]="{
+    'border': '2px solid greenyellow' }">
+    <table>
+      <tr>
+        <td>
+          <span class="status-box" (click)="toggleMortgageDetails(mortgage)" style="cursor: pointer" 
+                [ngStyle]="{
+                  'background-color': '#747774',
+                  'color': 'gold'
+                }">
+            {{ getStatusDescription(mortgage.mortagegeStatus ?? 0) }}</span>:סטטוס המשכנתא 
+        </td>
+      </tr>
+      <tr>
+        <td> התחייבות ניתנה לטובת בנק :{{ mortgage.toTheBank || ' ' }} </td>
+      </tr>
+      <tr>
+        <td> :סכום התחייבות {{ mortgage.amount || '0.0' }}{{mortgage.amountType}}</td>
+      </tr>
+      <tr>
+        <td>{{ mortgage.dateCommitment || '' }}:תאריך ההתחייבות</td>
+      </tr>
+      <tr>
+        <td>מאיזו דרגה:{{ mortgage.levelMortagege || '' }}</td>
+      </tr>
+      <tr>
+        <td>{{ mortgage.teanantNames || ' ' }}:על זכויות מי</td>
+      </tr>
+    </table>
+
+  </div>  
+</ng-container>
 </div>
 
   <div *ngIf="selectedMortgage" class="detailed-view"> 
@@ -55,7 +92,9 @@
 </div>
 
   <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  
-   <strong>מי נוטל המשכנתא?</strong> {{ selectedMortgage?.teanantNames }}<strong>האם התקבלו אישורים מכל הבעלים?</strong> {{ selectedMortgage?.isApprovalCompany }}
+    
+ 
+   <strong>מי נוטל המשכנתא?</strong> {{ selectedMortgage?.teanantNames }}<strong>האם התקבלו אישורים מכל הבעלים?</strong>  <i [ngClass]="selectedMortgage?.isApprovalCompany ? 'pi pi-check' : 'pi pi-times'"></i>
   </div>
     
     <div [ngClass]="{'status-1': selectedMortgage.mortagegeStatus === 1, 'status-2': selectedMortgage.mortagegeStatus === 2}" class="p-col-12 p-md-6 mortagege-detail">  

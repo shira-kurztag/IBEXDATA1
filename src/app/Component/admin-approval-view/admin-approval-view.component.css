@@ -1,0 +1,31 @@
+/* עיצוב כותרות הטבלה */
+table tr th {
+    background: #0aa3a1;
+    color: #fff;
+    text-align: center;
+    border: 2px solid #fbfbf0 !important;
+    padding: 10px;
+  }
+  
+  /* עיצוב תוכן הטבלה */
+  table tr td {
+    text-align: right;
+    border: 2px solid #fbfbf0 !important;
+    background: #e8f6f6;
+    color: #000;
+    line-height: 22px !important;
+    padding: 10px;
+  }
+  
+  /* עיצוב כללי לטבלה */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }

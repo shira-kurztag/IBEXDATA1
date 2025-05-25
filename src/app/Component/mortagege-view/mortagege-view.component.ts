@@ -20,8 +20,8 @@ import { DialogModule } from 'primeng/dialog';
 export class MortagegeViewComponent {
   mortgageIds: number[] = [];
   mortgageDetails: MortagegeDTO[]=[];
-  @Input() tenantId: number = 9845;///יקבל מהאבאלשאול האם מקבל owner/teants
-  @Input() ownerId: number[] = [9268];///יקבל מהאבאלשאול האם מקבל owner/teants
+  @Input() tenantId: number = 9845;///יקבל מהאבא לשאול האם מקבל owner/teants
+  @Input() ownerId: number[] = [9268];///יקבל מהאבא לשאול האם מקבל owner/teants
   @Input() apartmentId: number = 9986;///יקבל מהאבא
   srvMortagege: MortagegeService = inject(MortagegeService);
    srvBank: BankService = inject(BankService);

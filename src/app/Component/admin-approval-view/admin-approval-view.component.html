@@ -1,0 +1,27 @@
+<div class="request-status-table">
+    <h4 style="color: #0aa3a1;">סטטוס בקשות לאישור</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>שם המבצע</th>
+          <th>סוג הבקשה</th>
+          <th>הודעה</th>
+          <th>סטטוס</th>
+          <th>תאריך עדכון</th>
+          <th>עדכון תשובה</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of requests">
+          <!-- <td>{{ request.executorName }}</td>
+          <td>{{ request.requestType }}</td>
+          <td>{{ request.message }}</td>
+          <td>{{ getStatusText(request.status) }}</td>
+          <td>{{ request.updateDate | date:'dd/MM/yyyy' }}</td> -->
+          <td>
+            <button (click)="updateRequest(request)">עדכן</button> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
