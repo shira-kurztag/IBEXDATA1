@@ -38,6 +38,7 @@ export class OwnerdetailsComponent {
    createOwnerGroup(owner: any): FormGroup {
     return this.fb.group({
       ownerId: [owner.ownerId ], // מספר
+      apartmentId: [owner.apartmentId ], // מספר
       purchasedFrom: [owner.purchasedFrom ], // מחרוזת
       purchaseDate: [owner.purchaseDate || null], // תאריך
       addressAccordingToContract: [owner.addressAccordingToContract ], // מחרוזת
