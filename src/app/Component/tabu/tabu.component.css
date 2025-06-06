@@ -1,0 +1,103 @@
+button.tabu-details-button1.active-button1 {
+  background-color: #1f4b4b !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 15px !important;
+  border-radius: 5px !important;
+  margin-left: 10px !important;
+  cursor: pointer !important;
+  height: 35px !important;
+  font-size: 14px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+
+}
+
+.tabu-box1 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-color: #0aa3a1;
+  padding: 0;
+  border-radius: 5px;
+  width: 200px;
+  height: 50px;
+  left: 3%;
+  top: 50%
+}
+
+.tabu-box2 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-color: #0aa3a1;
+  padding: 0;
+  border-radius: 5px;
+  width: 200px;
+  height: 50px;
+  left: 3%;
+  top: 62%
+}
+
+.icon-box {
+  width: 50px;
+  height: 100%;
+  background-color: #1f4b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 0 0 5px;
+}
+
+.icon-box i {
+  color: white;
+  font-size: 1.5em;
+}
+.form-group {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+input, select, textarea {
+  width: 200%;
+  max-width: 600px; /* תוכלי להתאים לפי הצורך */
+  box-sizing: border-box;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.tabu-button,
+.tabu-search {
+  border: none;
+  background: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.tabu-detail {
+  background: #e8f6f6;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  /* שינוי להצגת תוכן מימין */
+  margin-left: 25%;
+  margin-right: 20%;
+  width: 100%;
+  /* הגדרת רוחב מלא */
+
+  direction: rtl;
+  /* כיווניות טקסט מימין לשמאל */
+}
+.content-content1{
+    
+}

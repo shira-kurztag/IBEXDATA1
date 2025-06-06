@@ -1,1 +1,186 @@
-<p>tabu works!</p>
+<div class="main">
+  <form [formGroup]="tabuForm" (ngSubmit)="saveTabuChanges()">
+    <!-- כפתור עריכה -->
+    <div class="tabu-box1">
+      <div class="icon-box">
+        <i class="pi pi-pencil"></i>
+      </div>
+      <button class="tabu-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך טאבו</button>
+    </div>
+
+    <!-- כפתור שמירה -->
+    <div class="tabu-box1" *ngIf="editMode">
+      <div class="icon-box">
+        <i class="pi pi-save"></i>
+      </div>
+      <button class="tabu-button" type="submit">שמור שינויים</button>
+    </div>
+
+    <div class="tabu-box2" *ngIf="editMode">
+      <div class="icon-box">
+        <i class="pi pi-times"></i>
+      </div>
+      <button class="tabu-button" type="button" (click)="cancelEdit()">ביטול</button>
+    </div>
+
+    <!-- תוכן הטופס -->
+    <div class="p-grid">
+      <!-- שדה לדוגמה -->
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">משכנתא שולם:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isMortgagePaid')?.value ? 'כן' : 'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isMortgagePaid" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">שטח משותף:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('commonArea')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="commonArea" />
+      </div>
+
+      <!-- המשך כל השדות באותו מבנה -->
+      <!-- העתקי לכל שדה מבנה כמו בדוגמה לעיל -->
+
+      <!-- לדוגמה -->
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">סיבת יפוי כוח נוטריון:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('notarizedPoweReason')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="text" formControlName="notarizedPoweReason" />
+      </div>
+
+      <!-- המשך עם כל שאר השדות לפי אותו מבנה -->
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">סיבת יפוי כוח נוטריון:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('notarizedPoweReason')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="text" formControlName="notarizedPoweReason" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">מס רכישה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isPurchaseTax')?.value ? 'כן' : 'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isPurchaseTax" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">מס רכישה תקף:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isPurchaseTaxValid')?.value ? 'כן' : 'לא'
+          }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isPurchaseTaxValid" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">מס הון:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isCapitalTax')?.value ? 'כן' : 'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isCapitalTax" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">מס הון תקף:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isCapitalTaxValid')?.value ? 'כן' : 'לא'
+          }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isCapitalTaxValid" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">נדרשת אישור מס מכירה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isApprovalNeededSaleTaxHas')?.value ? 'כן' :
+          'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isApprovalNeededSaleTaxHas" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">אישור מס מכירה תקף:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isApprovalNeededSaleTaxValid')?.value ? 'כן' :
+          'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isApprovalNeededSaleTaxValid" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">אישור עירייה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isMunicipalityApproval')?.value ? 'כן' : 'לא'
+          }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isMunicipalityApproval" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">תוקף אישור עירייה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isMunicipalityApprovalValidity')?.value |
+          date:'yyyy-MM-dd' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="date" formControlName="isMunicipalityApprovalValidity" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">אישור מס להעברת זכויות:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isTaxApprovedTransferRights')?.value ? 'כן' :
+          'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isTaxApprovedTransferRights" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">מקור אישור מס להעברת זכויות:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isTaxApprovedTransferRightsSource')?.value ?
+          'כן' : 'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox"
+          formControlName="isTaxApprovedTransferRightsSource" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">תוקף אישור מס להעברת זכויות:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isTaxApprovedTransferRightsValid')?.value ? 'כן'
+          : 'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox"
+          formControlName="isTaxApprovedTransferRightsValid" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">הצדדים חתומים:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isPartiesSigned')?.value ? 'כן' : 'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isPartiesSigned" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">חתום על ידי מ"מ:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isSignedByMm')?.value ? 'כן' : 'לא' }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isSignedByMm" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">קבלת שטר משכנתא:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('isMortgageBillReceived')?.value ? 'כן' : 'לא'
+          }}</span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isMortgageBillReceived" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">שם שומה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('fareName')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="text" formControlName="fareName" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">סכום שומה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('fareAmount')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="fareAmount" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">בלוק:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('bloc')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="bloc" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">חלקה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('smooth')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="smooth" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">שטח חלקה</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('smothArea')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="smothArea" />
+      </div>
+    </div>
+  </form>
+</div>
+

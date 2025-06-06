@@ -55,32 +55,12 @@ button.owner-details-button.active-button {
 button.owner-details-button:hover {
     background-color: #1f4b4b !important; /* הצבע שאת ביקשת */
 }
-/* .contractor{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    padding: 5%;
-    margin: 5%;
-} */
-
-/* .contractor {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-top: 20px;
-    padding: 5%;
-    margin: 5%;
-} */
 
 
-/* .contractor-content{
-    margin: 5%;
-    padding: 5%;
-    width: 200%;
-} */
+
+
+
+
 .content-content {
     margin-top: 20px;
     display: flex;
@@ -90,13 +70,9 @@ button.owner-details-button:hover {
     text-align: left; /* טקסט מיושר לשמאל */
     font-family: Arial, sans-serif;
 
+
 }
 
-/* .contractor-button{
-    display: flex;
-    flex-direction: row;
-
-} */
 
 .contractor-button {
     

@@ -21,4 +21,8 @@ export class TabuService {
       
       return this.http.get<TabuDTO>(`${this.BASE_URL}/GetTabuByApartmentId/${apartmentId}`);
     }
+    UpdateTabu(tabu: TabuDTO): Observable<TabuDTO> {
+    // נניח שיש לך API בנתיב /api/tabu שמעדכן טאבו לפי tabuId
+    return this.http.put<TabuDTO>(`${this.BASE_URL}`, tabu);
+  }
 }

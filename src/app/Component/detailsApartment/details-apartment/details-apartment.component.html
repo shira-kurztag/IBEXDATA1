@@ -1,66 +1,44 @@
 <div class="contractor">
-   <div class="contractor-header">
-    
-    <div class="contractor-button">
-        <!-- הוספת תנאי [ngClass] כדי להוסיף מחלקה לכפתור שנלחץ -->
-        <button 
-            pButton 
-            type="button" 
-            (click)="setActiveComponent('rightsApproval')" 
-            [ngClass]="{'active-button': activeComponent === 'rightsApproval'}" 
-            label="אישור זכויות" 
-            class="p-button owner-details-button"
-         >
+    <div class="contractor-header">
 
-            אישור זכויות
-        </button>
+        <div class="contractor-button">
+            <!-- הוספת תנאי [ngClass] כדי להוסיף מחלקה לכפתור שנלחץ -->
+            <button pButton type="button" (click)="setActiveComponent('rightsApproval')"
+                [ngClass]="{'active-button': activeComponent === 'rightsApproval'}" label="אישור זכויות"
+                class="p-button owner-details-button">
 
-        <button 
-            pButton 
-            type="button" 
-            (click)="setActiveComponent('apartmentDetailsByTenant')" 
-            [ngClass]="{'active-button': activeComponent === 'apartmentDetailsByTenant'}" 
-            label="פרטי הדירה" 
-            class="p-button owner-details-button">
-            פרטי דירה
-        </button>
+                אישור זכויות
+            </button>
 
-        <button 
-            pButton 
-            type="button" 
-            (click)="setActiveComponent('maintenant')" 
-            [ngClass]="{'active-button': activeComponent === 'maintenant'}" 
-            label="רשימת דיירים" 
-            class="p-button owner-details-button">
-            רשימת דיירים
-        </button>
+            <button pButton type="button" (click)="setActiveComponent('apartmentDetailsByTenant')"
+                [ngClass]="{'active-button': activeComponent === 'apartmentDetailsByTenant'}" label="פרטי הדירה"
+                class="p-button owner-details-button">
+                פרטי דירה
+            </button>
 
-        <button 
-            pButton 
-            type="button" 
-            (click)="setActiveComponent('apartmentHomePage')" 
-            [ngClass]="{'active-button': activeComponent === 'apartmentHomePage'}" 
-            label="דף הבית" 
-            class="p-button owner-details-button">
-            דף הבית
-        </button>
+            <button pButton type="button" (click)="setActiveComponent('maintenant')"
+                [ngClass]="{'active-button': activeComponent === 'maintenant'}" label="רשימת דיירים"
+                class="p-button owner-details-button">
+                רשימת דיירים
+            </button>
+
+            <button pButton type="button" (click)="setActiveComponent('apartmentHomePage')"
+                [ngClass]="{'active-button': activeComponent === 'apartmentHomePage'}" label="דף הבית"
+                class="p-button owner-details-button">
+                דף הבית
+            </button>
+        </div>
     </div>
-  </div>
-  <div class="contractor-content">
+    <div class="contractor-content">
 
-    <div class="content-content"> 
-     <app-rights-approval [apartmentId]="apartmentId"        *ngIf="activeComponent === 'rightsApproval'"
-></app-rights-approval>
-<app-apartment-home-page [apartmentId]="apartmentId"        *ngIf="activeComponent === 'apartmentHomePage'"
-></app-apartment-home-page>
-<app-apartment-details-by-tenant [apartmentId]="apartmentId"        *ngIf="activeComponent === 'apartmentDetailsByTenant'"
-></app-apartment-details-by-tenant>
-<app-tenant [apartmentId]="apartmentId"        *ngIf="activeComponent === 'maintenant'"
-></app-tenant>
+            <app-rights-approval [apartmentId]="apartmentId"
+                *ngIf="activeComponent === 'rightsApproval'"></app-rights-approval>
+            <app-apartment-home-page [apartmentId]="apartmentId"
+                *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
+            <app-apartment-details-by-tenant [apartmentId]="apartmentId"
+                *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant>
+            <app-tenant [apartmentId]="apartmentId" *ngIf="activeComponent === 'maintenant'"></app-tenant>
 
 
     </div>
 </div>
-</div>
-
-

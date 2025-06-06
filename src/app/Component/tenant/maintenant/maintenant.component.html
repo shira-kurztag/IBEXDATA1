@@ -4,7 +4,6 @@
       <div class="icon-box">
         <i class="pi pi-pencil"></i>
       </div>
-      <!-- כפתור למעבר למצב עריכה -->
       <button class="tenant-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך</button>
     </div>
     <div class="tenant-box2" *ngIf="editMode">
@@ -152,15 +151,15 @@
         פרטי בעליים
       </button>
 
-      <!-- <button 
+      <button 
            pButton 
            type="button" 
-           (click)="setActiveComponent('apartmentDetailsByTenant')" 
-           [ngClass]="{'active-button': activeComponent === 'apartmentDetailsByTenant'}" 
-           label="פרטי הדירה" 
+           (click)="setActiveComponent('Tabu')" 
+           [ngClass]="{'active-button': activeComponent === 'TabuComponent'}" 
+           label="טאבו" 
            class="p-button owner-details-button1">
-           פרטי דירה
-       </button> -->
+          טאבו
+       </button>
 
       <!-- <button 
            pButton 
@@ -188,9 +187,8 @@
     <div class="content-content1">
       <!-- הצגת קומפוננטות הילדים -->
       <app-owner-details *ngIf="activeComponent === 'ownerdetails'" [apartmentId]="apartmentId"></app-owner-details>
-      <!-- <app-apartment-home-page *ngIf="activeComponent === 'apartmentHomePage'"></app-apartment-home-page>
-       <app-apartment-details-by-tenant *ngIf="activeComponent === 'apartmentDetailsByTenant'"></app-apartment-details-by-tenant> -->
-      <!-- <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant> -->
+      <app-tabu *ngIf="activeComponent === 'Tabu'" [apartmentId]="apartmentId"></app-tabu>
+   <!-- <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant> -->
     </div>
   </div>
 </div>

@@ -6,11 +6,12 @@ import { TenantService } from '../../../service/tenant.service';
 import { getIdentityTypeString, IdentityType } from '../../../Models/IdentityType.enum';
 import { getTenantStatusString, TenantStatus } from '../../../Models/TenantStatus.enum';
 import { OwnerdetailsComponent } from '../../detailsApartment/ownerdetails/ownerdetails.component';
+import { TabuComponent } from '../../tabu/tabu.component';
 
 @Component({
   selector: 'app-tenant',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterModule,OwnerdetailsComponent  ],
+  imports: [CommonModule, ReactiveFormsModule,RouterModule,OwnerdetailsComponent ,TabuComponent ],
   templateUrl: './maintenant.component.html',
   styleUrls: ['./maintenant.component.css'],
   providers: [TenantService],
