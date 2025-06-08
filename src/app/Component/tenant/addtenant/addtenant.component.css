@@ -4,8 +4,6 @@
     color: white;
 }
 
-
-
   .contractor-box {
     display: flex;
     align-items: center;
@@ -90,8 +88,6 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
-
   }
   
   .contractor-detail-edit {
@@ -144,7 +140,7 @@
   
   .contractor-box-container {
     position: absolute;
- left: -43.9999%; /* Adjust the left margin to start a few centimeters from the left */
+    left: -43.9999%; /* Adjust the left margin to start a few centimeters from the left */
     top:12%; /* Adjust the top margin to raise the box by a few centimeters */
     display: flex;
     flex-direction: column;
@@ -216,7 +212,7 @@
   .contractors-container{
     /* display: flex   ;
     flex-direction: row; */
-    /* width: 200%; */
+    width: 200%;
     height: 100%;
    
   } 
@@ -225,20 +221,21 @@
    border-radius: 7%;
    color: white;
    width: 10%;
-
   }
+
   .labelStyle{
     color: #0aa3a1;
     font-size: 15px;
     font-weight: bold;
-  
   }
+
   .detail-title {
     line-height: 53px;
     font-weight: bold;
     color: #0aa3a1;
     margin-left: 5px; /* Ensure proper spacing for RTL */
-}.status-box {
+}
+.status-box {
     background-color: #5cb85c;
     color: white;
     padding: 10px 15px;
@@ -264,7 +261,6 @@ button.owner-details-button.active-button {
     align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
-
 }
 .link-style {
   background: none;

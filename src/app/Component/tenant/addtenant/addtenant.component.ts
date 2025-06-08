@@ -39,10 +39,7 @@ export class AddTenantComponent implements OnInit {
   apartmentId!: number;
   powerDetailsCopied :boolean = false;
 
-
-
   constructor(private fb: FormBuilder, private TenantService: TenantService, private router: Router) { }
-
 
   ngOnInit(): void {
     this.identityTypes = [

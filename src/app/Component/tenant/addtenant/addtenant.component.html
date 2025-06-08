@@ -68,7 +68,7 @@
 
                     <!-- שדה של "זהוי קודם" (אם יש) -->
                     <div class="p-col-12 p-md-6 contractor-detail">
-                        <label for="PreviousTenantId" class="labelStyle">זהוי קודם:</label>
+                        <label for="PreviousTenantId" class="labelStyle" >זהוי קודם:</label>
                         <div class="card flex justify-center">
                             <p-toggleswitch formControlName="PreviousTenantId"></p-toggleswitch>
                         </div>
@@ -110,13 +110,13 @@
                     <div class="p-col-12 p-md-6 contractor-detail"
                         *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
                         <label for="FirstNamePower" class="labelStyle">שם:</label>
-                        <input id="FirstNamePower" pInputText formControlName="FirstNamePower" type="text"
+                        <input id="FirstNamePower" pInputText formControlName="FirstNamePower" [disabled]="powerDetailsCopied"  type="text "
                             style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                         <label for="LastNamePower" class="labelStyle">משפחה:</label>
-                        <input id="LastNamePower" pInputText formControlName="LastNamePower" type="text"
+                        <input id="LastNamePower" pInputText formControlName="LastNamePower" [disabled]="powerDetailsCopied" type="text"
                             style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                         <label for="PowerOfAttorneyId" class="labelStyle">מספר ת.ז/דרכון</label>
-                        <input id="PowerOfAttorneyId" pInputText formControlName="PowerOfAttorneyId" type="text"
+                        <input id="PowerOfAttorneyId" pInputText formControlName="PowerOfAttorneyId" [disabled]="powerDetailsCopied"  type="text"
                             style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                     </div>
 
@@ -127,12 +127,12 @@
                         <div class="flex items-center" *ngFor="let type of PowerOfAttorneyType">
                             <p-radioButton name="PowerOfAttorneyType" [value]="type.value.value"
                                 formControlName="PowerOfAttorneyType" [inputId]="type.value"></p-radioButton>
-                            <label [for]="type.value" class="ml-2">{{ type.label }}</label>
+                            <label [for]="type.value" class="ml-2" >{{ type.label }}</label>
                         </div>
                         <label for="FromDate" class="labelStyle"> מיום: </label>
-                        <input id="FromDate" pInputText formControlName="FromDate" type="date" />
+                        <input id="FromDate" [disabled]="powerDetailsCopied" pInputText formControlName="FromDate" type="date" />
                         <label for="FileName" class="labelStyle"> קובץ </label>
-                        <input id="FileName" pInputText formControlName="FileName" pltype="text"
+                        <input id="FileName"  [disabled]="powerDetailsCopied" pInputText formControlName="FileName" pltype="text"
                             style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                     </div>
 
@@ -140,13 +140,13 @@
                     <div class="p-col-12 p-md-6 contractor-detail"
                         *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
                         <label for="Address" class="labelStyle">כתובת:</label>
-                        <input id="Address" pInputText formControlName="Address" type="text"
+                        <input id="Address" pInputText formControlName="Address"[disabled]="powerDetailsCopied" type="text"
                             style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                         <label for="NumberPhone" class="labelStyle">טלפון:</label>
-                        <input id="NumberPhone" pInputText formControlName="NumberPhone" type="text"
+                        <input id="NumberPhone" pInputText formControlName="NumberPhone" [disabled]="powerDetailsCopied" type="text"
                             style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                         <label for="NumberPhone2" class="labelStyle">טלפון נוסף:</label>
-                        <input id="NumberPhone2" pInputText formControlName="NumberPhone2" type="text"
+                        <input id="NumberPhone2" pInputText formControlName="NumberPhone2"[disabled]="powerDetailsCopied" type="text"
                             style="background-color: white; border-radius: 5% !important; padding: 10px;" />
                     </div>
                 </div>
