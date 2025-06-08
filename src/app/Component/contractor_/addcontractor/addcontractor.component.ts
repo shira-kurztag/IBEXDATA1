@@ -33,7 +33,7 @@ export class AddContractorComponent {
       contractorIdentity: ['', [Validators.pattern('^[0-9]+$')]], // הוספתי ערך ברירת מחדל ריק
       contractorName: ['', [Validators.pattern('^[a-zA-Zא-ת .()"-]+$')]], // הוספתי ערך ברירת מחדל ריק וסוגריים מרובעים
       managementName: ['', [Validators.pattern('^[a-zA-Zא-ת .()"-]+$')]], // הוספתי ערך ברירת מחדל ריק וסוגריים מרובעים
-      managementId: [null, [this.validateId.bind(this)]], // אין שינוי
+      managementId: [null], // אין שינוי
       address: [''], // אין שינוי
       certificateConsortium: ['', [Validators.pattern('^[a-zA-Z0-9א-ת .-]+$')]], // הוספתי ערך ברירת מחדל ריק וסוגריים מרובעים
       form50: ['', [Validators.pattern('^[a-zA-Z0-9א-ת .-]+$')]], // הוספתי ערך ברירת מחדל ריק וסוגריים מרובעים
@@ -43,6 +43,7 @@ export class AddContractorComponent {
 
   onSubmit() {
     if (this.contractorForm.valid) {
+      if(this.validateId.bind(this)){
       this.srvContractor.addContractor(this.contractorForm.value).subscribe({
         next: () => {
           this.isSaved = true;
@@ -53,6 +54,7 @@ export class AddContractorComponent {
           this.errorMessage = 'Failed to add contractor. Please try again later.';
         }
       });
+    }
     }
   }
 

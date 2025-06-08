@@ -37,14 +37,20 @@
           <input id="form50" pInputText formControlName="form50" type="text" class="edit-input"/>
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-col-12 p-md-6">
-          <button pButton type="submit" label="שמירה" icon="pi pi-check" class="p-mr-2" [disabled]="contractorForm.invalid"></button>
-        </div>
-        <div class="p-col-12 p-md-6">
-          <button pButton type="button" label="ביטול" icon="pi pi-times" class="p-mr-2" (click)="cancel()"></button>
-        </div>
+      <div class="tenant-box2" >
+      <div class="icon-box">
+        <i class="pi pi-save"></i>
       </div>
+      <button class="tenant-button"  type="submit">שמור שינויים</button>
+    </div>
+
+    <div class="tenant-box1" >
+      <div class="icon-box">
+        <i class="pi pi-times"></i>
+      </div>
+      <button  class="tenant-button"  type="button" (click)="cancel()">ביטול</button>
+    </div>
+
     </form>
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
