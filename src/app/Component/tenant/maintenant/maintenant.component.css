@@ -1,14 +1,19 @@
 body {
   background-color: #f8f7eb;
   direction: rtl;
-  font-family: Arial, sans-serif; /* שימוש בגופן Arial */
+  font-family: Arial, sans-serif;
+  /* שימוש בגופן Arial */
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0; /* רקע אפור לכל המסך */
-  box-sizing: border-box; /* לוודא שמידות כוללות padding */
-  overflow-x: hidden; /* למנוע גלילה אופקית */
+  background-color: #f0f0f0;
+  /* רקע אפור לכל המסך */
+  box-sizing: border-box;
+  /* לוודא שמידות כוללות padding */
+  overflow-x: hidden;
+  /* למנוע גלילה אופקית */
 
 }
+
 .tenant-detail {
   background: #e8f6f6;
   padding: 10px;
@@ -17,12 +22,15 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start; /* שינוי להצגת תוכן מימין */
+  justify-content: flex-start;
+  /* שינוי להצגת תוכן מימין */
   margin-left: 25%;
   margin-right: 20%;
-  width: 100%; /* הגדרת רוחב מלא */
+  width: 100%;
+  /* הגדרת רוחב מלא */
 
-  direction: rtl; /* כיווניות טקסט מימין לשמאל */
+  direction: rtl;
+  /* כיווניות טקסט מימין לשמאל */
 }
 
 /* .tenant-detail-edit {
@@ -44,32 +52,48 @@ body {
   color: white;
   padding: 10px 15px;
   border-radius: 5px;
-  margin-left: 10px; /* Ensure proper spacing for RTL */
+  margin-left: 10px;
+  /* Ensure proper spacing for RTL */
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px; /* Ensure consistent height */
-  font-size: 14px; /* Ensure consistent font size */
+  height: 40px;
+  /* Ensure consistent height */
+  font-size: 14px;
+  /* Ensure consistent font size */
 }
+
 .tenant-box {
-  margin-bottom: 10%; /* רווח בין הכרטיסים */
-  margin: 50px auto; /* ליישור מרכזי */
-  margin-left: auto; /* מרכז את הכרטיס */
-  margin-right: auto; /* מרכז את הכרטיס */
-  width:100%; /* מגדיר רוחב כדי לשים את הכרטיסים במרכז */
+  margin-bottom: 10%;
+  /* רווח בין הכרטיסים */
+  margin: 50px auto;
+  /* ליישור מרכזי */
+  margin-left: auto;
+  /* מרכז את הכרטיס */
+  margin-right: auto;
+  /* מרכז את הכרטיס */
+  width: 100%;
+  /* מגדיר רוחב כדי לשים את הכרטיסים במרכז */
 }
+
 .detail-title {
-  margin-left: 5px; /* רווח בין כותרת לתוכן */
-  margin-right: 5px; /* רווח בין המילים */
+  margin-left: 5px;
+  /* רווח בין כותרת לתוכן */
+  margin-right: 5px;
+  /* רווח בין המילים */
 
 }
 
 .detail-content {
-  margin-right: 5px; /* רווח בין מילים */
-  margin-left: 5px; /* רווח בין הכותרת לטקסט */
+  margin-right: 5px;
+  /* רווח בין מילים */
+  margin-left: 5px;
+  /* רווח בין הכותרת לטקסט */
 
 }
-.tenant-button, .tenant-search {
+
+.tenant-button,
+.tenant-search {
   border: none;
   background: none;
   color: white;
@@ -89,7 +113,7 @@ body {
   width: 200px;
   height: 50px;
   left: 3%;
-  top:23%
+  top: 23%
 }
 
 .tenant-box2 {
@@ -102,8 +126,9 @@ body {
   width: 200px;
   height: 50px;
   left: 3%;
-  top:30%
+  top: 30%
 }
+
 .tenant-box3 {
   position: absolute;
   display: flex;
@@ -114,8 +139,9 @@ body {
   width: 200px;
   height: 50px;
   left: 3%;
-  top:37%
+  top: 37%
 }
+
 .icon-box {
   width: 50px;
   height: 100%;
@@ -130,22 +156,36 @@ body {
   color: white;
   font-size: 1.5em;
 }
-.main{
+
+.main {
   display: flex;
   flex-direction: row;
 }
+
 .p-button-danger {
   font-size: 14px;
   padding: 0.5rem 1rem;
 }
 
+button.owner-details-button.active-button {
+  background-color: #1f4b4b !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 15px !important;
+  border-radius: 5px !important;
+  margin-left: 10px !important;
+  /* Ensure proper spacing for RTL */
+  cursor: pointer !important;
+  height: 35px !important;
+  /* Ensure consistent height */
+  font-size: 14px !important;
+  /* Ensure consistent font size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
 
-
-
-
-
-
-
+}
 
 .owner-details-button1 {
   background-color: #0aa3a1 !important;
@@ -153,26 +193,36 @@ body {
   border: none !important;
   padding: 10px 15px !important;
   border-radius: 5px !important;
-  margin-left: 10px !important; /* Ensure proper spacing for RTL */
+  margin-left: 10px !important;
+  /* Ensure proper spacing for RTL */
   cursor: pointer !important;
-  height: 35px !important; /* Ensure consistent height */
-  font-size: 14px !important; /* Ensure consistent font size */
+  height: 35px !important;
+  /* Ensure consistent height */
+  font-size: 14px !important;
+  /* Ensure consistent font size */
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: Arial, sans-serif;
 
- 
+
 }
 
 .content-content1 {
-  margin-top: 1%; /* ריווח בין הכפתורים לתוכן */
-  display: flex; /* גמישות להצגת התוכן */
-  flex-direction: column; /* כל תוכן יופיע מתחת לשני */
-  align-items: center; /* מיקום במרכז */
-  justify-content: center; /* ריווח תוכן */
-  text-align: center; /* טקסט מיושר במרכז */
+  margin-top: 1%;
+  /* ריווח בין הכפתורים לתוכן */
+  display: flex;
+  /* גמישות להצגת התוכן */
+  flex-direction: column;
+  /* כל תוכן יופיע מתחת לשני */
+  align-items: center;
+  /* מיקום במרכז */
+  justify-content: center;
+  /* ריווח תוכן */
+  text-align: center;
+  /* טקסט מיושר במרכז */
 }
+
 /* סגנון לכפתור הפעיל */
 button.owner-details-button1.active-button1 {
   background-color: #1f4b4b !important;
@@ -180,29 +230,39 @@ button.owner-details-button1.active-button1 {
   border: none !important;
   padding: 10px 15px !important;
   border-radius: 5px !important;
-  margin-left: 10px !important; /* Ensure proper spacing for RTL */
+  margin-left: 10px !important;
+  /* Ensure proper spacing for RTL */
   cursor: pointer !important;
-  height: 35px !important; /* Ensure consistent height */
-  font-size: 14px !important; /* Ensure consistent font size */
+  height: 35px !important;
+  /* Ensure consistent height */
+  font-size: 14px !important;
+  /* Ensure consistent font size */
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: Arial, sans-serif;
 
 }
+
 /* שינוי צבע כאשר העכבר עובר */
 button.owner-details-button1:hover {
-  background-color: #1f4b4b !important; 
+  background-color: #1f4b4b !important;
 }
 
-
+/* שינוי צבע כאשר העכבר עובר */
+button.active-button1 {
+  background-color: #1f4b4b !important;
+}
 .content-content1 {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* יישור לשמאל */
-  justify-content: flex-start; /* יישור לשמאל */
-  text-align: left; /* טקסט מיושר לשמאל */
+  align-items: flex-start;
+  /* יישור לשמאל */
+  justify-content: flex-start;
+  /* יישור לשמאל */
+  text-align: left;
+  /* טקסט מיושר לשמאל */
   font-family: Arial, sans-serif;
 
 }
@@ -210,47 +270,61 @@ button.owner-details-button1:hover {
 
 
 .contractor-button1 {
-  
+
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; /* הכפתורים יוזזו לשמאל */
+  justify-content: flex-start;
+  /* הכפתורים יוזזו לשמאל */
   margin-bottom: 20px;
-  
+
 }
 
 /* איפוס מרווחים ושוליים */
-body, html {
+
+html {
   margin: 0;
   padding: 0;
-  height: 100vh; /* גובה מלא */
-  width: 100vw; /* רוחב מלא */
-  box-sizing: border-box; /* לוודא שהמידות כוללות padding */
-  overflow: hidden; /* למנוע גלילה מיותרת */
+  height: 100vh;
+  /* גובה מלא */
+  width: 100vw;
+  /* רוחב מלא */
+  box-sizing: border-box;
+  /* לוודא שהמידות כוללות padding */
+  overflow: hidden;
+  /* למנוע גלילה מיותרת */
 }
 
 .contractor1 {
   display: flex;
   flex-direction: column;
-  height: 100%; /* תופס את כל גובה המסך */
-  width: 100%; /* תופס את כל רוחב המסך */
+  height: 100%;
+  /* תופס את כל גובה המסך */
+  width: 100%;
+  /* תופס את כל רוחב המסך */
 }
 
 .contractor-header1 {
-  flex: 1; /* 1 חלק מתוך 5 */
+  flex: 1;
+  /* 1 חלק מתוך 5 */
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* תופס את כל רוחב המסך */
-  box-sizing: border-box; /* מבטיח שכל ה-padding נכלל */
+  width: 100%;
+  /* תופס את כל רוחב המסך */
+  box-sizing: border-box;
+  /* מבטיח שכל ה-padding נכלל */
 }
 
-.contractor-content1{
-  flex: 4; /* 4 חלקים מתוך 5 */
+.contractor-content1 {
+  flex: 4;
+  /* 4 חלקים מתוך 5 */
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* תופס את כל רוחב המסך */
-  box-sizing: border-box; /* מבטיח שכל ה-padding נכלל */
+  width: 100%;
+  /* תופס את כל רוחב המסך */
+  box-sizing: border-box;
+  /* מבטיח שכל ה-padding נכלל */
 }
 
 .TenantStatus {
@@ -286,12 +360,14 @@ body, html {
   font-size: 1.5em;
 }
 
-.contractor-button, .contractor-search {
+.contractor-button,
+.contractor-search {
   border: none;
   background: none;
   color: white;
   padding: 10px;
-  width: 50%; /* Set width to 50% */
+  width: 50%;
+  /* Set width to 50% */
   text-align: left;
   cursor: pointer;
   font-size: 1em;
@@ -312,7 +388,7 @@ h3 {
   color: #0aa3a1;
   font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
   font-size: 27px;
- 
+
 }
 
 .flex {
@@ -322,20 +398,20 @@ h3 {
 }
 
 .dropdown-container {
-  width: 50%; /* Set width to 50% of the screen */
+  width: 50%;
+  /* Set width to 50% of the screen */
   display: flex;
   justify-content: center;
- 
+
 }
 
 p-select {
   width: 100%;
 }
-body {
-  background-color: #F8F7EB;
-  width: 100%;
- 
-}
+
+
+
+
 
 .contractor-detail {
   background: #e8f6f6;
@@ -350,7 +426,7 @@ body {
 }
 
 .contractor-detail-edit {
-  background:#e8f6f6; 
+  background: #e8f6f6;
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 5px;
@@ -365,8 +441,10 @@ body {
   border: 1px solid #0aa3a1;
   padding: 5px;
   border-radius: 5px;
-  width: 100%; /* Set input width to 100% to match the container */
-  box-sizing: border-box; /* Ensure padding is included in the total width */
+  width: 100%;
+  /* Set input width to 100% to match the container */
+  box-sizing: border-box;
+  /* Ensure padding is included in the total width */
 }
 
 .detail-title {
@@ -391,7 +469,7 @@ h3 {
 .header-title {
   color: #0aa3a1;
   font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
- text-align: right;
+  text-align: right;
   width: 100%;
   display: block;
   font-size: 27px;
@@ -399,12 +477,15 @@ h3 {
 
 .contractor-box-container {
   position: absolute;
-left: -43.9999%; /* Adjust the left margin to start a few centimeters from the left */
-  top:12%; /* Adjust the top margin to raise the box by a few centimeters */
+  left: -43.9999%;
+  /* Adjust the left margin to start a few centimeters from the left */
+  top: 12%;
+  /* Adjust the top margin to raise the box by a few centimeters */
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 70%; /* Adjust the width if needed */
+  width: 70%;
+  /* Adjust the width if needed */
 }
 
 .contractor-box {
@@ -432,7 +513,8 @@ left: -43.9999%; /* Adjust the left margin to start a few centimeters from the l
   font-size: 1.5em;
 }
 
-.contractor-button, .contractor-search {
+.contractor-button,
+.contractor-search {
   border: none;
   background: none;
   color: white;
@@ -441,9 +523,12 @@ left: -43.9999%; /* Adjust the left margin to start a few centimeters from the l
   cursor: pointer;
   font-size: 1em;
 }
+
 .contractor-search {
-  width: 50%; /* Set width to 50% */
+  width: 50%;
+  /* Set width to 50% */
 }
+
 .contractor-item {
   padding: 10px;
   border-bottom: 1px solid #ccc;
@@ -460,7 +545,8 @@ p-panel {
 }
 
 .dropdown-container {
-  width: 50%; /* Set width to 50% of the screen */
+  width: 50%;
+  /* Set width to 50% of the screen */
   display: flex;
   justify-content: center;
 }
@@ -468,40 +554,50 @@ p-panel {
 p-select {
   width: 100%;
 }
-.contractors-container{
+
+.contractors-container {
   /* display: flex   ;
   flex-direction: row; */
   /* width: 200%; */
   height: 100%;
- 
-} 
-.buttonStyle{
-  background-color: #0aa3a1;
- border-radius: 7%;
- color: white;
- width: 10%;
 
 }
-.labelStyle{
+
+.buttonStyle {
+  background-color: #0aa3a1;
+  border-radius: 7%;
+  color: white;
+  width: 10%;
+
+}
+
+.labelStyle {
   color: #0aa3a1;
   font-size: 15px;
   font-weight: bold;
 
 }
+
 .detail-title {
   line-height: 53px;
   font-weight: bold;
   color: #0aa3a1;
-  margin-left: 5px; /* Ensure proper spacing for RTL */
-}.status-box {
+  margin-left: 5px;
+  /* Ensure proper spacing for RTL */
+}
+
+.status-box {
   background-color: #5cb85c;
   color: white;
   padding: 10px 15px;
   border-radius: 5px;
-  margin-left: 10px; /* Ensure proper spacing for RTL */
+  margin-left: 10px;
+  /* Ensure proper spacing for RTL */
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px; /* Ensure consistent height */
-  font-size: 14px; /* Ensure consistent font size */
+  height: 40px;
+  /* Ensure consistent height */
+  font-size: 14px;
+  /* Ensure consistent font size */
 }

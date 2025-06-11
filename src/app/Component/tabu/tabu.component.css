@@ -25,7 +25,7 @@ button.tabu-details-button1.active-button1 {
   width: 200px;
   height: 50px;
   left: 3%;
-  top: 50%
+  top: 45%
 }
 
 .tabu-box2 {
@@ -38,7 +38,7 @@ button.tabu-details-button1.active-button1 {
   width: 200px;
   height: 50px;
   left: 3%;
-  top: 62%
+  top: 52%
 }
 
 .icon-box {
@@ -79,7 +79,7 @@ input, select, textarea {
   cursor: pointer;
   font-size: 1em;
 }
-
+/* 
 .tabu-detail {
   background: #e8f6f6;
   padding: 10px;
@@ -89,12 +89,32 @@ input, select, textarea {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  /* שינוי להצגת תוכן מימין */
   margin-left: 25%;
   margin-right: 20%;
   width: 100%;
-  /* הגדרת רוחב מלא */
 
   direction: rtl;
-  /* כיווניות טקסט מימין לשמאל */
+} */
+.tabu-detail {
+  background: #e8f6f6;
+  padding: 10px;
+  margin-bottom: 5px;
+  /* border-radius: 5px; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 15%;
+  margin-right: 200%;
+  direction: rtl;
+  width:150%;
 }
+
+
+  .detail-title {
+    font-weight: bold;
+    color: #0aa3a1;
+    margin-right: 5px;
+    width: 30%;
+    text-align: right;
+  }

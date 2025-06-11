@@ -31,8 +31,8 @@
           <span class="detail-content">{{ ownerForm.get('purchasedFrom')?.value }}</span>
 
           <label class="detail-title">בתאריך:</label>
-          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('purchaseDate')?.value }}</span>
-          <input class="detail-content" *ngIf="editMode" formControlName="purchaseDate" type="date" />
+          <span *ngIf="!editMode"class="detail-content" >{{ ownerForm.get('purchaseDate')?.value }}</span>
+          <input *ngIf="editMode" class="detail-content"  formControlName="purchaseDate" type="date" />
         </div>
 
 

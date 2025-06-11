@@ -38,10 +38,15 @@ export class AddTenantComponent implements OnInit {
   buttonText: string = 'הוסף בעלים';
   apartmentId!: number;
   powerDetailsCopied :boolean = false;
+  PreviousTenantId: boolean=false;
+  IsSignatureByPowerOfAttorney: boolean=false;
+isPowerOfAttorneyCopiedFromTenant: boolean = false;
 
   constructor(private fb: FormBuilder, private TenantService: TenantService, private router: Router) { }
 
   ngOnInit(): void {
+          this.updateLabels();
+
     this.identityTypes = [
       { label: 'ת.ז', value: 1 },
       { label: 'דרכון', value: 2 },
@@ -67,7 +72,15 @@ export class AddTenantComponent implements OnInit {
       console.log('ID שהתקבל:', apartmentId);
     }
       localStorage.removeItem('apartmentId');
+ this.updateLabels(); // עדכון ראשוני
+ 
+   this.TenantDTO.forEach(group => {
+  group.valueChanges.subscribe(() => {
+    // עדכון בהתאם לשינויים בטופס הבודד
+     this.updateLabels(); // עדכון ראשוני
 
+  });
+});
   }
 
     createTenantForm(): void {
@@ -278,7 +291,9 @@ export class AddTenantComponent implements OnInit {
 
           // הדפסת הנתונים בקונסול לבדיקה
           console.log('נוטריון הועתק לטופס האחרון:', lastTenantForm.value);
-           this.powerDetailsCopied = true;           // נדע ש”העתקנו”
+           this.powerDetailsCopied = true;   
+             this.isPowerOfAttorneyCopiedFromTenant = true; // סימון שמעתיקים מהדייר
+        // נדע ש”העתקנו”
   this.setPowerFieldsDisabled(true);
         }
       }
@@ -337,4 +352,12 @@ releasePowerOfAttorneyDetails() {
 }
 
 
+
+  updateLabels(): void {
+  const form = this.TenantDTO[this.TenantDTO.length - 1];
+  if (form) {
+    this.PreviousTenantId = form.value.PreviousTenantId;
+    this.IsSignatureByPowerOfAttorney = form.value.IsSignatureByPowerOfAttorney;
+  }
+}
 }

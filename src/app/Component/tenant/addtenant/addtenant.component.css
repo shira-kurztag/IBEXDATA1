@@ -1,286 +1,430 @@
 .TenantStatus {
-    background-color: #0aa3a1;
-    border-radius: var(--p-button-border-radius);
-    color: white;
+  background-color: #0aa3a1;
+  border-radius: var(--p-button-border-radius);
+  color: white;
 }
 
-  .contractor-box {
-    display: flex;
-    align-items: center;
-    background-color: #0aa3a1;
-    padding: 0;
-    border-radius: 5px;
-    width: 100%;
-    height: 50px;
-  }
-  
-  .icon-box {
-    width: 50px;
-    height: 100%;
-    background-color: #1f4b4b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px 0 0 5px;
-  }
-  
-  .icon-box i {
-    color: white;
-    font-size: 1.5em;
-  }
-  
-  .contractor-button, .contractor-search {
-    border: none;
-    background: none;
-    color: white;
-    padding: 10px;
-    width: 50%; /* Set width to 50% */
-    text-align: left;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  
-  
-  .contractor-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  p-panel {
-    margin-top: 20px;
-  }
-  
-  h3 {
-    color: #0aa3a1;
-    font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
-    font-size: 27px;
-   
-  }
-  
-  .flex {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .dropdown-container {
-    width: 50%; /* Set width to 50% of the screen */
-    display: flex;
-    justify-content: center;
-   
-  }
-  
-  p-select {
-    width: 100%;
-  }
-  body {
-    background-color: #F8F7EB;
-    width: 100%;
-   
-  }
-  
-  .contractor-detail {
-    background: #e8f6f6;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  
-  .contractor-detail-edit {
-    background:#e8f6f6; 
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-left: 25%;
-    margin-right: 20%;
-  }
-  
-  .edit-input {
-    border: 1px solid #0aa3a1;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100%; /* Set input width to 100% to match the container */
-    box-sizing: border-box; /* Ensure padding is included in the total width */
-  }
-  
-  .detail-title {
-    line-height: 53px;
-    font-weight: bold;
-    color: #0aa3a1;
-    margin-left: 5px;
-  }
-  
-  .detail-content {
-    color: #000;
-    line-height: 53px;
-    display: inline-block;
-  }
-  
-  h3 {
-    color: #0aa3a1;
-    font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
-    font-size: 27px;
-  }
-  
-  .header-title {
-    color: #0aa3a1;
-    font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
-   text-align: right;
-    width: 100%;
-    display: block;
-    font-size: 27px;
-  }
-  
-  .contractor-box-container {
-    position: absolute;
-    left: -43.9999%; /* Adjust the left margin to start a few centimeters from the left */
-    top:12%; /* Adjust the top margin to raise the box by a few centimeters */
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 70%; /* Adjust the width if needed */
-  }
-  
-  .contractor-box {
-    display: flex;
-    align-items: center;
-    background-color: #0aa3a1;
-    padding: 0;
-    border-radius: 5px;
-    width: 15%;
-    height: 50px;
-  }
-  
-  .icon-box {
-    width: 50px;
-    height: 100%;
-    background-color: #1f4b4b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px 0 0 5px;
-  }
-  
-  .icon-box i {
-    color: white;
-    font-size: 1.5em;
-  }
-  
-  .contractor-button, .contractor-search {
-    border: none;
-    background: none;
-    color: white;
-    padding: 10px;
-    text-align: left;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  .contractor-search {
-    width: 50%; /* Set width to 50% */
-  }
-  .contractor-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  p-panel {
-    margin-top: 20px;
-  }
-  
-  .flex {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .dropdown-container {
-    width: 50%; /* Set width to 50% of the screen */
-    display: flex;
-    justify-content: center;
-  }
-  
-  p-select {
-    width: 100%;
-  }
-  .contractors-container{
-    /* display: flex   ;
+.contractor-box {
+  display: flex;
+  align-items: center;
+  background-color: #0aa3a1;
+  padding: 0;
+  border-radius: 5px;
+  width: 100%;
+  height: 50px;
+}
+
+.icon-box {
+  width: 50px;
+  height: 100%;
+  background-color: #1f4b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 0 0 5px;
+}
+
+.icon-box i {
+  color: white;
+  font-size: 1.5em;
+}
+
+.contractor-button,
+.contractor-search {
+  border: none;
+  background: none;
+  color: white;
+  padding: 10px;
+  width: 50%;
+  /* Set width to 50% */
+  text-align: left;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+
+
+.contractor-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+p-panel {
+  margin-top: 20px;
+}
+
+h3 {
+  color: #0aa3a1;
+  font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
+  font-size: 27px;
+
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dropdown-container {
+  width: 50%;
+  /* Set width to 50% of the screen */
+  display: flex;
+  justify-content: center;
+
+}
+
+p-select {
+  width: 100%;
+}
+
+body {
+  background-color: #F8F7EB;
+  width: 100%;
+
+}
+
+.contractor-detail {
+  background: #e8f6f6;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.contractor-detail-edit {
+  background: #e8f6f6;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 25%;
+  margin-right: 20%;
+}
+
+.edit-input {
+  border: 1px solid #0aa3a1;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  /* Set input width to 100% to match the container */
+  box-sizing: border-box;
+  /* Ensure padding is included in the total width */
+}
+
+
+.detail-content {
+  color: #000;
+  line-height: 53px;
+  display: inline-block;
+}
+
+h3 {
+  color: #0aa3a1;
+  font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
+  font-size: 27px;
+}
+
+.header-title {
+  color: #0aa3a1;
+  font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial;
+  text-align: right;
+  width: 100%;
+  display: block;
+  font-size: 27px;
+}
+
+.contractor-box-container {
+  position: absolute;
+  left: -43.9999%;
+  /* Adjust the left margin to start a few centimeters from the left */
+  top: 12%;
+  /* Adjust the top margin to raise the box by a few centimeters */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 70%;
+  /* Adjust the width if needed */
+}
+
+.contractor-box {
+  display: flex;
+  align-items: center;
+  background-color: #0aa3a1;
+  padding: 0;
+  border-radius: 5px;
+  width: 15%;
+  height: 50px;
+}
+
+.icon-box {
+  width: 50px;
+  height: 100%;
+  background-color: #1f4b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px 0 0 5px;
+}
+
+.icon-box i {
+  color: white;
+  font-size: 1.5em;
+}
+
+.contractor-button,
+.contractor-search {
+  border: none;
+  background: none;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.contractor-search {
+  width: 50%;
+  /* Set width to 50% */
+}
+
+.contractor-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+p-panel {
+  margin-top: 20px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dropdown-container {
+  width: 50%;
+  /* Set width to 50% of the screen */
+  display: flex;
+  justify-content: center;
+}
+
+p-select {
+  width: 100%;
+}
+
+.contractors-container {
+  /* display: flex   ;
     flex-direction: row; */
-    width: 200%;
-    height: 100%;
-   
-  } 
-  .buttonStyle{
-    background-color: #0aa3a1;
-   border-radius: 7%;
-   color: white;
-   width: 10%;
-  }
+  width: 200%;
+  height: 100%;
 
-  .labelStyle{
-    color: #0aa3a1;
-    font-size: 15px;
-    font-weight: bold;
-  }
-
-  .detail-title {
-    line-height: 53px;
-    font-weight: bold;
-    color: #0aa3a1;
-    margin-left: 5px; /* Ensure proper spacing for RTL */
 }
+
+.buttonStyle {
+  background-color: #0aa3a1;
+  border-radius: 7%;
+  color: white;
+  width: 10%;
+}
+
+
+
+
 .status-box {
-    background-color: #5cb85c;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-left: 10px; /* Ensure proper spacing for RTL */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 40px; /* Ensure consistent height */
-    font-size: 14px; /* Ensure consistent font size */
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-left: 10px;
+  /* Ensure proper spacing for RTL */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  /* Ensure consistent height */
+  font-size: 14px;
+  /* Ensure consistent font size */
 }
+
 button.owner-details-button.active-button {
-    background-color: #1f4b4b !important;
-    color: white !important;
-    border: none !important;
-    padding: 10px 15px !important;
-    border-radius: 5px !important;
-    margin-left: 10px !important; /* Ensure proper spacing for RTL */
-    cursor: pointer !important;
-    height: 35px !important; /* Ensure consistent height */
-    font-size: 14px !important; /* Ensure consistent font size */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
+  background-color: #1f4b4b !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 15px !important;
+  border-radius: 5px !important;
+  margin-left: 10px !important;
+  /* Ensure proper spacing for RTL */
+  cursor: pointer !important;
+  height: 35px !important;
+  /* Ensure consistent height */
+  font-size: 14px !important;
+  /* Ensure consistent font size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
 }
+
 .link-style {
   background: none;
   border: none;
   padding: 0;
   font: inherit;
-  color: #007ad9;       /* צבע הקישור (ניתן לשנות) */
+  color: #007ad9;
+  /* צבע הקישור (ניתן לשנות) */
   text-decoration: underline;
   cursor: pointer;
 }
 
 .link-style:hover {
-  color: #005bb5;       /* צבע בעת ריחוף */
-  text-decoration: none; /* אפשר הסרת קו תחתון בעת ריחוף */
+  color: #005bb5;
+  /* צבע בעת ריחוף */
+  text-decoration: none;
+  /* אפשר הסרת קו תחתון בעת ריחוף */
 }
 
 input:disabled,
 textarea:disabled,
 select:disabled {
-  background-color: #f5f5f5; /* אפור בהיר */
-  color: #666;               /* טקסט אפור כהה יותר */
-  cursor: not-allowed;       /* סמן עגול עם קו חוצה */
+  background-color: #f5f5f5;
+  /* אפור בהיר */
+  color: #666;
+  /* טקסט אפור כהה יותר */
+  cursor: not-allowed;
+  /* סמן עגול עם קו חוצה */
+}
+
+input {
+  padding: 5px;
+  width: 70%;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+
+.labelStyle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 5px;
+  text-align: right;
+  margin-bottom: 6px;
+  color: #087977;
+  margin-left: 5px;
+}
+
+.detail-title {
+  font-weight: bold;
+  margin-right: 5px;
+  text-align: right;
+  margin-bottom: 6px;
+  font-size: 15px;
+  line-height: 53px;
+  font-weight: bold;
+  color: #087977;
+  margin-left: 5px;
+}
+
+
+
+
+.switch-with-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #087977;
+  font-size: 1rem;
+  font-weight: bold;
+
+
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  margin-top: 5px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch input:checked+.slider {
+  background-color: #087977;
+}
+
+/* הפוך את הכדור לנע קדימה ב-RTL */
+.toggle-switch input:checked+.slider:before {
+  transform: translateX(-24px);
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 0;
+  /* הפוך מ-left ל-right */
+  left: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  right: 3px;
+  /* הפוך מ-left ל-right */
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked+.slider {
+  background-color: #087977;
+}
+
+/* הפוך את הכדור לנע קדימה ב-RTL */
+.toggle-switch input:checked+.slider:before {
+  transform: translateX(-24px);
+}
+
+.status-label {
+  font-weight: bold;
+  color: #087977;
+  font-size: 14px;
+}
+.buttonIsSignatureByPowerOfAttorney{
+   width: 20%;
+  text-decoration: underline; /* קו תחתון לקביעת המראה ההתחלתי */
+  cursor: pointer; /* שינוי סמן לידי לחיצה */
+  border: none; /* אם יש גבול שמפריע אפשר להסיר */
+  background: none; /* רקע שקוף, לשמור על מראה נקי */
+  padding: 0; /* אם יש ריווח מיותר */
+  color: rgb(11, 11, 11); /* אפשר לשנות לצבע הרצוי */
+
+}
+.comtainerswitch{
+  display: flex;
+  flex-direction: row;
+  gap: 1%;
 }
