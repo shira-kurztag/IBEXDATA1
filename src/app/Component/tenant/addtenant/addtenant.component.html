@@ -11,7 +11,7 @@
                             (click)="deleteTenantForm(i)"></button>
                     </div> -->
                     <div class="p-col-12 p-md-6 contractor-detail">
-                        <span class="detail-title">:סטטוס</span>
+                        <label class="detail-title">:סטטוס</label>
                         <span class="status-box">
                             {{ getTenantStatusString(1) }}
                         </span>
@@ -27,7 +27,7 @@
                         <input id="LastName" pInputText formControlName="LastName" type="text" />
 
                         <!-- סוג זהות -->
-                        <label for="IdentityType" class="detail-title" class="labelStyle">סוג זהות:</label>
+                        <!-- <label for="IdentityType" class="detail-title" class="labelStyle">סוג זהות:</label>
                         <div class="flex flex-wrap gap-4">
                             <div class="flex items-center" *ngFor="let type of identityTypes">
                                 <p-radioButton name="IdentityType" [value]="type.value" formControlName="IdentityType"
@@ -37,7 +37,23 @@
                         </div>
                         <div *ngIf="form.get('IdentityType')?.invalid && form.get('IdentityType')?.touched">
                             <small class="p-error">נא לבחור סוג זהות</small>
+                        </div> -->
+
+                        <label for="IdentityType" class=" labelStyle">סוג זהות:</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center" *ngFor="let type of identityTypes">
+                                <label class="custom-radio ml-2" [for]="type.value">
+                                    <input type="radio" name="IdentityType" [id]="type.value" [value]="type.value"
+                                        formControlName="IdentityType" />
+                                    <span class="radio-circle"></span>
+                                    {{ type.label }}
+                                </label>
+                            </div>
                         </div>
+                        <div *ngIf="form.get('IdentityType')?.invalid && form.get('IdentityType')?.touched">
+                            <small class="p-error">נא לבחור סוג זהות</small>
+                        </div>
+
                     </div>
 
                     <!-- שדות נוספים אם סוג הזהות הוא לא נוטריון או קוררנטיון -->
@@ -67,14 +83,24 @@
                         </div>
                     </div> -->
                     <div class="p-col-12 p-md-6 contractor-detail">
-                        <div class="switch-with-label">זהוי קודם:
-                            <label class="toggle-switch">
-                                <input type="checkbox" formControlName="PreviousTenantId" (change)="updateLabels()" />
-                                <span class="slider"></span>
-                            </label>
-                            <span class="status-label">{{ PreviousTenantId ? 'כן' : 'לא' }}</span>
+                        <div class="card-row">
+                            <div class="switch-with-label">
+                                <label class="form-label title">המבקשים העבירו צילום ת.ז </label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" formControlName="PreviousTenantId"
+                                        (change)="updateLabels()" />
+                                    <span class="slider">
+                                        <span class="slider-text">{{ PreviousTenantId ? 'כן' : 'לא' }}</span>
+                                    </span>
+                                </label>
+                            </div>
                         </div>
                     </div>
+
+
+
+
+
                     <!-- שדות אם יש זהוי קודם -->
                     <div *ngIf="form.get('PreviousTenantId')?.value !== null && form.get('PreviousTenantId')?.value"
                         class="p-col-12 p-md-6 contractor-detail">
@@ -96,20 +122,31 @@
                     </div>
 
                     <!-- שדה האם חתם באמצעות ייפוי כוח -->
-                    <div class="p-col-12 p-md-6 contractor-detail  comtainerswitch" >
+                    <div class="p-col-12 p-md-6 contractor-detail  comtainerswitch">
                         <!-- <label for="IsSignatureByPowerOfAttorney" class="labelStyle">האם חתם באמצעות ייפוי כוח?</label>
                         <div class="card flex justify-center">
                             <p-toggleswitch formControlName="IsSignatureByPowerOfAttorney"></p-toggleswitch>
                         </div> -->
-                        <div class="switch-with-label" >האם חתם באמצעות ייפוי כוח?
-                            <label class="toggle-switch">
-                                <input type="checkbox" formControlName="IsSignatureByPowerOfAttorney"
-                                    (change)="updateLabels()" />
-                                <span class="slider"></span>
-                            </label>
-                            <span class="status-label">{{ IsSignatureByPowerOfAttorney ? 'כן' : 'לא' }}</span>
+
+                        <div class="p-col-12 p-md-6  contractor-detail">
+                            <div class="card-row">
+                                <div class="switch-with-label">
+                                    <label class="form-label title">האם חתם באמצעות ייפוי כוח?</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" formControlName="IsSignatureByPowerOfAttorney"
+                                            (change)="updateLabels()" />
+                                        <span class="slider">
+                                            <span class="slider-text">{{ IsSignatureByPowerOfAttorney ? 'כן' : 'לא'
+                                                }}</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <button class="buttonIsSignatureByPowerOfAttorney" *ngIf="powerDetailsCopied && isPowerOfAttorneyCopiedFromTenant && i>0&&form.get('IsSignatureByPowerOfAttorney')?.value==true" type="button" (click)="releasePowerOfAttorneyDetails()">
+                        
+                        <button class="buttonIsSignatureByPowerOfAttorney"
+                            *ngIf="powerDetailsCopied && isPowerOfAttorneyCopiedFromTenant && i>0&&form.get('IsSignatureByPowerOfAttorney')?.value==true"
+                            type="button" (click)="releasePowerOfAttorneyDetails()">
                             ייפוי כח מועתק. לביטול לחץ כאן </button>
                     </div>
 
@@ -130,11 +167,15 @@
                     <!-- סוג התעודה עפ"י ייפוי כוח -->
                     <div class="p-col-12 p-md-6 contractor-detail"
                         *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
-                        <label for="PowerOfAttorneyType" class="detail-title">עפ"י ייפוי כוח:</label>
-                        <div class="flex items-center" *ngFor="let type of PowerOfAttorneyType">
-                            <p-radioButton name="PowerOfAttorneyType" [value]="type.value.value"
-                                formControlName="PowerOfAttorneyType" [inputId]="type.value"></p-radioButton>
-                            <label [for]="type.value" class="ml-2">{{ type.label }}</label>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center" *ngFor="let type of PowerOfAttorneyType">
+                                <label class="custom-radio ml-2" [for]="type.value">
+                                    <input type="radio" name="IdentityType" [id]="type.value" [value]="type.value"
+                                        formControlName="IdentityType" />
+                                    <span class="radio-circle"></span>
+                                    {{ type.label }}
+                                </label>
+                            </div>
                         </div>
                         <label for="FromDate" class="labelStyle"> מיום: </label>
                         <input id="FromDate" [disabled]="powerDetailsCopied" pInputText formControlName="FromDate"
@@ -143,7 +184,6 @@
                         <input id="FileName" [disabled]="powerDetailsCopied" pInputText formControlName="FileName"
                             pltype="text" />
                     </div>
-
                     <!-- כתובת וטלפונים -->
                     <div class="p-col-12 p-md-6 contractor-detail"
                         *ngIf="form.get('IsSignatureByPowerOfAttorney')?.value">
@@ -172,7 +212,7 @@
             <!-- כפתור ביטול -->
             <div *ngIf="isAdd" class="contractor-box">
                 <div class="icon-box">
-                    <i class="pi pi-check"></i>
+                    <i class="pi pi-times"></i>
                 </div>
                 <button pButton type="button" label="ביטול" class="contractor-search" (click)="cancel()"></button>
             </div>
@@ -181,18 +221,3 @@
         <div *ngIf="errorMessage" class="p-error">{{ errorMessage }}</div>
 
     </div>
-
-    <!-- <div class="contractor-box-container">
-    <div class="contractor-box">
-      <div class="icon-box">
-        <i class="pi pi-search"></i>
-      </div>
-      <p-autocomplete class="contractor-search" (onSelect)="onSelectContractor($event)" [suggestions]="filteredContractor" (completeMethod)="filterContractor($event)" optionLabel="name" forceSelection="true" field="contractorName" placeholder="חפש קבלן" /> -->
-    <!-- </div>
-    <div class="contractor-box">
-      <div class="icon-box">
-        <i class="pi pi-user-plus"></i>
-      </div> -->
-    <!-- <button class="contractor-button" (click)="toggleAddContractorComponent()">הוספת קבלן</button> -->
-    <!-- </div> 
-  </div> -->

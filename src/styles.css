@@ -1,29 +1,264 @@
-@import "primeicons/primeicons.css";
+/* @import "primeicons/primeicons.css"; */
+/* @import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
+@import "../node_modules/primeng/resources/primeng.min.css"; */
  
+/* @import "primeicons/primeicons.css"; */
+/* @import "../node_modules/primeng/resources/themes/saga-blue/theme.css";
+@import "../node_modules/primeng/resources/primeng.min.css"; */
+
 body {
   margin-bottom: 148px !important;
   padding-top: 10px !important;
   font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial !important;
   color: #000000 !important;
   font-size: 15px !important;
-  background-color: #fbfbf0 !important; /* צבע הרקע של כל הדף */
+  background-color: #fbfbf0 !important;
+  /* צבע הרקע של כל הדף */
   top: 20px !important;
   margin-left: 40% !important;
   margin-right: 12% !important;
 }
+ 
 input {
+  width: 36.5% !important;
+  padding: 8px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  font-size: 1rem !important;
+  background: #fff !important;
+  cursor: default !important;
+  /* אם השדה אינו ניתן לעריכה */
+  outline: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s !important;
+}
+ 
+input:focus,
+input:hover {
+  border-color: #075a57 !important;
+  background: #f1fcfb !important;
+  box-shadow: 0 0 0 2px rgba(8, 121, 119, 0.13) !important;
+}
+ 
+select {
   width: 30% !important;
   padding: 8px !important;
   border: 1px solid #ccc !important;
   border-radius: 4px !important;
   font-size: 1rem !important;
   background: #fff !important;
-  cursor: default !important; /* אם השדה אינו ניתן לעריכה */
+  cursor: default !important;
+  /* אם השדה אינו ניתן לעריכה */
   outline: none !important;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s !important;
 }
-input:focus, input:hover {
+ 
+select:focus,
+select:hover {
   border-color: #075a57 !important;
   background: #f1fcfb !important;
-  box-shadow: 0 0 0 2px rgba(8,121,119,0.13) !important;
+  box-shadow: 0 0 0 2px rgba(8, 121, 119, 0.13) !important;
+}
+ 
+/* עיצוב אחיד ל-p-calendar */
+p-calendar .ui-inputtext,
+p-calendar input {
+  width: 40% !important;
+  /* התאמה לרוחב של שאר השדות */
+  padding: 8px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  font-size: 1rem !important;
+  background: #fff !important;
+  outline: none !important;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s !important;
+}
+ 
+/* עיצוב במצב ריחוף או פוקוס */
+p-calendar .ui-inputtext:focus,
+p-calendar .ui-inputtext:hover,
+p-calendar input:focus,
+p-calendar input:hover {
+  border-color: #075a57 !important;
+  background: #f1fcfb !important;
+  box-shadow: 0 0 0 2px rgba(8, 121, 119, 0.13) !important;
+}
+ 
+/* עיצוב כללי לכל checkbox */
+input[type="checkbox"] {
+  width: 20px;
+  /* רוחב ה-checkbox */
+  height: 20px;
+  /* גובה ה-checkbox */
+  cursor: pointer;
+  /* מצביע עכבר */
+  accent-color: #0aa3a1;
+  /* צבע ה-checkbox */
+  border: 1px solid #ccc;
+  /* גבול */
+  border-radius: 4px;
+  /* פינות מעוגלות */
+  outline: none;
+  /* מבטל מסגרת ברירת מחדל */
+  transition: background-color 0.2s, border-color 0.2s;
+  /* אנימציה */
+}
+ 
+input[type="checkbox"]:hover {
+  border-color: #075a57;
+  /* צבע גבול בעת ריחוף */
+}
+ 
+input[type="checkbox"]:checked {
+  background-color: #0aa3a1;
+  /* צבע רקע כשה-checkbox מסומן */
+  border-color: #075a57;
+  /* צבע גבול כשה-checkbox מסומן */
+}
+ 
+/* עיצוב למתג עם תווית */
+.switch-with-label {
+  display: flex;
+  align-items: center;
+  /* ממרכז את האלמנטים אנכית */
+  gap: 5px;
+  /* מרווח קטן יותר בין הכיתוב ל-checkbox */
+  flex-direction: row;
+  /* סדר רגיל של אלמנטים */
+}
+ 
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+  margin-top: 0;
+  /* מבטל מרווח מיותר */
+}
+ 
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+ 
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 26px;
+  display: flex;
+  /* מאפשר למקם את הטקסט בתוך ה-slider */
+  align-items: center;
+  /* ממרכז את הטקסט אנכית */
+}
+ 
+.slider-text {
+  position: absolute;
+  color: white;
+  /* צבע הטקסט */
+  font-size: 12px;
+  /* גודל הטקסט */
+  font-weight: bold;
+  /* משקל הטקסט */
+  pointer-events: none;
+  /* מונע לחיצה על הטקסט */
+  transition: transform 0.4s, opacity 0.4s;
+  /* אנימציה למיקום ולשקיפות הטקסט */
+}
+ 
+input:checked+.slider {
+  background-color: #0aa3a1;
+}
+ 
+input:checked+.slider .slider-text {
+  left: 12px;
+  /* הטקסט "כן" זז מעט יותר ימינה */
+  opacity: 1;
+  /* הטקסט מודגש */
+}
+ 
+input:not(:checked)+.slider .slider-text {
+  right: 10px;
+  /* הטקסט "לא" זז מעט יותר שמאלה */
+  opacity: 1;
+  /* הטקסט מודגש */
+}
+ 
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+ 
+input:checked+.slider:before {
+  transform: translateX(24px);
+}
+ 
+.status-label {
+  font-weight: bold;
+  color: #0aa3a1;
+  font-size: 14px;
+}
+ 
+/* עיצוב כללי לכפתורים וקונטיינרים */
+.contractor-box-container {
+  position: fixed !important; /* מיקום קבוע בעמוד */
+  left: 5% !important; /* הצמדת הקונטיינר לצד שמאל */
+  top: 20% !important; /* הורדה נוספת למטה */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important; /* רווח קטן בין הכפתורים */
+  width: auto !important; /* התאמת רוחב הקונטיינר לתוכן */
+}
+ 
+.contractor-box {
+  display: flex !important;
+  align-items: center !important;
+  background-color: rgb(10, 163, 161) !important; /* צבע רקע טורקיז בהיר */
+  padding: 0px !important;
+  border-radius: 0px !important; /* שמירה על פינות מרובעות */
+  width: 166px !important; /* רוחב קבוע לכפתור */
+  height: 50px !important; /* גובה קבוע לכפתור */
+  direction: ltr !important;
+}
+ 
+.icon-box {
+  width: 50px !important; /* רוחב הריבוע של האייקון */
+  height: 100% !important; /* גובה הריבוע תואם לגובה הכפתור */
+  background-color: #1f4b4b !important; /* צבע רקע טורקיז כהה */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 0px !important; /* שמירה על פינות מרובעות */
+}
+ 
+.icon-box i {
+  color: white !important; /* צבע אייקון */
+  font-size: 1.5em !important; /* גודל האייקון */
+}
+ 
+.contractor-button {
+  border: none !important;
+  background: none !important;
+  color: white !important; /* צבע טקסט */
+  padding: 10px !important;
+  text-align: right !important; /* יישור טקסט לימין */
+  cursor: pointer !important;
+  font-size: 13.5px !important;
+  flex: 1 !important; /* הכפתור תופס את שאר רוחב הקופסה */
+  display: flex !important;
+  align-items: center !important; /* מיקום הטקסט במרכז אנכי */
+  justify-content: flex-end !important; /* יישור הטקסט לימין */
+  font-family: 'Open Sans Hebrew', serif, 'Open Sans', sans-serif, arial !important; /* התאמת הכתב */
 }

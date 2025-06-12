@@ -40,7 +40,23 @@
         <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('commonArea')?.value }}</span>
         <input class="detail-content" *ngIf="editMode" type="number" formControlName="commonArea" />
       </div>
+<div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">בלוק:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('bloc')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="bloc" />
+      </div>
 
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">חלקה:</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('smooth')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="smooth" />
+      </div>
+
+      <div class="p-col-12 p-md-6 tabu-detail">
+        <label class="detail-title">שטח חלקה</label>
+        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('smothArea')?.value }}</span>
+        <input class="detail-content" *ngIf="editMode" type="number" formControlName="smothArea" />
+      </div>
       <!-- המשך כל השדות באותו מבנה -->
       <!-- העתקי לכל שדה מבנה כמו בדוגמה לעיל -->
 
@@ -194,23 +210,7 @@
         <input class="detail-content" *ngIf="editMode" type="number" formControlName="fareAmount" />
       </div>
 
-      <div class="p-col-12 p-md-6 tabu-detail">
-        <label class="detail-title">בלוק:</label>
-        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('bloc')?.value }}</span>
-        <input class="detail-content" *ngIf="editMode" type="number" formControlName="bloc" />
-      </div>
-
-      <div class="p-col-12 p-md-6 tabu-detail">
-        <label class="detail-title">חלקה:</label>
-        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('smooth')?.value }}</span>
-        <input class="detail-content" *ngIf="editMode" type="number" formControlName="smooth" />
-      </div>
-
-      <div class="p-col-12 p-md-6 tabu-detail">
-        <label class="detail-title">שטח חלקה</label>
-        <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('smothArea')?.value }}</span>
-        <input class="detail-content" *ngIf="editMode" type="number" formControlName="smothArea" />
-      </div>
+      
     </div>
   </form>
 </div>

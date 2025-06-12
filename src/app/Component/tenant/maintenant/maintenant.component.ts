@@ -11,7 +11,7 @@ import { TabuComponent } from '../../tabu/tabu.component';
 @Component({
   selector: 'app-tenant',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterModule,OwnerdetailsComponent ,TabuComponent ],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, OwnerdetailsComponent, TabuComponent],
   templateUrl: './maintenant.component.html',
   styleUrls: ['./maintenant.component.css'],
   providers: [TenantService],
@@ -25,13 +25,14 @@ export class MainTenantComponent implements OnInit {
   activeComponent: string = ''; // מצב ברירת מחדל - לא מוצגת קומפוננטה
 
   @Input() apartmentId!: number;
-   ////////// אני צרכה לעביר לקומפוננטה אבא 
-   constructor(
+  isSignatureByPowerOfAttorney: boolean=true;
+  ////////// אני צרכה לעביר לקומפוננטה אבא 
+  constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private TenantService :TenantService
-    
+    private TenantService: TenantService
+
   ) {
     this.tenantForm = this.fb.group({
       tenants: this.fb.array([]),
@@ -41,8 +42,9 @@ export class MainTenantComponent implements OnInit {
   srvTenant: TenantService = inject(TenantService);
 
   ngOnInit(): void {
+    this.updateLabels()
     console.log(this.apartmentId);
-    
+
     // this.apartmentID = 9987; // מזהה דירה זמני
     this.getTenants();
   }
@@ -53,7 +55,7 @@ export class MainTenantComponent implements OnInit {
 
   createTenantGroup(tenant: any): FormGroup {
     return this.fb.group({
-      tenantId: [tenant.tenantId|| 0], // מספר
+      tenantId: [tenant.tenantId || 0], // מספר
       ApartmentId: [this.apartmentId || 0], // מספר
       tenantStatus: [tenant.tenantStatus || 0], // מספר
       firstName: [tenant.firstName || ''], // מחרוזת
@@ -90,7 +92,7 @@ export class MainTenantComponent implements OnInit {
         tenant.forEach((t) => this.tenants.push(this.createTenantGroup(t)));
         this.MessagePartAsset();
         console.log(tenant);
-        
+
       }
     });
   }
@@ -104,29 +106,29 @@ export class MainTenantComponent implements OnInit {
   }
 
   saveChanges(): void {
-    const tenants = this.tenantForm.value.tenants; 
+    const tenants = this.tenantForm.value.tenants;
     console.log('Form Data:', tenants);
     // בדיקה אם חלק בנכס גדול מ-100
     this.MessagePartAsset();
-   if( this.partAsset <= 100){
-    // חזרה למצב תצוגה בלבד
-    this.editMode = false; 
-    // שליחת הנתונים לשרת
-    this.srvTenant.UpdateTenants(tenants).subscribe(
-      (response: any) => {
-        console.log('Tenants updated:', response);
-      },
-      (error) => {
-        console.error('Error updating tenants:', error);
-        this.getTenants();
-        alert('הייתה שגיאה בעת עדכון הנתונים.');
-      }
-    );
+    if (this.partAsset <= 100) {
+      // חזרה למצב תצוגה בלבד
+      this.editMode = false;
+      // שליחת הנתונים לשרת
+      this.srvTenant.UpdateTenants(tenants).subscribe(
+        (response: any) => {
+          console.log('Tenants updated:', response);
+        },
+        (error) => {
+          console.error('Error updating tenants:', error);
+          this.getTenants();
+          alert('הייתה שגיאה בעת עדכון הנתונים.');
+        }
+      );
 
-  }else{
+    } else {
       alert('חלק בנכס לא יכול להיות גדול מ-100%');
       this.Message = true; // הצגת הודעת שגיאה
-  }
+    }
   }
 
 
@@ -174,17 +176,23 @@ export class MainTenantComponent implements OnInit {
     this.activeComponent = componentName;
   }
 
- AddTenant() {
-  console.log( this.apartmentId );
-  localStorage.removeItem('apartmentId');
-  console.log("נמחק");
+  AddTenant() {
+    console.log(this.apartmentId);
+    localStorage.removeItem('apartmentId');
+    console.log("נמחק");
 
-  localStorage.setItem('apartmentId', this.apartmentId.toString());
+    localStorage.setItem('apartmentId', this.apartmentId.toString());
 
-  this.router.navigate(
-    ['/addtenant'],
+    this.router.navigate(
+      ['/addtenant'],
 
-  );
-}
-  
+    );
+  }
+
+
+
+  updateLabels(): void {
+    const form = this.tenantForm.value;
+    this.isSignatureByPowerOfAttorney = form.isSignatureByPowerOfAttorney;
+  }
 }

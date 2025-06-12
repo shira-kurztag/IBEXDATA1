@@ -364,55 +364,53 @@ input {
   height: 0;
 }
 
-.toggle-switch input:checked+.slider {
+/* .toggle-switch input:checked+.slider {
   background-color: #087977;
-}
+} */
 
 /* הפוך את הכדור לנע קדימה ב-RTL */
-.toggle-switch input:checked+.slider:before {
+/* .toggle-switch input:checked+.slider:before {
   transform: translateX(-24px);
-}
+} */
 
-.slider {
+/* .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
   right: 0;
-  /* הפוך מ-left ל-right */
   left: 0;
   bottom: 0;
   background-color: #ccc;
   transition: 0.4s;
   border-radius: 26px;
-}
+} */
 
-.slider:before {
+/* .slider:before {
   position: absolute;
   content: "";
   height: 20px;
   width: 20px;
   right: 3px;
-  /* הפוך מ-left ל-right */
   bottom: 3px;
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;
-}
+} */
 
-.toggle-switch input:checked+.slider {
+/* .toggle-switch input:checked+.slider {
   background-color: #087977;
-}
+} */
 
 /* הפוך את הכדור לנע קדימה ב-RTL */
-.toggle-switch input:checked+.slider:before {
+/* .toggle-switch input:checked+.slider:before {
   transform: translateX(-24px);
-}
+} */
 
-.status-label {
+/* .status-label {
   font-weight: bold;
   color: #087977;
   font-size: 14px;
-}
+} */
 .buttonIsSignatureByPowerOfAttorney{
    width: 20%;
   text-decoration: underline; /* קו תחתון לקביעת המראה ההתחלתי */
@@ -426,5 +424,59 @@ input {
 .comtainerswitch{
   display: flex;
   flex-direction: row;
-  gap: 1%;
+  gap: 1%;align-items: center;
+  
+}
+
+/* מחביאים את הרדיובטון המקורי */
+input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* כפתור מותאם עם עיגול */
+.custom-radio {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* העיגול החיצוני */
+.custom-radio .radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #087977;
+  border-radius: 50%;
+  margin-right: 8px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+
+/* עיגול פנימי (הנבחר) */
+.custom-radio .radio-circle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #087977;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* כשהרדיו מסומן - מגדילים את העיגול הפנימי */
+input[type="radio"]:checked + .radio-circle::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* שינוי צבע גבול כשעוברים עם העכבר */
+.custom-radio:hover .radio-circle {
+  border-color: #087977;
 }

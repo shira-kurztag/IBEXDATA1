@@ -1,67 +1,78 @@
 <form [formGroup]="RightsApprovalForm" (ngSubmit)="ProductionRightsApproval()">
-  <div class="form-container">
 
     <!-- שורה 1 -->
-    <div class="card-row1">
-      <label class="title">תאריך קבלת הבקשה</label>
+    <div class="card-row">
+      <label class="title">תאריך קבלת הבקשה לקבלת  אישור זכויות</label>
       <input type="date" formControlName="insertDate" class="form-control" />
     </div>
 
-    <!-- שורה 2 -->
     <div class="card-row">
-      <label class="title">המבקשים העבירו צילום ת.ז</label>
       <div class="switch-with-label">
         <label class="toggle-switch">
           <input type="checkbox" formControlName="forwardedCopyOfID" (change)="updateLabels()" />
-          <span class="slider"></span>
+          <span class="slider">
+            <span class="slider-text">{{ forwardedCopyOfID ? 'כן' : 'לא' }}</span>
+          </span>
         </label>
-        <span class="status-label">{{ forwardedCopyOfID ? 'כן' : 'לא' }}</span>
+        <label class="form-label title">המבקשים העבירו צילום ת.ז </label>
       </div>
     </div>
+ 
 
-    <!-- שורה 3 -->
-    <div class="card-row">
-      <label class="title">האם המבקשים רשאים לקבל אישור זכויות</label>
-      <div class="switch-with-label">
-        <label class="toggle-switch">
-          <input type="checkbox" formControlName="AllowedToReceiveRightsApproval" (change)="updateLabels()" />
-          <span class="slider"></span>
-        </label>
-        <span class="status-label">{{ AllowedToReceiveRightsApproval ? 'כן' : 'לא' }}</span>
-      </div>
+  <!-- שורה 3 -->
+  <div class="card-row">
+    <div class="switch-with-label">
+      <label class="toggle-switch">
+        <input type="checkbox" formControlName="AllowedToReceiveRightsApproval" (change)="updateLabels()" />
+        <span class="slider">
+          <span class="slider-text">{{ AllowedToReceiveRightsApproval ? 'כן' : 'לא' }}</span>
+        </span>
+      </label>
+      <label class="form-label title">האם המבקשים רשאים לקבל אישור זכויות:</label>
     </div>
-
-    <!-- שורה 4 -->
-    <div class="card-row">
-      <label class="title">תשלום לאישור זכויות</label>
-      <div class="switch-with-label">
-        <label class="toggle-switch">
-          <input type="checkbox" formControlName="isPaid" (change)="updateLabels()" />
-          <span class="slider"></span>
-        </label>
-        <span class="status-label">{{ isPaid ? 'כן' : 'לא' }}</span>
-      </div>
-      <span class="fee-label">{{this.amount}} ש"ח</span>
-    </div>
-
-    <!-- שורה 5 -->
-    <div class="card-row">
-      <label class="title">נבדקו תשלומי השתתפות ברישום בית משותף</label>
-      <div class="switch-with-label">
-        <label class="toggle-switch">
-          <input type="checkbox" formControlName="ReviewedPaymentOfCommonHouseRegistration" (change)="updateLabels()" />
-          <span class="slider"></span>
-        </label>
-        <span class="status-label">{{ ReviewedPayment ? 'כן' : 'לא' }}</span>
-      </div>
-    </div>
-
-    <!-- כפתור -->
-    <div class="button-container">
-      <button type="submit" [disabled]="RightsApprovalForm.invalid" class="submit-button">
-        הפקת אישור זכויות
-      </button>
-    </div>
-
   </div>
+
+
+
+
+  <!-- שורה 4 -->
+
+  <div class="card-row">
+    <div class="switch-with-label">
+      <label class="toggle-switch">
+        <input type="checkbox" formControlName="isPaid" (change)="updateLabels()" />
+        <span class="slider">
+          <span class="slider-text">{{ isPaid ? 'כן' : 'לא' }}</span>
+        </span>
+      </label>
+
+      <label class="form-label title">: תשלום לאישור זכויות  {{this.amount}} ש"ח</label>
+    </div>
+  </div>
+
+
+
+  <!-- שורה 5 -->
+
+
+  <div class="card-row">
+    <div class="switch-with-label">
+      <label class="toggle-switch">
+        <input type="checkbox" formControlName="ReviewedPaymentOfCommonHouseRegistration" (change)="updateLabels()" />
+        <span class="slider">
+          <span class="slider-text">{{ ReviewedPayment ? 'כן' : 'לא' }}</span>
+        </span>
+      </label>
+      <label class="form-label title">נבדקו תשלומי השתתפות ברישום בית משותף</label>
+    </div>
+  </div>
+
+
+  <!-- כפתור -->
+  <div class="button-container">
+    <button type="submit" [disabled]="RightsApprovalForm.invalid" class="submit-button">
+      הפקת אישור זכויות
+    </button>
+  </div>
+
 </form>

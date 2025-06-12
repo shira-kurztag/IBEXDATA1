@@ -4,7 +4,7 @@
       <div class="icon-box">
         <i class="pi pi-pencil"></i>
       </div>
-      <button class="tenant-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך</button>
+      <button class="tenant-button" *ngIf="!editMode" type="button" (click)="toggleEdit()">ערוך דיירים</button>
     </div>
     <div class="tenant-box2" *ngIf="editMode">
       <div class="icon-box">
@@ -20,12 +20,13 @@
       <button class="tenant-button" type="button" (click)="cancelEdit()">ביטול</button>
     </div>
 
-    <div class="tenant-box3" >
+    <div class="tenant-box3">
       <div class="icon-box">
         <i class="pi pi-user-plus"></i>
       </div>
       <button class="tenant-button" type="button" (click)="AddTenant()">הוספת דיירים</button>
     </div>
+
 
     <div class="t">
       <div class="p-col-12 p-md-6 tenant-detail" *ngIf="Message" style="color: red;">
@@ -50,8 +51,6 @@
               <label class="detail-title">שם:</label>
               <span class="detail-content" *ngIf="!editMode">
                 {{ tenant.get('firstName')?.value }}
-
-
               </span>
               <input class="detail-content" formControlName="firstName" *ngIf="editMode" required />
               <label class="detail-title">משפחה:</label>
@@ -74,10 +73,9 @@
               </span>
               <input class="detail-content" formControlName="partAsset" *ngIf="editMode" type="number" required />
 
-
               <!-- האם חתם באמצעות יפוי כוח -->
-              <span class="detail-title">האם חתם באמצעות יפוי כוח:</span>
-              <div class="contractor-detail" *ngIf="!editMode">
+              <!-- <span class="detail-title">האם חתם באמצעות יפוי כוח:</span> -->
+              <!-- <div class="contractor-detail" *ngIf="!editMode">
                 <i *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value" class="pi pi-check"
                   style="font-size: 1rem;"></i>
                 <i *ngIf="!tenant.get('isSignatureByPowerOfAttorney')?.value" class="pi pi-times"
@@ -88,57 +86,69 @@
                 <span *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value"> </span>
                 <span *ngIf="!tenant.get('isSignatureByPowerOfAttorney')?.value"></span>
               </div>
-            </div>
+            </div> -->
+              
+                  <div class="switch-with-label">
+                    <label class="form-label title">האם חתם באמצעות ייפוי כוח?</label>
+                    <label class="toggle-switch">
+                      <input type="checkbox" formControlName="isSignatureByPowerOfAttorney" (change)="updateLabels()" />
+                      <span class="slider">
+                        <span class="slider-text">
+                          {{ tenant.get('isSignatureByPowerOfAttorney')?.value ? 'כן' : 'לא' }}
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+              
 
-            <!-- פרטי המיופה כוח -->
-            <div class="p-col-12 p-md-6 tenant-detail" *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value">
-              <label class="detail-title">שם מיופה הכוח:</label>
-              <span class="detail-content" *ngIf="!editMode">
-                {{ tenant.get('firstNamePower')?.value }}
-              </span>
-              <input class="detail-content" formControlName="firstNamePower" *ngIf="editMode" />
-              <label class="detail-title">משפחה:</label>
-              <span class="detail-content" *ngIf="!editMode">
-                {{ tenant.get('lastNamePower')?.value }}
-              </span>
-              <input class="detail-content" formControlName="lastNamePower" *ngIf="editMode" />
-              <label class="detail-title">מספר ת.ז/דרכון:</label>
-              <span class="detail-content" *ngIf="!editMode">
-                {{ tenant.get('tenantIdentity')?.value }}
-              </span>
-              <input class="detail-content" formControlName="tenantIdentity" *ngIf="editMode" />
-            </div>
-            <div class="p-col-12 p-md-6 tenant-detail" *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value">
+              <!-- פרטי המיופה כוח -->
+              <div class="p-col-12 p-md-6 tenant-detail" *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value">
+                <label class="detail-title">שם מיופה הכוח:</label>
+                <span class="detail-content" *ngIf="!editMode">
+                  {{ tenant.get('firstNamePower')?.value }}
+                </span>
+                <input class="detail-content" formControlName="firstNamePower" *ngIf="editMode" />
+                <label class="detail-title">משפחה:</label>
+                <span class="detail-content" *ngIf="!editMode">
+                  {{ tenant.get('lastNamePower')?.value }}
+                </span>
+                <input class="detail-content" formControlName="lastNamePower" *ngIf="editMode" />
+                <label class="detail-title">מספר ת.ז/דרכון:</label>
+                <span class="detail-content" *ngIf="!editMode">
+                  {{ tenant.get('tenantIdentity')?.value }}
+                </span>
+                <input class="detail-content" formControlName="tenantIdentity" *ngIf="editMode" />
+              </div>
+              <div class="p-col-12 p-md-6 tenant-detail" *ngIf="tenant.get('isSignatureByPowerOfAttorney')?.value">
 
-              <label class="detail-title">כתובת:</label>
-              <span class="detail-content" *ngIf="!editMode">
-                {{ tenant.get('address')?.value }}
-              </span>
-              <input class="detail-content" formControlName="address" *ngIf="editMode" />
-              <label class="detail-title">טלפון:</label>
-              <span class="detail-content" *ngIf="!editMode">
-                {{ tenant.get('numberPhone')?.value }}
-              </span>
-              <input class="detail-content" formControlName="numberPhone" *ngIf="editMode" />
-              <label class="detail-title">טלפון:</label>
-              <span class="detail-content" *ngIf="!editMode">
-                {{ tenant.get('numberPhone2')?.value }}
-              </span>
-              <input class="detail-content" formControlName="numberPhone2" *ngIf="editMode" />
+                <label class="detail-title">כתובת:</label>
+                <span class="detail-content" *ngIf="!editMode">
+                  {{ tenant.get('address')?.value }}
+                </span>
+                <input class="detail-content" formControlName="address" *ngIf="editMode" />
+                <label class="detail-title">טלפון:</label>
+                <span class="detail-content" *ngIf="!editMode">
+                  {{ tenant.get('numberPhone')?.value }}
+                </span>
+                <input class="detail-content" formControlName="numberPhone" *ngIf="editMode" />
+                <label class="detail-title">טלפון:</label>
+                <span class="detail-content" *ngIf="!editMode">
+                  {{ tenant.get('numberPhone2')?.value }}
+                </span>
+                <input class="detail-content" formControlName="numberPhone2" *ngIf="editMode" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- הודעה אם אין דיירים -->
-      <div *ngIf="tenants.controls.length === 0" class="no-tenants">
-        אין דיירים להצגה עבור דירה זו.
+        <!-- הודעה אם אין דיירים -->
+        <div *ngIf="tenants.controls.length === 0" class="no-tenants">
+          אין דיירים להצגה עבור דירה זו.
+        </div>
       </div>
-    </div>
+      </div>
   </form>
 </div>
-
-
 
 <div class="contractor1">
   <div class="contractor-header1">
@@ -151,15 +161,10 @@
         פרטי בעליים
       </button>
 
-      <button 
-           pButton 
-           type="button" 
-           (click)="setActiveComponent('Tabu')" 
-           [ngClass]="{'active-button1': activeComponent === 'Tabu'}" 
-           label="טאבו" 
-           class="p-button owner-details-button1">
-          טאבו
-       </button>
+      <button pButton type="button" (click)="setActiveComponent('Tabu')"
+        [ngClass]="{'active-button1': activeComponent === 'Tabu'}" label="טאבו" class="p-button owner-details-button1">
+        טאבו
+      </button>
 
       <!-- <button 
            pButton 
@@ -188,7 +193,7 @@
       <!-- הצגת קומפוננטות הילדים -->
       <app-owner-details *ngIf="activeComponent === 'ownerdetails'" [apartmentId]="apartmentId"></app-owner-details>
       <app-tabu *ngIf="activeComponent === 'Tabu'" [apartmentId]="apartmentId"></app-tabu>
-   <!-- <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant> -->
+      <!-- <app-tenant *ngIf="activeComponent === 'maintenant'"></app-tenant> -->
     </div>
   </div>
 </div>

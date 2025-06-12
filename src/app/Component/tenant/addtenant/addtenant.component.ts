@@ -351,8 +351,6 @@ releasePowerOfAttorneyDetails() {
   this.setPowerFieldsDisabled(false);       // פותח חזרה את השדות
 }
 
-
-
   updateLabels(): void {
   const form = this.TenantDTO[this.TenantDTO.length - 1];
   if (form) {
