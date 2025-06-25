@@ -110,9 +110,7 @@ input[type="checkbox"]:hover {
  
 input[type="checkbox"]:checked {
   background-color: #0aa3a1;
-  /* צבע רקע כשה-checkbox מסומן */
   border-color: #075a57;
-  /* צבע גבול כשה-checkbox מסומן */
 }
  
 /* עיצוב למתג עם תווית */

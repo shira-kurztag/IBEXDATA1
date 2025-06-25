@@ -28,10 +28,10 @@
       <!-- שדה לדוגמה -->
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">משכנתא שולם:</label>
-      <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isMortgagePaid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isMortgagePaid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isMortgagePaid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isMortgagePaid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isMortgagePaid" />
       </div>
 
@@ -40,7 +40,7 @@
         <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('commonArea')?.value }}</span>
         <input class="detail-content" *ngIf="editMode" type="number" formControlName="commonArea" />
       </div>
-<div class="p-col-12 p-md-6 tabu-detail">
+      <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">בלוק:</label>
         <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('bloc')?.value }}</span>
         <input class="detail-content" *ngIf="editMode" type="number" formControlName="bloc" />
@@ -73,66 +73,73 @@
         <span class="detail-content" *ngIf="!editMode">{{ tabuForm.get('notarizedPoweReason')?.value }}</span>
         <input class="detail-content" *ngIf="editMode" type="text" formControlName="notarizedPoweReason" />
       </div>
-
       <div class="p-col-12 p-md-6 tabu-detail">
-        <label class="detail-title">מס רכישה:</label>
-        <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isPurchaseTax')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isPurchaseTax')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
-        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isPurchaseTax" />
+
+        <div class="switch-with-label">
+                    <label class="detail-title">נבדקו תשלומי השתתפות ברישום בית משותף</label>
+
+          <label class="toggle-switch">
+            <input type="checkbox" formControlName="isPurchaseTax" (change)="updateLabels()" />
+            <span class="slider">
+              <span class="slider-text">{{ isPurchaseTax ? 'כן' : 'לא' }}</span>
+            </span>
+          </label>
+        </div>
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">מס רכישה תקף:</label>
         <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isPurchaseTaxValid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isPurchaseTaxValid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+          <i *ngIf="tabuForm.get('isPurchaseTaxValid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isPurchaseTaxValid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isPurchaseTaxValid" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">מס הון:</label>
- <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isCapitalTax')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isCapitalTax')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isCapitalTax" />
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isCapitalTax')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isCapitalTax')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span> <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isCapitalTax" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">מס הון תקף:</label>
-         <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isCapitalTaxValid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isCapitalTaxValid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isCapitalTaxValid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isCapitalTaxValid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isCapitalTaxValid" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">נדרשת אישור מס מכירה:</label>
-       <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isApprovalNeededSaleTaxHas')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isApprovalNeededSaleTaxHas')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isApprovalNeededSaleTaxHas')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isApprovalNeededSaleTaxHas')?.value" class="pi pi-times"
+            style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isApprovalNeededSaleTaxHas" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">אישור מס מכירה תקף:</label>
-       <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isApprovalNeededSaleTaxValid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isApprovalNeededSaleTaxValid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isApprovalNeededSaleTaxValid')?.value" class="pi pi-check"
+            style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isApprovalNeededSaleTaxValid')?.value" class="pi pi-times"
+            style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isApprovalNeededSaleTaxValid" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">אישור עירייה:</label>
-         <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isMunicipalityApproval')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isMunicipalityApproval')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isMunicipalityApproval')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isMunicipalityApproval')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isMunicipalityApproval" />
       </div>
 
@@ -146,55 +153,61 @@
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">אישור מס להעברת זכויות:</label>
         <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isTaxApprovedTransferRights')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isTaxApprovedTransferRights')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+          <i *ngIf="tabuForm.get('isTaxApprovedTransferRights')?.value" class="pi pi-check"
+            style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isTaxApprovedTransferRights')?.value" class="pi pi-times"
+            style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isTaxApprovedTransferRights" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">מקור אישור מס להעברת זכויות:</label>
         <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isTaxApprovedTransferRightsSource')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isTaxApprovedTransferRightsSource')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+          <i *ngIf="tabuForm.get('isTaxApprovedTransferRightsSource')?.value" class="pi pi-check"
+            style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isTaxApprovedTransferRightsSource')?.value" class="pi pi-times"
+            style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox"
           formControlName="isTaxApprovedTransferRightsSource" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">תוקף אישור מס להעברת זכויות:</label>
-           <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isTaxApprovedTransferRightsValid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isTaxApprovedTransferRightsValid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isTaxApprovedTransferRightsValid')?.value" class="pi pi-check"
+            style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isTaxApprovedTransferRightsValid')?.value" class="pi pi-times"
+            style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox"
           formControlName="isTaxApprovedTransferRightsValid" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">הצדדים חתומים:</label>
-   <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isPartiesSigned')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isPartiesSigned')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isPartiesSigned" />
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isPartiesSigned')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isPartiesSigned')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span> <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isPartiesSigned" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">חתום על ידי מ"מ:</label>
-   <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isSignedByMm')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isSignedByMm')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
-                  <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isSignedByMm" />
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isSignedByMm')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isSignedByMm')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span>
+        <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isSignedByMm" />
       </div>
 
       <div class="p-col-12 p-md-6 tabu-detail">
         <label class="detail-title">קבלת שטר משכנתא:</label>
-          <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="tabuForm.get('isMortgageBillReceived')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!tabuForm.get('isMortgageBillReceived')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
+        <span class="detail-content" *ngIf="!editMode">
+          <i *ngIf="tabuForm.get('isMortgageBillReceived')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
+          <i *ngIf="!tabuForm.get('isMortgageBillReceived')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+        </span>
         <input class="detail-content" *ngIf="editMode" type="checkbox" formControlName="isMortgageBillReceived" />
       </div>
 
@@ -210,8 +223,7 @@
         <input class="detail-content" *ngIf="editMode" type="number" formControlName="fareAmount" />
       </div>
 
-      
+
     </div>
   </form>
 </div>
-
