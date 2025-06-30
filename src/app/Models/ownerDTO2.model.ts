@@ -38,12 +38,4 @@ export class OwnerDTO2 {
    signedIrrevocableInstructionsFile?:string
    isFurthermoreLackOfApproval?:boolean
    leaseNumberString?:string
-   
-   
 }
-
-
-
-
-
-    

@@ -31,8 +31,8 @@
           <span class="detail-content">{{ ownerForm.get('purchasedFrom')?.value }}</span>
 
           <label class="detail-title">בתאריך:</label>
-          <span *ngIf="!editMode"class="detail-content" >{{ ownerForm.get('purchaseDate')?.value }}</span>
-          <input *ngIf="editMode" class="detail-content"  formControlName="purchaseDate" type="date" />
+          <span *ngIf="!editMode" class="detail-content">{{ ownerForm.get('purchaseDate')?.value }}</span>
+          <input *ngIf="editMode" class="detail-content" formControlName="purchaseDate" type="date" />
         </div>
 
 
@@ -44,7 +44,7 @@
 
         <div class="p-col-12 p-md-6 owner-detail">
           <label class="detail-title">כתובת הדירה הנרכשת:</label>
-          <span class="detail-content" >{{ ownerForm.get('addressAndNumberOfMunicipal')?.value
+          <span class="detail-content">{{ ownerForm.get('addressAndNumberOfMunicipal')?.value
             }}</span>
         </div>
 
@@ -109,16 +109,24 @@
         </div>
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('deadlineForReporting')?.value">
           <label class="detail-title">תאריך אחרון דיווח :</label>
-          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('deadlineForReporting')?.value | date: 'dd/MM/yyyy' }}</span>
+          <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('deadlineForReporting')?.value | date:
+            'dd/MM/yyyy' }}</span>
           <input class="detail-content" *ngIf="editMode" formControlName="deadlineForReporting" type="date" />
         </div>
         <div class="p-col-12 p-md-6 owner-detail">
-          <label class="detail-title">האם דווח :</label>
-          <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="ownerForm.get('isReported')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!ownerForm.get('isReported')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-          </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isReported" type="checkbox" />
+          <div class="switch-with-label">
+            <label class="detail-title"> האם דווח :</label>
+            <span class="detail-content" *ngIf="!editMode">
+              <i *ngIf="ownerForm.get('isReported')?.value" class="pi pi-check">V</i>
+              <i *ngIf="!ownerForm.get('isReported')?.value" class="pi pi-times">X</i>
+            </span>
+            <label class="toggle-switch" *ngIf="editMode">
+              <input type="checkbox" formControlName="isReported" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isReported ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
 
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('isReported')?.value">
@@ -127,14 +135,40 @@
           <input class="detail-content" *ngIf="editMode" formControlName="reporteFile" type="text" />
         </div>
 
+        <!-- <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('isReported')?.value">
+        
+          <div class="switch-with-label">
+            <label class="detail-title"> האם התקבל אישור על הצהרת הדיווח?</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isConfirmationReporting" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isConfirmationReporting ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
+
+
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('isReported')?.value">
           <label class="detail-title">האם התקבל אישור על הצהרת הדיווח?</label>
+
+          <!-- תצוגה בלבד -->
           <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="ownerForm.get('isConfirmationReporting')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!ownerForm.get('isConfirmationReporting')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+            <i *ngIf="ownerForm.get('isConfirmationReporting')?.value" class="pi pi-check" >V</i>
+            <i *ngIf="!ownerForm.get('isConfirmationReporting')?.value" class="pi pi-times">X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isConfirmationReporting" type="checkbox" />
+
+          <!-- מצב עריכה -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isConfirmationReporting" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isConfirmationReporting ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
+
 
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('isReported')?.value">
           <label class="detail-title"> מספר שומה </label>
@@ -142,14 +176,41 @@
           <input class="detail-content" *ngIf="editMode" formControlName="incumbentNumber" type="text" />
         </div>
 
+        <!-- <div class="p-col-12 p-md-6 owner-detail">
+        
+          <div class="switch-with-label">
+            <label class="detail-title">אישור היעדר יתרה במס רכישה במסגרת הרכישה:</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isCorrectLackPurchaseTaxBalance" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isCorrectLackPurchaseTaxBalance ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
         <div class="p-col-12 p-md-6 owner-detail">
           <label class="detail-title">אישור היעדר יתרה במס רכישה במסגרת הרכישה:</label>
+
+          <!-- מצב תצוגה: אייקון V או X -->
           <span class="detail-content" *ngIf="!editMode">
-            <i *ngIf="ownerForm.get('isCorrectLackPurchaseTaxBalance')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-            <i *ngIf="!ownerForm.get('isCorrectLackPurchaseTaxBalance')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
+            <i *ngIf="ownerForm.get('isCorrectLackPurchaseTaxBalance')?.value" class="pi pi-check"
+              
+            >V</i>
+            <i *ngIf="!ownerForm.get('isCorrectLackPurchaseTaxBalance')?.value" class="pi pi-times"
+              >X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isCorrectLackPurchaseTaxBalance" type="checkbox" />
+
+          <!-- מצב עריכה: checkbox עם טקסט "כן"/"לא" -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isCorrectLackPurchaseTaxBalance" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isCorrectLackPurchaseTaxBalance ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
+
 
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('isCorrectLackPurchaseTaxBalance')?.value">
           <label class="detail-title"> קובץ</label>
@@ -159,16 +220,38 @@
 
 
         <!-- יפוי כח -->
+        <!-- <div class="p-col-12 p-md-6 owner-detail">
+      
+          <div class="switch-with-label">
+            <label class="detail-title"> האם הומצא יפוי כוח נוטריוני?</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="havePowerOfAttorney" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ havePowerOfAttorney ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
         <div class="p-col-12 p-md-6 owner-detail">
-          <label class="detail-title">האם הומצא יפוי כוח נוטריוני? </label>
+          <label class="detail-title">האם הומצא יפוי כוח נוטריוני?</label>
+
+          <!-- מצב תצוגה בלבד -->
           <span class="detail-content" *ngIf="!editMode">
-            <span [ngClass]="ownerForm.get('havePowerOfAttorney')?.value ">
-              <i *ngIf="ownerForm.get('havePowerOfAttorney')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-              <i *ngIf="!ownerForm.get('havePowerOfAttorney')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-            </span>
+            <i *ngIf="ownerForm.get('havePowerOfAttorney')?.value" class="pi pi-check" >V</i>
+            <i *ngIf="!ownerForm.get('havePowerOfAttorney')?.value" class="pi pi-times" >X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="havePowerOfAttorney" type="checkbox" />
+
+          <!-- מצב עריכה בלבד -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="havePowerOfAttorney" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ havePowerOfAttorney ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
+
 
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('havePowerOfAttorney')?.value">
           <label class="detail-title"> קובץ</label>
@@ -176,59 +259,142 @@
           <input class="detail-content" *ngIf="editMode" formControlName="powerOfAttorneyFile" type="text" />
         </div>
 
+        <!-- <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('havePowerOfAttorney')?.value">
+        
+          <div class="switch-with-label">
+            <label class="detail-title"> האם תקין:</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isCorrectPowerOfAttorney" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isCorrectPowerOfAttorney ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('havePowerOfAttorney')?.value">
           <label class="detail-title">האם תקין:</label>
+
+          <!-- תצוגה בלבד -->
           <span class="detail-content" *ngIf="!editMode">
-            <span [ngClass]="ownerForm.get('isCorrectPowerOfAttorney')?.value ">
-              <i *ngIf="ownerForm.get('isCorrectPowerOfAttorney')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-              <i *ngIf="!ownerForm.get('isCorrectPowerOfAttorney')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-            </span>
+            <i *ngIf="ownerForm.get('isCorrectPowerOfAttorney')?.value" class="pi pi-check" >V</i>
+            <i *ngIf="!ownerForm.get('isCorrectPowerOfAttorney')?.value" class="pi pi-times" >X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isCorrectPowerOfAttorney" type="checkbox" />
+
+          <!-- מצב עריכה -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isCorrectPowerOfAttorney" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isCorrectPowerOfAttorney ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
-       
+
 
         <!-- שוברים -->
+        <!-- <div class="p-col-12 p-md-6 owner-detail">
+        
+          <div class="switch-with-label">
+            <label class="detail-title"> האם ניתנו שוברים:</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isGivenVouchers" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isGivenVouchers ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
         <div class="p-col-12 p-md-6 owner-detail">
           <label class="detail-title">האם ניתנו שוברים:</label>
+
+          <!-- מצב תצוגה בלבד -->
           <span class="detail-content" *ngIf="!editMode">
-            <span [ngClass]="ownerForm.get('isGivenVouchers')?.value ">
-              <i *ngIf="ownerForm.get('isGivenVouchers')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-              <i *ngIf="!ownerForm.get('isGivenVouchers')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-            </span>
+            <i *ngIf="ownerForm.get('isGivenVouchers')?.value" class="pi pi-check" >V</i>
+            <i *ngIf="!ownerForm.get('isGivenVouchers')?.value" class="pi pi-times" >X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isGivenVouchers" type="checkbox" />
+
+          <!-- מצב עריכה בלבד -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isGivenVouchers" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isGivenVouchers ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
 
         <!-- תשלום הוצאות משפט -->
+        <!-- <div class="p-col-12 p-md-6 owner-detail">
+         
+          <div class="switch-with-label">
+            <label class="detail-title">האם שולמו הוצאות משפט:</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isLegalExpensesPaid" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isLegalExpensesPaid ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
         <div class="p-col-12 p-md-6 owner-detail">
           <label class="detail-title">האם שולמו הוצאות משפט:</label>
+
+          <!-- מצב תצוגה בלבד -->
           <span class="detail-content" *ngIf="!editMode">
-            <span [ngClass]="ownerForm.get('isLegalExpensesPaid')?.value ">
-              <i *ngIf="ownerForm.get('isLegalExpensesPaid')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-              <i *ngIf="!ownerForm.get('isLegalExpensesPaid')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-            </span>
+            <i *ngIf="ownerForm.get('isLegalExpensesPaid')?.value" class="pi pi-check">V</i>
+            <i *ngIf="!ownerForm.get('isLegalExpensesPaid')?.value" class="pi pi-times" >X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isLegalExpensesPaid" type="checkbox" />
+
+          <!-- מצב עריכה בלבד -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isLegalExpensesPaid" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isLegalExpensesPaid ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail" >
+
+        <div class="p-col-12 p-md-6 owner-detail">
           <label class="detail-title"> הערות לעניין התשלום: </label>
           <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('paidNote')?.value }}</span>
-          <textarea class="detail-content notes-input" *ngIf="editMode" formControlName="paidNote"  ></textarea>
+          <textarea class="detail-content notes-input" *ngIf="editMode" formControlName="paidNote"></textarea>
         </div>
-          <!-- טופס הוראות בלתי חוזרות -->
+        <!-- טופס הוראות בלתי חוזרות -->
+        <!-- <div class="p-col-12 p-md-6 owner-detail">
+         
+          <div class="switch-with-label">
+            <label class="detail-title"> האם נחתם טופס הוראות בלתי חוזרות:</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isSignedTofesHearot" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isSignedTofesHearot ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
         <div class="p-col-12 p-md-6 owner-detail">
           <label class="detail-title">האם נחתם טופס הוראות בלתי חוזרות:</label>
+
+          <!-- מצב תצוגה בלבד -->
           <span class="detail-content" *ngIf="!editMode">
-            <span [ngClass]="ownerForm.get('isSignedTofesHearot')?.value ">
-              <i *ngIf="ownerForm.get('isSignedTofesHearot')?.value" class="pi pi-check"
-                style="font-size: 1rem;"></i>
-              <i *ngIf="!ownerForm.get('isSignedTofesHearot')?.value" class="pi pi-times"
-                style="font-size: 1rem;"></i> </span>
+            <i *ngIf="ownerForm.get('isSignedTofesHearot')?.value" class="pi pi-check" >V</i>
+            <i *ngIf="!ownerForm.get('isSignedTofesHearot')?.value" class="pi pi-times" >X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isSignedTofesHearot"
-            type="checkbox" />
+
+          <!-- מצב עריכה בלבד -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isSignedTofesHearot" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isSignedTofesHearot ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
 
         <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('isSignedTofesHearot')?.value">
@@ -238,18 +404,40 @@
           <input class="detail-content" *ngIf="editMode" formControlName="PowerOfAttorneyFile" type="text" /> -->
         </div>
 
+        <!-- <div class="p-col-12 p-md-6 owner-detail">
+         
+          <div class="switch-with-label">
+            <label class="detail-title">האם הופק חוזה חכירה?</label>
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isProducedHachira" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isProducedHachira ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
         <div class="p-col-12 p-md-6 owner-detail">
-          <label class="detail-title">   האם הופק חוזה חכירה?</label>
+          <label class="detail-title">האם הופק חוזה חכירה?</label>
+
+          <!-- מצב תצוגה בלבד -->
           <span class="detail-content" *ngIf="!editMode">
-            <span [ngClass]="ownerForm.get('isProducedHachira')?.value ">
-              <i *ngIf="ownerForm.get('isProducedHachira')?.value" class="pi pi-check" style="font-size: 1rem;"></i>
-              <i *ngIf="!ownerForm.get('isProducedHachira')?.value" class="pi pi-times" style="font-size: 1rem;"></i>
-            </span>
+            <i *ngIf="ownerForm.get('isProducedHachira')?.value" class="pi pi-check">V</i>
+            <i *ngIf="!ownerForm.get('isProducedHachira')?.value" class="pi pi-times" >X</i>
           </span>
-          <input class="detail-content" *ngIf="editMode" formControlName="isProducedHachira" type="checkbox" />
+
+          <!-- מצב עריכה בלבד -->
+          <div class="switch-with-label" *ngIf="editMode">
+            <label class="toggle-switch">
+              <input type="checkbox" formControlName="isProducedHachira" (change)="updateLabels()" />
+              <span class="slider">
+                <span class="slider-text">{{ isProducedHachira ? 'כן' : 'לא' }}</span>
+              </span>
+            </label>
+          </div>
         </div>
 
-        <div class="p-col-12 p-md-6 owner-detail"  *ngIf="ownerForm.get('isProducedHachira')?.value">
+
+        <div class="p-col-12 p-md-6 owner-detail" *ngIf="ownerForm.get('isProducedHachira')?.value">
           <label class="detail-title"> מספר חוזה חכירה?</label>
           <span class="detail-content" *ngIf="!editMode">{{ ownerForm.get('leaseNumberString')?.value }}</span>
           <input class="detail-content" *ngIf="editMode" formControlName="leaseNumberString" type="text" />

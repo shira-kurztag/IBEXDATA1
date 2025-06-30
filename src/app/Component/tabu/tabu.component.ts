@@ -50,8 +50,6 @@ export class TabuComponent {
     console.log(this.apartmentId);
     this.getTabu();
      this.tabuForm.valueChanges.subscribe(() => {
-      this.updateLabels();
-      console.log(this.isPurchaseTax);
       
     });
   }

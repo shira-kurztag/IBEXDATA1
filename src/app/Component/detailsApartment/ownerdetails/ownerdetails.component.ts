@@ -19,6 +19,17 @@ export class OwnerdetailsComponent {
   srvOwnerService: OwnerService = inject(OwnerService);
 
   ownerForm: FormGroup;
+  isReported:  boolean = false;
+  isConfirmationReporting:  boolean = false;
+  isCorrectLackPurchaseTaxBalance:  boolean = false;
+  havePowerOfAttorney:  boolean = false;
+  isCorrectPowerOfAttorney: boolean = false;
+  isGivenVouchers: boolean = false;
+  isLegalExpensesPaid: boolean = false;
+  isSignedTofesHearot: boolean = false;
+  isProducedHachira:  boolean = false;
+  isFormSignedIrrevocableInstructions:  boolean = false;
+  isFurthermoreLackOfApproval: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,6 +43,8 @@ export class OwnerdetailsComponent {
       // this.apartmentId = 9987; // מזהה דירה זמני
       console.log( this.apartmentId);
       this.GetOwner(this.apartmentId)
+       this.updateLabels()
+
       
    }
   
@@ -63,6 +76,7 @@ export class OwnerdetailsComponent {
       havePowerOfAttorney: [owner.havePowerOfAttorney ], // בוליאני
       isCorrectPowerOfAttorney: [owner.isCorrectPowerOfAttorney ], // בוליאני
       powerOfAttorneyFile: [owner.powerOfAttorneyFile ], // מחרוזת
+       reportedApproved: [owner.reportedApproved ], // מחרוזת
       isGivenVouchers: [owner.isGivenVouchers ], // בוליאני
       isLegalExpensesPaid: [owner.isLegalExpensesPaid ], // בוליאני
       paidNote: [owner.paidNote ], // מחרוזת
@@ -148,4 +162,22 @@ export class OwnerdetailsComponent {
       if (date.toString() === 'Invalid Date') return ''; // בדיקה אם התאריך אינו תקף לאחר ההמרה
       return date.toISOString().split('T')[0];
     }
+
+
+  updateLabels(): void {
+    const form = this.ownerForm.value;
+    this.isReported = form.isReported;
+    this.isConfirmationReporting = form.isConfirmationReporting;
+    this.isCorrectLackPurchaseTaxBalance = form.isCorrectLackPurchaseTaxBalance;
+    this.havePowerOfAttorney = form.havePowerOfAttorney;
+
+     this.isCorrectPowerOfAttorney = form.isCorrectPowerOfAttorney;
+    this.isGivenVouchers = form.isGivenVouchers;
+    this.isLegalExpensesPaid = form.isLegalExpensesPaid;
+    this.isSignedTofesHearot = form.isSignedTofesHearot;
+
+     this.isProducedHachira = form.isProducedHachira;
+    this.isFormSignedIrrevocableInstructions = form.isFormSignedIrrevocableInstructions;
+    this.isFurthermoreLackOfApproval = form.isFurthermoreLackOfApproval;
+  }
 }
